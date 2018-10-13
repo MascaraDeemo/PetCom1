@@ -5,24 +5,33 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_moment"
+            android:icon="@drawable/ic_moments"
+            android:title="Moments" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_personal"
+            android:icon="@drawable/ic_personal"
+            android:title="Personal Page" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_film"
+            android:icon="@drawable/ic_camera"
+            android:title="Film" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_post"
+            android:icon="@drawable/ic_post"
+            android:title="Post_moments" />
+
+        <item
+            android:id="@+id/nav_favorites"
+            android:icon="@drawable/ic_favorite"
+            android:title="Favorites" />
+        <item
+            android:id="@+id/nav_outdoor"
+            android:icon="@drawable/ic_outdoor"
+            android:title="Outdoor" />
     </group>
 
-    <item android:title="Communicate">
+  <!--  <item android:title="Communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
@@ -33,6 +42,6 @@
                 android:icon="@drawable/ic_menu_send"
                 android:title="Send" />
         </menu>
-    </item>
+    </item>-->
 
 </menu>
