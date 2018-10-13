@@ -12,9 +12,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class main_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    FirebaseDatabase FBDB;
+    ListView list;
+    PostAdapter postAdapter;
+    Post testObj;
+    ArrayList<Post> p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,25 @@ public class main_activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FBDB = FirebaseDatabase.getInstance();
+        //
+        testObj = new Post();
+        testObj.setUserName("董天志");
+        testObj.setTitle("我是傻逼吗？");
+        testObj.setInput("of course!");
+        testObj.setComment(0);
+        testObj.setLike(3);
+        //
+        p=new ArrayList<Post>();
+        p.add(testObj);
+        list = (ListView)findViewById(R.id.list_view);
+        postAdapter=new PostAdapter(this,R.layout.post_layout,p);
+//        postAdapter.add(testObj);
+
+        list.setAdapter(postAdapter);
+
+
     }
 
     @Override
