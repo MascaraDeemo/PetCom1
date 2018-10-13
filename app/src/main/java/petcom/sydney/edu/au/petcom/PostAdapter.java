@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class postAdapter  extends ArrayAdapter<Post> {
+public class PostAdapter extends ArrayAdapter<Post> {
 
-    public postAdapter(@NonNull Context context, int resource, ArrayList<Post> objects){
+    public PostAdapter(@NonNull Context context, int resource, ArrayList<Post> objects){
         super(context,resource,objects);
     }
     @Override
@@ -35,9 +35,9 @@ public class postAdapter  extends ArrayAdapter<Post> {
             if(p.isComment() ==false){
                 comment.setText("");
             }else{
-                comment.setText(p.getComment());
+                comment.setText(Integer.toString(p.getComment()));
             }
-            like.setText(p.getLike());
+            like.setText(Integer.toString(p.getLike()));
         }
         return convertView;
     }

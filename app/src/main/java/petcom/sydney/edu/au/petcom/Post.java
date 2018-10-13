@@ -8,7 +8,9 @@ public class Post {
     private int like;
     private boolean isComment;
     private int comment;
+    public Post(){
 
+    }
     public Post(String title,String input, String userName,
             int like){
         this.input=input;
