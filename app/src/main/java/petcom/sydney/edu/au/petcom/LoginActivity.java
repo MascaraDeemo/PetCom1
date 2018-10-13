@@ -78,7 +78,8 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
-
+        Intent intent = new Intent(LoginActivity.this,main_activity.class);
+        startActivity(intent);
     }
 
 
