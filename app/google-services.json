@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "440270064743",
+    "firebase_url": "https://petcom-4e04a.firebaseio.com",
+    "project_id": "petcom-4e04a",
+    "storage_bucket": "petcom-4e04a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440270064743:android:00588c908e1e3aa9",
+        "android_client_info": {
+          "package_name": "petcom.sydney.edu.au.petcom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "440270064743-l73evdna2sul4766do6r6mi2gpk4uied.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYE1Od_zMpAoNVxsnfza0C4GIzZUhOlys"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
