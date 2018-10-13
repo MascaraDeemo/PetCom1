@@ -244,7 +244,6 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
                         // [END_EXCLUDE]
                     }
                 });
-        // [END send_email_verification]
 
     }
 }
