@@ -16,8 +16,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class post_new extends AppCompatActivity {
     protected static final int POST_NEW = 201;
@@ -26,12 +31,16 @@ public class post_new extends AppCompatActivity {
     EditText editTitle;
     EditText editItem;
 
+    FirebaseDatabase db;
+    DatabaseReference dbRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_new);
         editTitle = (EditText)findViewById(R.id.post_set_title);
         editItem = (EditText)findViewById(R.id.post_set_item);
+        db = FirebaseDatabase.getInstance();
+        dbRef = db.getReference();
 
         Button publishBtn = (Button)findViewById(R.id.publish_btn);
         publishBtn.setOnClickListener(new View.OnClickListener() {
@@ -40,7 +49,7 @@ public class post_new extends AppCompatActivity {
                 Intent publishNew = new Intent();
                 publishNew.putExtra("title",editTitle.getText().toString());
                 publishNew.putExtra("item",editItem.getText().toString());
-
+                writeNewPost(editTitle.getText().toString(), editItem.getText().toString(), String userName);
                 setResult(POST_NEW,publishNew);
                 finish();
             }
@@ -60,6 +69,7 @@ public class post_new extends AppCompatActivity {
                 }
             }
         });
+
 
     }
 
@@ -82,5 +92,16 @@ public class post_new extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private void writeNewPost(String title, String item, String userName){
+        String key = dbRef.child("Post").push().getKey();
+
+        Post p = new Post(title,item,userName);
+        Map<String,Object> postValue = p.toMap();
+
+        Map<String,Object> childUpdate = new HashMap<>();
+        childUpdate.put("/Post/"+key,postValue);
+        dbRef.updateChildren(childUpdate);
     }
 }
