@@ -14,13 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class main_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    FirebaseDatabase FBDB;
+    //FirebaseDatabase FBDB;
     ListView list;
     PostAdapter postAdapter;
     Post testObj;
@@ -51,14 +51,14 @@ public class main_activity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FBDB = FirebaseDatabase.getInstance();
+       // FBDB = FirebaseDatabase.getInstance();
         //
-        testObj = new Post();
-        testObj.setUserName("董天志");
-        testObj.setTitle("我是傻逼吗？");
-        testObj.setInput("of course!");
-        testObj.setComment(0);
-        testObj.setLike(3);
+//        testObj = new Post();
+//        testObj.setUserName("董天志");
+//        testObj.setTitle("我是傻逼吗？");
+//        testObj.setInput("of course!");
+//        testObj.setComment(0);
+//        testObj.setLike(3);
         //
         p=new ArrayList<Post>();
         p.add(testObj);

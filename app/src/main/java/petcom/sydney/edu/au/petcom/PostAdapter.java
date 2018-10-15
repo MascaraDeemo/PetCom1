@@ -23,7 +23,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         }
         Post p = getItem(position);
         if(p!=null){
-            TextView userName = (TextView)convertView.findViewById(R.id.username);
+            TextView userName = (TextView)convertView.findViewById(R.id.username_post);
             TextView title = (TextView)convertView.findViewById(R.id.title);
             TextView body = (TextView)convertView.findViewById(R.id.postbody);
             TextView comment =(TextView)convertView.findViewById(R.id.comment);

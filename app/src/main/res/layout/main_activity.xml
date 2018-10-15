@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--用来记录整个页面，本身是空的，但是里面包含了两个东西，一个是app_bar_main_activity，一个是nav_view这个导航栏，其中导航栏里面包含了两个主要的东西
+    1.nav_header_main_activity
+    2.main_activity_drawer，一个是导航栏的头文件，一个是导航栏的选项文件-->
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
