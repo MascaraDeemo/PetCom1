@@ -24,14 +24,12 @@ public class PostAdapter extends ArrayAdapter<Post> {
         Post p = getItem(position);
         if(p!=null){
             TextView userName = (TextView)convertView.findViewById(R.id.username_post);
-            TextView title = (TextView)convertView.findViewById(R.id.title);
+            TextView title = (TextView)convertView.findViewById(R.id.title_post);
             TextView body = (TextView)convertView.findViewById(R.id.postbody);
-            TextView comment =(TextView)convertView.findViewById(R.id.comment);
 
             userName.setText(p.getUserName());
             title.setText(p.getTitle());
             body.setText(p.getInput());
-            comment.setText(Integer.toString(p.getComment()));
         }
         return convertView;
     }

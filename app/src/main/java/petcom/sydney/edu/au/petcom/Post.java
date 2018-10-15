@@ -69,8 +69,8 @@ public class Post {
         result.put("input",input);
         result.put("title",title);
         result.put("userName",userName);
-        result.put("publishTime",publishTime);
-        result.put("comment",comment);
+//        result.put("publishTime",publishTime);
+//        result.put("comment",comment);
         return result;
     }
 }

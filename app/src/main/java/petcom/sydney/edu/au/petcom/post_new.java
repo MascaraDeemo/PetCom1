@@ -10,12 +10,15 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,9 +33,10 @@ public class post_new extends AppCompatActivity {
 
     EditText editTitle;
     EditText editItem;
-
+    FirebaseAuth auth;
     FirebaseDatabase db;
     DatabaseReference dbRef;
+    FirebaseUser u;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,16 +45,15 @@ public class post_new extends AppCompatActivity {
         editItem = (EditText)findViewById(R.id.post_set_item);
         db = FirebaseDatabase.getInstance();
         dbRef = db.getReference();
+        auth = FirebaseAuth.getInstance();
 
+        u = auth.getCurrentUser();
         Button publishBtn = (Button)findViewById(R.id.publish_btn);
+
         publishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent publishNew = new Intent();
-                publishNew.putExtra("title",editTitle.getText().toString());
-                publishNew.putExtra("item",editItem.getText().toString());
-                writeNewPost(editTitle.getText().toString(), editItem.getText().toString(), String userName);
-                setResult(POST_NEW,publishNew);
+                writeNewPost(editTitle.getText().toString(), editItem.getText().toString(), u.getUid());
                 finish();
             }
         });
