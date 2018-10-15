@@ -46,14 +46,16 @@ public class post_new extends AppCompatActivity {
         db = FirebaseDatabase.getInstance();
         dbRef = db.getReference();
         auth = FirebaseAuth.getInstance();
-
         u = auth.getCurrentUser();
+
         Button publishBtn = (Button)findViewById(R.id.publish_btn);
 
         publishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 writeNewPost(editTitle.getText().toString(), editItem.getText().toString(), u.getUid());
+                Log.i("sophie",u.getUid());
                 finish();
             }
         });
