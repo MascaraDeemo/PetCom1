@@ -29,6 +29,10 @@
             android:id="@+id/nav_outdoor"
             android:icon="@drawable/ic_outdoor"
             android:title="Outdoor" />
+        <item
+            android:id="@+id/nav_editinfo"
+            android:icon="@drawable/ic_edit"
+            android:title="Edit Info" />
     </group>
 
   <!--  <item android:title="Communicate">

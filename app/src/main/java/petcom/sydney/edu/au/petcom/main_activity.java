@@ -116,6 +116,8 @@ public class main_activity extends AppCompatActivity
 
         } else if (id == R.id.nav_outdoor) {
 
+        }else if (id== R.id.nav_editinfo){
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

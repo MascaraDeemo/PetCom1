@@ -7,13 +7,11 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-<<<<<<< HEAD
-=======
+
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
->>>>>>> 928019df78c7207b34cf92961e2de52f49af1fb2
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,15 +33,11 @@
             android:name=".main_activity"
             android:label="Pet Com"
             android:theme="@style/AppTheme.NoActionBar" />
-<<<<<<< HEAD
-        <activity android:name=".ProfileActivity" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
-=======
         <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".post_new"></activity>
->>>>>>> 928019df78c7207b34cf92961e2de52f49af1fb2
     </application>
 
 </manifest>
