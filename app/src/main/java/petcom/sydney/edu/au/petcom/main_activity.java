@@ -136,11 +136,13 @@ public class main_activity extends AppCompatActivity
         } else if (id == R.id.nav_post) {
 
         } else if (id == R.id.nav_favorites) {
+            Intent infoIntent = new Intent(main_activity.this, login_test.class);
+            startActivity(infoIntent);
 
         } else if (id == R.id.nav_outdoor) {
 
         }else if (id== R.id.nav_editinfo){
-            Intent infoIntent = new Intent(this, Personal_page.class);
+            Intent infoIntent = new Intent(main_activity.this, Personal_page.class);
             startActivity(infoIntent);
 
         }else if (id== R.id.nav_signout){

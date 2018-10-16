@@ -45,6 +45,8 @@
         <activity android:name=".AddToDatabase"></activity>
         <activity android:name=".Personal_page"
             ></activity>
+        <activity android:name=".login_test"
+            ></activity>
     </application>
 
 </manifest>
