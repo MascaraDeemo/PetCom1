@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class main_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,6 +72,7 @@ public class main_activity extends AppCompatActivity
                     pList.add(p);
                     Log.i("yaoxy",pList.size()+"");
                 }
+                Collections.reverse(pList);
                 postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout,pList);
                 listView.setAdapter(postAdapter);
             }
@@ -79,7 +81,8 @@ public class main_activity extends AppCompatActivity
                 Log.i("yao","didnotwork"+databaseError.toException());
             }
         };
-        dbRef.addValueEventListener(postListener);
+        dbRef.orderByKey().addListenerForSingleValueEvent(postListener);
+
 //        Post testObj1 = new Post("a","b","c");
 //        Post testObj2 = new Post("a","b","c");
 //        pList.add(testObj1);
