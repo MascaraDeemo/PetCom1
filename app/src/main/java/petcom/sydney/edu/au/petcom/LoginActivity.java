@@ -182,20 +182,13 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
 
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
-        if (user != null) {
-            findViewById(R.id.emailPasswordButtons).setVisibility(View.GONE);
-            findViewById(R.id.emailPasswordFields).setVisibility(View.GONE);
-            findViewById(R.id.signedInButtons).setVisibility(View.VISIBLE);
+        if (user != null && user.isEmailVerified()) {
 
-            findViewById(R.id.verifyEmailButton).setEnabled(!user.isEmailVerified());
-//            Intent intent = new Intent(LoginActivity.this,main_activity.class);
-//            startActivity(intent);
-        } else {
+            Intent intent = new Intent(LoginActivity.this,main_activity.class);
+            startActivity(intent);
+        }
+        else{
 
-
-            findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
-            findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
-            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
         }
     }
 
@@ -206,7 +199,6 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
             createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.emailSignInButton) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-
         } else if (i == R.id.signOutButton) {
             signOut();
         } else if (i == R.id.verifyEmailButton) {
