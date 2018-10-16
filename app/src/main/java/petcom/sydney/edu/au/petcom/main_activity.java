@@ -132,9 +132,6 @@ public class main_activity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_personal) {
 
-        } else if (id == R.id.nav_film) {
-            Intent intent = new Intent(main_activity.this,camera_function.class);
-            startActivity(intent);
 
         } else if (id == R.id.nav_post) {
 

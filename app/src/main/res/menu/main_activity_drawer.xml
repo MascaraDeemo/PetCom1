@@ -13,10 +13,6 @@
             android:icon="@drawable/ic_personal"
             android:title="Personal Page" />
         <item
-            android:id="@+id/nav_film"
-            android:icon="@drawable/ic_camera"
-            android:title="Film" />
-        <item
             android:id="@+id/nav_post"
             android:icon="@drawable/ic_post"
             android:title="Post_moments" />
