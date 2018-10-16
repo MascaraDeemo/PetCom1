@@ -12,7 +12,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -26,8 +28,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,6 +57,8 @@ public class post_new extends AppCompatActivity {
     FirebaseUser u;
     private File file;
     public String photoFileName = "";
+    String userName;
+
 
     //request codes
     @Override
@@ -65,12 +72,26 @@ public class post_new extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         u = auth.getCurrentUser();
 
+
         Button publishBtn = (Button)findViewById(R.id.publish_btn);
+
+        dbRef.child("User").child(u.getUid()).child("UserName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               userName = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         publishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeNewPost(editTitle.getText().toString(), editItem.getText().toString(), u.getUid());
+                writeNewPost(editTitle.getText().toString(), editItem.getText().toString(), userName);
                 Log.i("sophie",dbRef.child("User").child(u.getUid()).child("userName").toString());
                 Intent intent = new Intent(post_new.this, main_activity.class);
                 startActivity(intent);

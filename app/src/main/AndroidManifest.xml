@@ -38,6 +38,7 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
         <activity android:name=".ProfileActivity"></activity>
+
         <activity android:name=".post_new"
             android:label="Film"
             ></activity>
