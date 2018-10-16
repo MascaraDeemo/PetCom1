@@ -15,11 +15,12 @@
         android:ems="10"
         android:inputType="textPersonName"
          />
+
     <Button
+        android:id="@+id/btnEditUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add To Database"
-        android:id="@+id/btnEditUsername"/>
+        android:text="Update User" />
 
 
 </LinearLayout>
