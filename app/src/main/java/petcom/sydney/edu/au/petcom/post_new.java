@@ -2,6 +2,7 @@ package petcom.sydney.edu.au.petcom;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -99,72 +100,27 @@ public class post_new extends AppCompatActivity {
                         .setNegativeButton("From camera" , new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if((ContextCompat.checkSelfPermission(post_new.this,Manifest.permission.CAMERA)
-                                        ==PackageManager.PERMISSION_GRANTED) &&(ContextCompat.checkSelfPermission(post_new.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                        ==PackageManager.PERMISSION_GRANTED)){
+                                if(ContextCompat.checkSelfPermission(post_new.this,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED &&
+                                        ContextCompat.checkSelfPermission(post_new.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
                                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                                    // set file name
-                                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
-                                            Locale.getDefault()).format(new Date());
-                                    photoFileName = "IMG_" + timeStamp + ".jpg";
-
-                                    // Create a photo file reference
-                                    Uri file_uri = getFileUri(photoFileName,0);
-
-                                    // Add extended data to the intent
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, file_uri);
-
-                                    // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-                                    // So as long as the result is not null, it's safe to use the intent.
-                                    if (intent.resolveActivity(getPackageManager()) != null) {
-                                        // Start the image capture intent to take photo
-                                        startActivityForResult(intent, MY_PERMISSIONS_REQUEST_TAKE_PHOTOS);
+                                    if(intent.resolveActivity(getPackageManager())!=null){
+                                        startActivityForResult(intent,MY_PERMISSIONS_REQUEST_TAKE_PHOTOS);
                                     }
                                 }else{
-                                    ActivityCompat.requestPermissions(post_new.this,new String[]{Manifest.permission.CAMERA},999);
-                                    ActivityCompat.requestPermissions(post_new.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},999);
-
+                                    ActivityCompat.requestPermissions(post_new.this,
+                                            new String[]{Manifest.permission.CAMERA},998);
+                                    ActivityCompat.requestPermissions(post_new.this,
+                                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},997);
                                 }
+
                             }
                         });
-                //show the button
                 builder.create().show();
-
             }
         });
 
 
-    }
-    public Uri getFileUri(String fileName, int type) {
-        Uri fileUri = null;
-        try {
-            String typestr = "/images/"; //default to images type
-            // Get safe storage directory depending on type
-            File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),
-                    typestr+fileName);
-
-            // Create the storage directory if it does not exist
-            if (!mediaStorageDir.getParentFile().exists() && !mediaStorageDir.getParentFile().mkdirs()) {
-
-            }
-
-            // Create the file target for the media based on filename
-            file = new File(mediaStorageDir.getParentFile().getPath() + File.separator + fileName);
-
-            // Wrap File object into a content provider, required for API >= 24
-            // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-            if (Build.VERSION.SDK_INT >= 24) {
-                fileUri = FileProvider.getUriForFile(
-                        this.getApplicationContext(),
-                        "au.edu.sydney.comp5216.mediaaccess.fileProvider", file);
-            } else {
-                fileUri = Uri.fromFile(mediaStorageDir);
-            }
-        } catch (Exception ex) {
-            Log.d("getFileUri", ex.getStackTrace().toString());
-        }
-        return fileUri;
     }
 
     @Override
