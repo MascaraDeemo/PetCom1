@@ -1,6 +1,7 @@
 package petcom.sydney.edu.au.petcom;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 import com.google.firebase.database.Exclude;
 
@@ -12,16 +13,13 @@ public class Post {
     private String title;
     private String userName;
 
-    private Bitmap picture;
-
     public Post(){
 
     }
-    public Post(String title,String input, String userName,Bitmap picture){
+    public Post(String title,String input, String userName){
         this.input=input;
         this.title=title;
         this.userName=userName;
-        this.picture=picture;
     }
 
     public String getInput() {
@@ -48,21 +46,12 @@ public class Post {
         this.userName = userName;
     }
 
-    public Bitmap getPicture() {
-        return picture;
-    }
-
-    public void setPicture(Bitmap picture) {
-        this.picture = picture;
-    }
-
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String,Object> result = new HashMap<>();
         result.put("input",input);
         result.put("title",title);
         result.put("userName",userName);
-        result.put("picture",picture);
         return result;
     }
 }

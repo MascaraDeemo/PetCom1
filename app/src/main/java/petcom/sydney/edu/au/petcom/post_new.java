@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,6 +45,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
+
 
 public class post_new extends AppCompatActivity {
     protected static final int POST_NEW = 201;
@@ -59,8 +62,8 @@ public class post_new extends AppCompatActivity {
     private File file;
     public String photoFileName = "";
     String userName;
-
-
+    ImageView img1;
+    Bitmap selectedPic;
     //request codes
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,41 +125,40 @@ public class post_new extends AppCompatActivity {
                         .setNegativeButton("From camera" , new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if(ContextCompat.checkSelfPermission(post_new.this,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED &&
-                                        ContextCompat.checkSelfPermission(post_new.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
-                                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                                    if(intent.resolveActivity(getPackageManager())!=null){
-                                        startActivityForResult(intent,MY_PERMISSIONS_REQUEST_TAKE_PHOTOS);
-                                    }
-                                }else{
+                                if(ContextCompat.checkSelfPermission(post_new.this,Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED ||
+                                        ContextCompat.checkSelfPermission(post_new.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
                                     ActivityCompat.requestPermissions(post_new.this,
                                             new String[]{Manifest.permission.CAMERA},998);
                                     ActivityCompat.requestPermissions(post_new.this,
                                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},997);
-                                }
 
+                                }else{
+                                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                    file = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+                                    Uri file_uri = Uri.parse(file.getAbsolutePath());
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT,file_uri);
+
+                                    if (intent.resolveActivity(getPackageManager()) != null) {
+                                        startActivityForResult(intent, MY_PERMISSIONS_REQUEST_TAKE_PHOTOS);
+                                    }
+                                }
                             }
                         });
                 builder.create().show();
             }
         });
-
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        ImageView img1=(ImageView)findViewById(R.id.imageView2);
+        img1=(ImageView)findViewById(R.id.imageView2);
 
         if(requestCode == MY_PERMISSIONS_REQUEST_READ_PHOTOS){
             if(resultCode == RESULT_OK){
                 Uri pic = data.getData();
-                Bitmap selectedPic;
                 try{
                     selectedPic = MediaStore.Images.Media.getBitmap(this.getContentResolver(),pic);
-                    img1.setImageBitmap(selectedPic);
-                    img1.setVisibility(View.VISIBLE);
+                    Log.i("sophie",BitmapFactory.decodeFile(file.getAbsolutePath())+"");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -164,16 +166,14 @@ public class post_new extends AppCompatActivity {
                 }
             }
         }
-        else if (requestCode ==MY_PERMISSIONS_REQUEST_TAKE_PHOTOS)
-        {
-            if(requestCode == RESULT_OK){
-                Bitmap takenImage = BitmapFactory.decodeFile(file.getAbsolutePath());
-
-                // Load the taken image into a preview
-                img1.setImageBitmap(takenImage);
-                img1.setVisibility(View.VISIBLE);
+        else if (requestCode ==MY_PERMISSIONS_REQUEST_TAKE_PHOTOS) {
+            if(resultCode == RESULT_OK){
+                selectedPic = BitmapFactory.decodeFile(file.getAbsolutePath());
+                Log.i("sophie",BitmapFactory.decodeFile(file.getAbsolutePath())+"");
             }
         }
+        img1.setImageBitmap(selectedPic);
+        img1.setVisibility(View.VISIBLE);
     }
 
     private void writeNewPost(String title, String item, String userName){
@@ -186,4 +186,31 @@ public class post_new extends AppCompatActivity {
         childUpdate.put("/Post/"+key,postValue);
         dbRef.updateChildren(childUpdate);
     }
+
+    private static File getOutputMediaFile(int type) {
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "Images");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("Images", "failed to create directory");
+                return null;
+            }
+        }
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+        } else {
+            return null;
+        }
+        return mediaFile;
+    }
+
 }
