@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,7 +51,7 @@ public class post_new extends AppCompatActivity {
     protected  static final int MY_PERMISSIONS_REQUEST_TAKE_PHOTOS=203;
 
     EditText editTitle;
-    EditText editItem;
+    MultiAutoCompleteTextView editItem;
     FirebaseAuth auth;
     FirebaseDatabase db;
     DatabaseReference dbRef;
@@ -66,7 +67,7 @@ public class post_new extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_new);
         editTitle = (EditText)findViewById(R.id.post_set_title);
-        editItem = (EditText)findViewById(R.id.post_set_item);
+        editItem = (MultiAutoCompleteTextView)findViewById(R.id.post_set_item);
         db = FirebaseDatabase.getInstance();
         dbRef = db.getReference();
         auth = FirebaseAuth.getInstance();

@@ -40,7 +40,7 @@
         <activity android:name=".ProfileActivity"></activity>
 
         <activity android:name=".post_new"
-            android:label="Film"
+            android:label="Post new moments"
             ></activity>
         <activity android:name=".AddToDatabase"></activity>
     </application>
