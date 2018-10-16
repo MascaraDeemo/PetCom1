@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "440270064743-vlvurtuj9np46sq226fs9gt2ch71jrqu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "petcom.sydney.edu.au.petcom",
+            "certificate_hash": "e77714aac09ebec4fdb3f072dad6e14b6338e3b3"
+          }
+        },
+        {
+          "client_id": "440270064743-it1haos2g1v0nimvmq8dsk40g6s35fss.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "petcom.sydney.edu.au.petcom",
+            "certificate_hash": "74bbc6c2fa78d952463f34fd1c9e5727625edf0d"
+          }
+        },
+        {
           "client_id": "440270064743-l73evdna2sul4766do6r6mi2gpk4uied.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +45,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "440270064743-l73evdna2sul4766do6r6mi2gpk4uied.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

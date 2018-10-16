@@ -29,6 +29,7 @@
         <activity
             android:name=".MainActivity"
             android:label="MainActivity" />
+        <activity android:name=".camera_function"></activity>
         <activity
             android:name=".main_activity"
             android:label="Pet Com"
@@ -37,7 +38,13 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
         <activity android:name=".ProfileActivity"></activity>
+<<<<<<< HEAD
         <activity android:name=".post_new"></activity>
+=======
+        <activity android:name=".post_new"
+            android:label="Film"
+            ></activity>
+>>>>>>> bff71672167f0574a70c0847e49a566cf6bf5fe0
         <activity android:name=".AddToDatabase"></activity>
     </application>
 
