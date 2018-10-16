@@ -69,10 +69,10 @@ public class post_new extends AppCompatActivity {
         publishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 writeNewPost(editTitle.getText().toString(), editItem.getText().toString(), u.getUid());
-                Log.i("sophie",u.getUid());
-                finish();
+                Log.i("sophie",dbRef.child("User").child(u.getUid()).child("userName").toString());
+                Intent intent = new Intent(post_new.this, main_activity.class);
+                startActivity(intent);
             }
         });
 
