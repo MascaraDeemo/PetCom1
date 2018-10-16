@@ -30,7 +30,7 @@
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="15dp"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/ic_post" />
 
     <ListView
         android:id="@+id/list_view_main"
