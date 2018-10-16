@@ -152,16 +152,11 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
 
             Intent intent = new Intent(LoginActivity.this,main_activity.class);
             startActivity(intent);
-<<<<<<< HEAD
+
         }else {
             findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
             findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
             findViewById(R.id.signedInButtons).setVisibility(View.GONE);
-=======
-        }
-        else{
->>>>>>> 1307bffe33a1c4bde4fabde5da1049306491fe66
-
         }
     }
 

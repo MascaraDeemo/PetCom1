@@ -130,7 +130,7 @@ public class post_new extends AppCompatActivity {
                                     photoFileName = "IMG_" + timeStamp + ".jpg";
 
                                     Uri file_uri=getFileUri(photoFileName,0);
-
+                                    Log.i("Sophie",file_uri.toString());
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, file_uri);
                                     if (intent.resolveActivity(getPackageManager()) != null) {
                                         startActivityForResult(intent, MY_PERMISSIONS_REQUEST_TAKE_PHOTOS);
