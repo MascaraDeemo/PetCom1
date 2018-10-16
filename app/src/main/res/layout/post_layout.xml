@@ -39,19 +39,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_post" />
 
-    <TextView
-        android:id="@+id/comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="comment"
-        app:layout_constraintEnd_toStartOf="@+id/like"
-        app:layout_constraintTop_toBottomOf="@+id/postbody" />
-
-    <TextView
-        android:id="@+id/like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="like"
-        app:layout_constraintBaseline_toBaselineOf="@+id/comment"
-        app:layout_constraintEnd_toEndOf="@+id/postbody" />
 </android.support.constraint.ConstraintLayout>

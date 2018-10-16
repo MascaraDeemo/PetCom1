@@ -39,8 +39,12 @@
             android:label="@string/title_activity_settings"></activity>
         <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".post_new"></activity>
+<<<<<<< HEAD
 
 
+=======
+        <activity android:name=".AddToDatabase"></activity>
+>>>>>>> dd393c714beddc6acd012e23cbb53718067975de
     </application>
 
 </manifest>
