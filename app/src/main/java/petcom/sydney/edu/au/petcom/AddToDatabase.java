@@ -18,6 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class AddToDatabase extends AppCompatActivity {
     private static final String TAG = "AddToDatabase";
     private Button mAddToDB;
@@ -63,7 +66,7 @@ public class AddToDatabase extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
+                String value = dataSnapshot.getValue().toString();
                 Log.d(TAG, "Value is: " + value);
             }
 
@@ -82,7 +85,9 @@ public class AddToDatabase extends AppCompatActivity {
                 if(!userName.equals("")){
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     String uid = user.getUid();
-                    databaseReference.child(uid).setValue("userName",userName);
+                    databaseReference.child("User").child(uid).child("UserName").setValue(userName);
+
+                    Log.d(TAG,"qwer"+ userName);
                 }
             }
         });
