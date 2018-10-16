@@ -27,8 +27,8 @@
             android:title="Outdoor" />
         <item
             android:id="@+id/nav_editinfo"
-            android:icon="@drawable/ic_edit"
-            android:title="Edit Info" />
+            android:icon="@drawable/ic_personal2"
+            android:title="Personal info" />
         <item
             android:id="@+id/nav_signout"
             android:icon="@drawable/ic_quit"
