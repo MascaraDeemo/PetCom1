@@ -6,11 +6,18 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+<<<<<<< HEAD
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+=======
 
 
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+>>>>>>> 1307bffe33a1c4bde4fabde5da1049306491fe66
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,13 +44,23 @@
         <activity
             android:name=".MainActivity"
             android:label="MainActivity" />
-        <activity android:name=".camera_function"></activity>
+        <activity android:name=".camera_function" />
         <activity
             android:name=".main_activity"
             android:label="Pet Com"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingsActivity"
+<<<<<<< HEAD
+            android:label="@string/title_activity_settings" />
+        <activity android:name=".ProfileActivity" />
+        <activity
+            android:name=".post_new"
+            android:label="Post new moments" />
+        <activity android:name=".AddToDatabase" />
+        <activity android:name=".UserProfile" />
+        <activity android:name=".Registration"></activity>
+=======
             android:label="@string/title_activity_settings"></activity>
         <activity android:name=".ProfileActivity"></activity>
 
@@ -55,6 +72,7 @@
             ></activity>
         <activity android:name=".login_test"
             ></activity>
+>>>>>>> 1307bffe33a1c4bde4fabde5da1049306491fe66
     </application>
 
 </manifest>
