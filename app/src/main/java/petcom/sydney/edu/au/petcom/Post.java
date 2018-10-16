@@ -1,5 +1,7 @@
 package petcom.sydney.edu.au.petcom;
 
+import android.graphics.Bitmap;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
@@ -9,17 +11,17 @@ public class Post {
     private String input;
     private String title;
     private String userName;
-    private long publishTime;
-    private int comment;
+
+    private Bitmap picture;
+
     public Post(){
 
     }
-    public Post(String title,String input, String userName){
+    public Post(String title,String input, String userName,Bitmap picture){
         this.input=input;
         this.title=title;
         this.userName=userName;
-        this.publishTime=System.currentTimeMillis();
-        this.comment=0;
+        this.picture=picture;
     }
 
     public String getInput() {
@@ -46,21 +48,12 @@ public class Post {
         this.userName = userName;
     }
 
-    public long getPublishTime() {
-        return publishTime;
+    public Bitmap getPicture() {
+        return picture;
     }
 
-    public void setPublishTime() {
-        this.publishTime = System.currentTimeMillis();
-    }
-
-
-    public void setComment(int comment) {
-        this.comment=comment;
-    }
-
-    public int getComment() {
-        return comment;
+    public void setPicture(Bitmap picture) {
+        this.picture = picture;
     }
 
     @Exclude
@@ -69,8 +62,7 @@ public class Post {
         result.put("input",input);
         result.put("title",title);
         result.put("userName",userName);
-//        result.put("publishTime",publishTime);
-//        result.put("comment",comment);
+        result.put("picture",picture);
         return result;
     }
 }
