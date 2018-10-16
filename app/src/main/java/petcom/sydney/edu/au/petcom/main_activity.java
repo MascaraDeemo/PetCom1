@@ -140,10 +140,17 @@ public class main_activity extends AppCompatActivity
         } else if (id == R.id.nav_outdoor) {
 
         }else if (id== R.id.nav_editinfo){
+<<<<<<< HEAD
             Intent infoIntent = new Intent(this, Personal_page.class);
+=======
+            Intent infoIntent = new Intent(main_activity.this, AddToDatabase.class);
+>>>>>>> 20c84a0af1aa8534f42d079bc73e5fc07e7866f9
             startActivity(infoIntent);
 
         }else if (id== R.id.nav_signout){
+            FirebaseAuth.getInstance().signOut();
+            Intent singinIntent = new Intent(main_activity.this, LoginActivity.class);
+            startActivity(singinIntent);
 
         }
 
