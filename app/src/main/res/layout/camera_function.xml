@@ -1,56 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <Button
-        android:id="@+id/backbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="37dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="13dp"
-        android:text="Back to main page" />
+        android:id="@+id/post_btn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="48dp"
+        android:layout_height="29dp"
+        android:layout_alignParentBottom="true"
+
+
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="28dp"
+        android:background="@drawable/shape"
+        android:enabled="false"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Post"
+        android:textColor="@android:color/black"
+        android:textSize="10sp" />
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            />
+
+    </android.support.design.widget.AppBarLayout>
 
     <TextureView
         android:id="@+id/textureView"
         android:layout_width="match_parent"
         android:layout_height="384dp"
-        android:layout_above="@+id/capture_btn"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp" />
 
     <Button
         android:id="@+id/capture_btn"
-        android:layout_width="176dp"
-        android:layout_height="55dp"
-        android:layout_above="@+id/edit_btn"
-        android:layout_centerHorizontal="true"
-        android:text="Capture it" />
-
-    <Button
-        android:id="@+id/edit_btn"
-        android:layout_width="78dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/ok_btn"
-        android:layout_marginEnd="48dp"
-        android:enabled="false"
-        android:text="Edit" />
-
-    <Button
-        android:id="@+id/ok_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="99dp"
+        android:layout_height="36dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="17dp"
-        android:layout_marginStart="47dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="74dp"
+        android:background="@drawable/shape"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Capture"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/undo_btn"
+        android:layout_width="54dp"
+        android:layout_height="29dp"
+        android:layout_alignTop="@+id/post_btn"
+        android:layout_toEndOf="@+id/capture_btn"
+        android:background="@drawable/shape"
         android:enabled="false"
-        android:text="Ok" />
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Undo"
+        android:textColor="@android:color/black"
+        android:textSize="10sp" />
 
 </RelativeLayout>
-
