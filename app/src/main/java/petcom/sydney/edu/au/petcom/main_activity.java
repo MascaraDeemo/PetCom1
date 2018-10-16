@@ -140,7 +140,7 @@ public class main_activity extends AppCompatActivity
         } else if (id == R.id.nav_outdoor) {
 
         }else if (id== R.id.nav_editinfo){
-            Intent infoIntent = new Intent(this, AddToDatabase.class);
+            Intent infoIntent = new Intent(this, Personal_page.class);
             startActivity(infoIntent);
 
         }else if (id== R.id.nav_signout){

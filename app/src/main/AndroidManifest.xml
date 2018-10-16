@@ -43,6 +43,8 @@
             android:label="Post new moments"
             ></activity>
         <activity android:name=".AddToDatabase"></activity>
+        <activity android:name=".Personal_page"
+            ></activity>
     </application>
 
 </manifest>
