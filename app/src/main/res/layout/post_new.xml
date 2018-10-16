@@ -38,21 +38,14 @@
         android:text="publish" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/post_new_add_img"
         android:layout_width="88dp"
         android:layout_height="99dp"
         android:layout_alignParentEnd="true"
-<<<<<<< HEAD
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="65dp"
         android:layout_marginBottom="193dp"
-        android:background="@color/common_google_signin_btn_text_dark_pressed"
-=======
-        android:layout_marginBottom="193dp"
-        android:layout_marginEnd="27dp"
-        android:background="@drawable/picture"
->>>>>>> 90d64f514a35aae2de9a2272d1acd5a6fcc0ed5b
-        app:srcCompat="@color/common_google_signin_btn_text_dark_default" />
+        />
 
     <Button
         android:id="@+id/add_pic"
