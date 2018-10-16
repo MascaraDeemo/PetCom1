@@ -269,6 +269,8 @@ public class camera_function extends Activity {
                         public void onClick(View v) {
                             //上传数据，转到上传页面
                             Intent intent=new Intent(camera_function.this, post_new.class);
+                            intent.putExtra("photo_add",url_to_send);
+                            startActivity(intent);
                         }
                     });
 
