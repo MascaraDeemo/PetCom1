@@ -143,6 +143,8 @@ public class main_activity extends AppCompatActivity
             Intent infoIntent = new Intent(this, AddToDatabase.class);
             startActivity(infoIntent);
 
+        }else if (id== R.id.nav_signout){
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

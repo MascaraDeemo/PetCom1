@@ -29,6 +29,10 @@
             android:id="@+id/nav_editinfo"
             android:icon="@drawable/ic_edit"
             android:title="Edit Info" />
+        <item
+            android:id="@+id/nav_signout"
+            android:icon="@drawable/ic_quit"
+            android:title="Signout" />
     </group>
 
   <!--  <item android:title="Communicate">

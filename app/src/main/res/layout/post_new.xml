@@ -7,7 +7,7 @@
 
     <MultiAutoCompleteTextView
         android:id="@+id/post_set_item"
-        android:layout_width="226dp"
+        android:layout_width="341dp"
         android:layout_height="108dp"
         android:layout_above="@+id/imageView2"
         android:layout_alignParentStart="true"
@@ -39,12 +39,12 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="142dp"
-        android:layout_height="123dp"
+        android:layout_width="88dp"
+        android:layout_height="99dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="193dp"
-        android:layout_marginEnd="11dp"
+        android:layout_marginEnd="65dp"
         android:background="@drawable/picture"
         app:srcCompat="@color/common_google_signin_btn_text_dark_default" />
 
