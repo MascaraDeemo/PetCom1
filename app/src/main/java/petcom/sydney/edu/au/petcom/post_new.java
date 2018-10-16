@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,11 +45,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
+
 
 public class post_new extends AppCompatActivity {
-    protected static final int POST_NEW = 201;
     protected  static final int MY_PERMISSIONS_REQUEST_READ_PHOTOS=202;
     protected  static final int MY_PERMISSIONS_REQUEST_TAKE_PHOTOS=203;
+    private MarshmallowPermission permission;
 
     EditText editTitle;
     MultiAutoCompleteTextView editItem;
@@ -57,10 +60,9 @@ public class post_new extends AppCompatActivity {
     DatabaseReference dbRef;
     FirebaseUser u;
     private File file;
-    public String photoFileName = "";
     String userName;
-
-
+    ImageView img1;
+    Bitmap selectedPic;
     //request codes
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,22 +74,18 @@ public class post_new extends AppCompatActivity {
         dbRef = db.getReference();
         auth = FirebaseAuth.getInstance();
         u = auth.getCurrentUser();
-
+        permission=new MarshmallowPermission(this);
 
         Button publishBtn = (Button)findViewById(R.id.publish_btn);
-
         dbRef.child("User").child(u.getUid()).child("UserName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                userName = dataSnapshot.getValue(String.class);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-
 
         publishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,58 +103,57 @@ public class post_new extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(post_new.this);
                 builder.setTitle("Add picture" )
-                        .setMessage("Please select one way" )
+                        .setMessage("Please select" )
                         .setPositiveButton("From storage" ,   new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if(ContextCompat.checkSelfPermission(post_new.this,Manifest.permission.READ_EXTERNAL_STORAGE)
-                                        ==PackageManager.PERMISSION_GRANTED){
+                                if(!permission.checkPermissionForReadfiles()){
+                                    permission.requestPermissionForReadfiles();
+                                }else{
                                     Intent intent = new Intent(Intent.ACTION_PICK,
                                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                     startActivityForResult(intent, MY_PERMISSIONS_REQUEST_READ_PHOTOS);
-                                }else{
-                                    ActivityCompat.requestPermissions(post_new.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},999);
                                 }
                             }
                         } )
                         .setNegativeButton("From camera" , new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if(ContextCompat.checkSelfPermission(post_new.this,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED &&
-                                        ContextCompat.checkSelfPermission(post_new.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED){
+                                if(!permission.checkPermissionForCamera() || !permission.checkPermissionForExternalStorage()){
+                                    permission.requestPermissionForCamera();
+                                }else{
                                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                                    if(intent.resolveActivity(getPackageManager())!=null){
-                                        startActivityForResult(intent,MY_PERMISSIONS_REQUEST_TAKE_PHOTOS);
-                                    }
-                                }else{
-                                    ActivityCompat.requestPermissions(post_new.this,
-                                            new String[]{Manifest.permission.CAMERA},998);
-                                    ActivityCompat.requestPermissions(post_new.this,
-                                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},997);
-                                }
+//                                    file = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+//                                    Uri file_uri = Uri.parse(file.getAbsolutePath());
+                                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                                            Locale.getDefault()).format(new Date());
+                                    String photoFileName = "IMG_" + timeStamp + ".jpg";
 
+                                    Uri file_uri=getFileUri(photoFileName,0);
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT,file_uri);
+
+                                    if (intent.resolveActivity(getPackageManager()) != null) {
+                                        startActivityForResult(intent, MY_PERMISSIONS_REQUEST_TAKE_PHOTOS);
+                                    }
+                                }
                             }
                         });
                 builder.create().show();
             }
         });
-
-
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        ImageView img1=(ImageView)findViewById(R.id.imageView2);
+        img1=(ImageView)findViewById(R.id.post_new_add_img);
 
         if(requestCode == MY_PERMISSIONS_REQUEST_READ_PHOTOS){
             if(resultCode == RESULT_OK){
                 Uri pic = data.getData();
-                Bitmap selectedPic;
                 try{
                     selectedPic = MediaStore.Images.Media.getBitmap(this.getContentResolver(),pic);
-                    img1.setImageBitmap(selectedPic);
-                    img1.setVisibility(View.VISIBLE);
+                    Log.i("sophie",file.getAbsolutePath()+"");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -164,16 +161,15 @@ public class post_new extends AppCompatActivity {
                 }
             }
         }
-        else if (requestCode ==MY_PERMISSIONS_REQUEST_TAKE_PHOTOS)
-        {
-            if(requestCode == RESULT_OK){
-                Bitmap takenImage = BitmapFactory.decodeFile(file.getAbsolutePath());
+        else if (requestCode == MY_PERMISSIONS_REQUEST_TAKE_PHOTOS) {
+            if(resultCode == RESULT_OK){
+                selectedPic = BitmapFactory.decodeFile(file.getAbsolutePath());
+                Log.i("sophie",file.getAbsolutePath()+"");
 
-                // Load the taken image into a preview
-                img1.setImageBitmap(takenImage);
-                img1.setVisibility(View.VISIBLE);
             }
         }
+        img1.setImageBitmap(selectedPic);
+        img1.setVisibility(View.VISIBLE);
     }
 
     private void writeNewPost(String title, String item, String userName){
@@ -186,4 +182,62 @@ public class post_new extends AppCompatActivity {
         childUpdate.put("/Post/"+key,postValue);
         dbRef.updateChildren(childUpdate);
     }
+
+//    private static File getOutputMediaFile(int type) {
+//
+//        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES), "Images");
+//
+//        if (!mediaStorageDir.exists()) {
+//            if (!mediaStorageDir.mkdirs()) {
+//                Log.d("Images", "failed to create directory");
+//                return null;
+//            }
+//        }
+//        // Create a media file name
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        File mediaFile;
+//        if (type == MEDIA_TYPE_IMAGE){
+//            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+//                    "IMG_"+ timeStamp + ".jpg");
+//        } else {
+//            return null;
+//        }
+//        return mediaFile;
+//    }
+public Uri getFileUri(String fileName, int type) {
+    Uri fileUri = null;
+    try {
+        String typestr = "/images/"; //default to images type
+        if (type == 1) {
+            typestr = "/videos/";
+        } else if (type != 0) {
+            typestr = "/audios/";
+        }
+
+        // Get safe storage directory depending on type
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),
+                typestr+fileName);
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.getParentFile().exists() && !mediaStorageDir.getParentFile().mkdirs()) {
+        }
+
+        // Create the file target for the media based on filename
+        file = new File(mediaStorageDir.getParentFile().getPath() + File.separator + fileName);
+
+        // Wrap File object into a content provider, required for API >= 24
+        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
+        if (Build.VERSION.SDK_INT >= 24) {
+            fileUri = FileProvider.getUriForFile(
+                    this.getApplicationContext(),
+                    "au.edu.sydney.comp5216.petCom.fileProvider", file);
+        } else {
+            fileUri = Uri.fromFile(mediaStorageDir);
+        }
+    } catch (Exception ex) {
+        Log.d("getFileUri", ex.getStackTrace().toString());
+    }
+    return fileUri;
+}
 }

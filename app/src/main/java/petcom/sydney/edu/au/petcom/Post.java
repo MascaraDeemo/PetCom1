@@ -1,5 +1,8 @@
 package petcom.sydney.edu.au.petcom;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
@@ -9,8 +12,7 @@ public class Post {
     private String input;
     private String title;
     private String userName;
-    private long publishTime;
-    private int comment;
+
     public Post(){
 
     }
@@ -18,8 +20,6 @@ public class Post {
         this.input=input;
         this.title=title;
         this.userName=userName;
-        this.publishTime=System.currentTimeMillis();
-        this.comment=0;
     }
 
     public String getInput() {
@@ -46,31 +46,12 @@ public class Post {
         this.userName = userName;
     }
 
-    public long getPublishTime() {
-        return publishTime;
-    }
-
-    public void setPublishTime() {
-        this.publishTime = System.currentTimeMillis();
-    }
-
-
-    public void setComment(int comment) {
-        this.comment=comment;
-    }
-
-    public int getComment() {
-        return comment;
-    }
-
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String,Object> result = new HashMap<>();
         result.put("input",input);
         result.put("title",title);
         result.put("userName",userName);
-//        result.put("publishTime",publishTime);
-//        result.put("comment",comment);
         return result;
     }
 }
