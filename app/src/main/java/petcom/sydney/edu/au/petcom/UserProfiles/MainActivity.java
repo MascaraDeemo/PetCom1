@@ -1,4 +1,4 @@
-package petcom.sydney.edu.au.petcom;
+package petcom.sydney.edu.au.petcom.UserProfiles;
 
 
 import android.app.ProgressDialog;
@@ -7,6 +7,8 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import petcom.sydney.edu.au.petcom.R;
 
 
 public class MainActivity extends AppCompatActivity {

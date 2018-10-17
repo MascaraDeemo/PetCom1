@@ -1,4 +1,4 @@
-package petcom.sydney.edu.au.petcom;
+package petcom.sydney.edu.au.petcom.UserProfiles;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import petcom.sydney.edu.au.petcom.R;
 
 public class AddToDatabase extends AppCompatActivity {
     private static final String TAG = "AddToDatabase";
