@@ -4,14 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -27,15 +31,18 @@ public class PostAdapter extends ArrayAdapter<Post> {
         }
         Post p = getItem(position);
         if(p!=null){
+            Log.i("poiuy",p.getTitle()+" "+p.getHasPicture()+" "+p.getPicture());
             TextView userName = (TextView)convertView.findViewById(R.id.username_post);
             TextView title = (TextView)convertView.findViewById(R.id.title_post);
             TextView body = (TextView)convertView.findViewById(R.id.postbody);
-            ImageView picture = (ImageView)convertView.findViewById(R.id.moments_pic);
-//            if(p.getPicture()!=null) {
-//                Bitmap bm = BitmapFactory.decodeByteArray(p.getPicture(), 0, p.getPicture().length);
-////                bm.compress(Bitmap.CompressFormat.JPEG,30)
-//                picture.setImageBitmap(bm);
-//            }
+            if(p.getHasPicture() == true) {
+                ImageView picView = (ImageView)convertView.findViewById(R.id.moments_pic);
+                Picasso.with(getContext()).load(p.getPicture()).into(picView);
+                picView.setVisibility(View.VISIBLE);
+            }else if(p.getHasPicture() == false){
+                ImageView picView = (ImageView)convertView.findViewById(R.id.moments_pic);
+                picView.setVisibility(View.GONE);
+            }
             userName.setText(p.getUserName());
             title.setText(p.getTitle());
             body.setText(p.getInput());

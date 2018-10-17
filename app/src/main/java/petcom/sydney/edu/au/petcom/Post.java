@@ -13,18 +13,19 @@ public class Post {
     private String input;
     private String title;
     private String userName;
-    private Uri picture;
-    private boolean hasPicture=false;
+    private String picture;
+    private boolean hasPicture;
 
     public Post(){
 
     }
-    public Post(String title,String input, String userName,Uri picture){
+    public Post(String title,String input, String userName,String picture){
         this.input=input;
         this.title=title;
         this.userName=userName;
         this.picture = picture;
     }
+
     public Post(String title,String input, String userName){
         this.input=input;
         this.title=title;
@@ -39,11 +40,11 @@ public class Post {
         return this.hasPicture;
     }
 
-    public Uri getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(Uri picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 

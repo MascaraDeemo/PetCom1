@@ -1,6 +1,7 @@
 package petcom.sydney.edu.au.petcom;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -55,7 +56,7 @@ public class main_activity extends AppCompatActivity
     PostAdapter postAdapter;
     byte[] result;
     TextView textViewUserHead;
-    
+
     private String userName;
 
 
@@ -84,8 +85,6 @@ public class main_activity extends AppCompatActivity
         dbRef = db.getReference();
 
 
-
-
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -96,28 +95,23 @@ public class main_activity extends AppCompatActivity
                     p.setUserName(shot.getValue(Post.class).getUserName());
                     p.setTitle(shot.getValue(Post.class).getTitle());
                     p.setInput(shot.getValue(Post.class).getInput());
-
-                    if(shot.getValue(Post.class).getHasPicture()==true) {
-                        StorageReference sr = mStorageRef.child("image/"+postID+".jpg");
-                        sr.getBytes(PICTURE_SIZE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                            @Override
-                            public void onSuccess(byte[] bytes) {
-                                result = bytes;
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                            }
-                        }).addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                            @Override
-                            public void onComplete(@NonNull Task<byte[]> task) {
-//                                p.setPicture(result);
-                            }
-                        });
-                    }
-                    pList.add(p);
+                    p.setPicture(shot.getValue(Post.class).getPicture());
+                    p.setHasPicture(shot.getValue(Post.class).getHasPicture());
+//                    if(shot.getValue(Post.class).getHasPicture()==true) {
+//                        StorageReference sr = mStorageRef.child("image/"+postID+".jpg");
+//                        sr.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                            @Override
+//                            public void onSuccess(Uri uri) {
+//                                p.setPicture(uri.toString());
+//                                p.setHasPicture(true);
+//                                Log.i("asdfg",p.getTitle()+"   "+p.getHasPicture()+"   "+p.getPicture());
+//                            }
+//                        });
+//                    }
+                    pList.add(0,p);
+                    Log.i("qwerty",p.getTitle()+"  "+p.getPicture()+"   "+p.getHasPicture());
                 }
-                Collections.reverse(pList);
+//                Collections.reverse(pList);
                 postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
                 listView.setAdapter(postAdapter);
             }

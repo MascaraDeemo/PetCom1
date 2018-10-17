@@ -201,7 +201,7 @@ public class post_new extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri pUri = task.getResult();
-                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), userName, pUri);
+                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), userName, pUri.toString());
                         p.setHasPicture(true);
                         Map<String,Object> postValue = p.toMap();
                         Map<String,Object> childUpdate = new HashMap<>();
