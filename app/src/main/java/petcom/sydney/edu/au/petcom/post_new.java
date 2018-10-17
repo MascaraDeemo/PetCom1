@@ -28,6 +28,11 @@ import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +40,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,7 +67,10 @@ public class post_new extends AppCompatActivity {
     FirebaseDatabase db;
     DatabaseReference dbRef;
     FirebaseUser u;
+    private StorageReference mStorageRef;
+
     private File file;
+    Uri file_uri;
     String userName;
     ImageView img1;
     Bitmap selectedPic;
@@ -75,6 +86,7 @@ public class post_new extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         u = auth.getCurrentUser();
         permission = new MarshmallowPermission(this);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         Button publishBtn = (Button) findViewById(R.id.publish_btn);
         dbRef.child("User").child(u.getUid()).child("UserName").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -128,9 +140,7 @@ public class post_new extends AppCompatActivity {
                                     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                                             Locale.getDefault()).format(new Date());
                                     photoFileName = "IMG_" + timeStamp + ".jpg";
-
-                                    Uri file_uri=getFileUri(photoFileName,0);
-                                    Log.i("Sophie",file_uri.toString());
+                                    file_uri=getFileUri(photoFileName,0);
                                     intent.putExtra(MediaStore.EXTRA_OUTPUT, file_uri);
                                     if (intent.resolveActivity(getPackageManager()) != null) {
                                         startActivityForResult(intent, MY_PERMISSIONS_REQUEST_TAKE_PHOTOS);
@@ -150,9 +160,9 @@ public class post_new extends AppCompatActivity {
 
         if(requestCode == MY_PERMISSIONS_REQUEST_READ_PHOTOS){
             if(resultCode == RESULT_OK){
-                Uri pic = data.getData();
+                file_uri = data.getData();
                 try{
-                    selectedPic = MediaStore.Images.Media.getBitmap(this.getContentResolver(),pic);
+                    selectedPic = MediaStore.Images.Media.getBitmap(this.getContentResolver(),file_uri);
 //                    Log.i("sophie",file.getAbsolutePath()+"");
                     Log.i("sophie",selectedPic.getByteCount()+"");
                 } catch (FileNotFoundException e) {
@@ -173,6 +183,27 @@ public class post_new extends AppCompatActivity {
 
     private void writeNewPost(String title, String item, String userName){
         String key = dbRef.child("Post").push().getKey();
+
+        final StorageReference picRef = mStorageRef.child("image/"+key+".jpg");
+        UploadTask uploadTask = picRef.putFile(file_uri);
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()){
+                    throw task.getException();
+                }
+                return picRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if(task.isSuccessful()){
+                    Uri downloadUri = task.getResult();
+                }else{
+
+                }
+            }
+        });
 
         Post p = new Post(title,item,userName);
         Map<String,Object> postValue = p.toMap();
