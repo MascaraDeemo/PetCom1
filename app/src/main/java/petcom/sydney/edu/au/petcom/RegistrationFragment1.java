@@ -1,4 +1,4 @@
-package petcom.sydney.edu.au.petcom.UserProfile;
+package petcom.sydney.edu.au.petcom;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,7 +21,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import petcom.sydney.edu.au.petcom.R;
+import java.util.concurrent.Executor;
+import java.util.zip.Inflater;
 
 public class RegistrationFragment1 extends Fragment {
     private static final String TAG = "Registration1";

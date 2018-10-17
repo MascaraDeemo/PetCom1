@@ -1,4 +1,4 @@
-package petcom.sydney.edu.au.petcom.UserProfile;
+package petcom.sydney.edu.au.petcom;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,9 +12,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import petcom.sydney.edu.au.petcom.R;
+import java.util.HashMap;
+import java.util.Map;
 
-public class userProfile extends AppCompatActivity {
+public class UserProfile extends AppCompatActivity {
 
     EditText editText;
     Button btnAdd;
