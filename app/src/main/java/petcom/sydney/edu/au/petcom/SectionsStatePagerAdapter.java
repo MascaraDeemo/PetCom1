@@ -1,4 +1,4 @@
-package petcom.sydney.edu.au.petcom.UserProfile;
+package petcom.sydney.edu.au.petcom;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

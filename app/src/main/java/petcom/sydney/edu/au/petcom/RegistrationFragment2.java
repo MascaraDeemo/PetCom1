@@ -1,4 +1,4 @@
-package petcom.sydney.edu.au.petcom.UserProfile;
+package petcom.sydney.edu.au.petcom;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,9 +16,6 @@ import android.widget.EditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import petcom.sydney.edu.au.petcom.R;
-import petcom.sydney.edu.au.petcom.main_activity;
 
 public class RegistrationFragment2 extends Fragment {
 
