@@ -1,4 +1,4 @@
-package petcom.sydney.edu.au.petcom;
+package petcom.sydney.edu.au.petcom.UserProfile;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

@@ -1,4 +1,4 @@
-package petcom.sydney.edu.au.petcom;
+package petcom.sydney.edu.au.petcom.UserProfile;
 
 import com.google.firebase.database.Exclude;
 

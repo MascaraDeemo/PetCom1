@@ -27,7 +27,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
-        <activity android:name=".LoginActivity">
+        <activity android:name=".UserProfile.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,9 +48,9 @@
         <activity
             android:name=".post_new"
             android:label="Post new moments" />
-        <activity android:name=".AddToDatabase" />
-        <activity android:name=".UserProfile" />
-        <activity android:name=".Registration"></activity>
+        <activity android:name=".UserProfile.AddToDatabase" />
+        <activity android:name=".UserProfile.userProfile" />
+        <activity android:name=".UserProfile.Registration"></activity>
         <activity android:name=".login_test"></activity>
         <activity android:name=".Personal_page"></activity>
 

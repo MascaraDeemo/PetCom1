@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import petcom.sydney.edu.au.petcom.UserProfile.LoginActivity;
+
 public class main_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     FirebaseDatabase db;
