@@ -18,12 +18,20 @@ import android.widget.ListView;
 
 //import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StreamDownloadTask;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,9 +44,12 @@ public class main_activity extends AppCompatActivity
     DatabaseReference dbRef;
     FirebaseAuth dbAuth;
     FirebaseAuth.AuthStateListener dbListener;
-
+    final long PICTURE_SIZE = 400*400;
+    private StorageReference mStorageRef;
+    Post p;
     ListView listView;
     PostAdapter postAdapter;
+    byte[] result;
 
     ArrayList<Post> pList;
     @Override
@@ -56,6 +67,7 @@ public class main_activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         listView = (ListView)findViewById(R.id.list_view_main);
         pList=new ArrayList<Post>();
@@ -66,12 +78,31 @@ public class main_activity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 pList.clear();
                 for(DataSnapshot shot : dataSnapshot.child("Post").getChildren()){
-                    Post p = new Post();
+                    p = new Post();
+                    String postID = shot.getKey();
                     p.setUserName(shot.getValue(Post.class).getUserName());
                     p.setTitle(shot.getValue(Post.class).getTitle());
                     p.setInput(shot.getValue(Post.class).getInput());
+
+                    if(shot.getValue(Post.class).getHasPicture()==true) {
+                        StorageReference sr = mStorageRef.child("image/"+postID+".jpg");
+                        sr.getBytes(PICTURE_SIZE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                result = bytes;
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        }).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                            @Override
+                            public void onComplete(@NonNull Task<byte[]> task) {
+//                                p.setPicture(result);
+                            }
+                        });
+                    }
                     pList.add(p);
-                    Log.i("yaoxy",pList.size()+"");
                 }
                 Collections.reverse(pList);
                 postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);

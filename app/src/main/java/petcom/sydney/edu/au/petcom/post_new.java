@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -44,6 +45,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -68,13 +70,14 @@ public class post_new extends AppCompatActivity {
     DatabaseReference dbRef;
     FirebaseUser u;
     private StorageReference mStorageRef;
-
+    private StorageReference picRef;
     private File file;
     Uri file_uri;
     String userName;
     ImageView img1;
     Bitmap selectedPic;
     String photoFileName;
+    String key;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,10 +106,7 @@ public class post_new extends AppCompatActivity {
         publishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeNewPost(editTitle.getText().toString(), editItem.getText().toString(), userName);
-                Log.i("sophie", dbRef.child("User").child(u.getUid()).child("userName").toString());
-                Intent intent = new Intent(post_new.this, main_activity.class);
-                startActivity(intent);
+                writeNewPost();
             }
         });
 
@@ -121,7 +121,7 @@ public class post_new extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (!permission.checkPermissionForReadfiles()) {
-//                                    permission.requestPermissionForReadfiles();
+                                    permission.requestPermissionForReadfiles();
                                 } else {
                                     Intent intent = new Intent(Intent.ACTION_PICK,
                                             MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -163,8 +163,6 @@ public class post_new extends AppCompatActivity {
                 file_uri = data.getData();
                 try{
                     selectedPic = MediaStore.Images.Media.getBitmap(this.getContentResolver(),file_uri);
-//                    Log.i("sophie",file.getAbsolutePath()+"");
-                    Log.i("sophie",selectedPic.getByteCount()+"");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -177,40 +175,55 @@ public class post_new extends AppCompatActivity {
                 selectedPic = BitmapFactory.decodeFile(file.getAbsolutePath());
             }
         }
+        img1.setDrawingCacheEnabled(true);
+        img1.buildDrawingCache();
         img1.setImageBitmap(selectedPic);
         img1.setVisibility(View.VISIBLE);
     }
 
-    private void writeNewPost(String title, String item, String userName){
-        String key = dbRef.child("Post").push().getKey();
+    private void writeNewPost(){
+        key = dbRef.child("Post").push().getKey();
 
-        final StorageReference picRef = mStorageRef.child("image/"+key+".jpg");
-        UploadTask uploadTask = picRef.putFile(file_uri);
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if(!task.isSuccessful()){
-                    throw task.getException();
+        if(file_uri!=null) {
+
+            picRef = mStorageRef.child("image/"+key +".jpg");
+            UploadTask uploadTask = picRef.putFile(file_uri);
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    return picRef.getDownloadUrl();
                 }
-                return picRef.getDownloadUrl();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if(task.isSuccessful()){
-                    Uri downloadUri = task.getResult();
-                }else{
-
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri pUri = task.getResult();
+                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), userName, pUri);
+                        p.setHasPicture(true);
+                        Map<String,Object> postValue = p.toMap();
+                        Map<String,Object> childUpdate = new HashMap<>();
+                        childUpdate.put("/Post/"+key,postValue);
+                        dbRef.updateChildren(childUpdate);
+                        Intent intent = new Intent(post_new.this, main_activity.class);
+                        startActivity(intent);
+                    } else {
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), userName);
+            p.setHasPicture(false);
+            Map<String,Object> postValue = p.toMap();
+            Map<String,Object> childUpdate = new HashMap<>();
+            childUpdate.put("/Post/"+key,postValue);
+            dbRef.updateChildren(childUpdate);
+            Intent intent = new Intent(post_new.this, main_activity.class);
+            startActivity(intent);
+        }
 
-        Post p = new Post(title,item,userName);
-        Map<String,Object> postValue = p.toMap();
-
-        Map<String,Object> childUpdate = new HashMap<>();
-        childUpdate.put("/Post/"+key,postValue);
-        dbRef.updateChildren(childUpdate);
     }
 
     public Uri getFileUri(String fileName, int type) {
@@ -229,7 +242,7 @@ public class post_new extends AppCompatActivity {
 
             // Create the storage directory if it does not exist
             if (!mediaStorageDir.getParentFile().exists() && !mediaStorageDir.getParentFile().mkdirs()) {
-                Log.d("sophie", "failed to create directory");
+
             }
 
             // Create the file target for the media based on filename
