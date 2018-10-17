@@ -34,7 +34,8 @@ public class Registration extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         sectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
-        viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager = (LockableViewPaper) findViewById(R.id.container);
+        ((LockableViewPaper) viewPager).setSwipeable(false);
 
 
 
