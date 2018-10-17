@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +26,7 @@ import petcom.sydney.edu.au.petcom.R;
 
 public class AddToDatabase extends AppCompatActivity {
     private static final String TAG = "AddToDatabase";
-    private Button mAddToDB;
+    private LinearLayout mAddToDB;
     private EditText mNewUserName;
 
     private FirebaseDatabase firebaseDatabase;
@@ -40,7 +41,7 @@ public class AddToDatabase extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_to_database_layout);
 
-        mAddToDB = (Button) findViewById(R.id.btnEditUsername);
+        mAddToDB = (LinearLayout) findViewById(R.id.saveProfile);
         mNewUserName = (EditText) findViewById(R.id.editUserName);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -51,14 +52,12 @@ public class AddToDatabase extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if(firebaseAuth != null){
-                    //User is Signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + firebaseUser.getUid());
-                    toastMessage("Successfully signed in with: " + firebaseUser.getEmail());
+                if(firebaseUser != null){
+                        finish();
+
                 }else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    toastMessage("Successfully signed out.");
+
                 }
             }
         };
@@ -87,6 +86,7 @@ public class AddToDatabase extends AppCompatActivity {
                 if(!userName.equals("")){
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     String uid = user.getUid();
+
                     databaseReference.child("User").child(uid).child("UserName").setValue(userName);
 
                     Log.d(TAG,"qwer"+ userName);
