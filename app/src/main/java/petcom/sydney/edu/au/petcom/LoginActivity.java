@@ -37,9 +37,7 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-/**
- * A login screen that offers login via email/password.
- */
+
 public class LoginActivity extends MainActivity implements View.OnClickListener {
 
 
@@ -82,39 +80,7 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
     }
 
 
-    private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
-        if (!validateForm()) {
-            return;
-        }
 
-        showProgressDialog();
-
-        // [START create_user_with_email]
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-
-                        // [START_EXCLUDE]
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
-                    }
-                });
-        // [END create_user_with_email]
-    }
 
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn:" + email);
@@ -186,9 +152,11 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
 
             Intent intent = new Intent(LoginActivity.this,main_activity.class);
             startActivity(intent);
-        }
-        else{
 
+        }else {
+            findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
+            findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
+            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
         }
     }
 
@@ -196,7 +164,8 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.emailCreateAccountButton) {
-            createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+            Intent regestrationIntent = new Intent(LoginActivity.this, Registration.class);
+            startActivity(regestrationIntent);
         } else if (i == R.id.emailSignInButton) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.signOutButton) {
@@ -231,7 +200,7 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
                                     "Failed to send verification email.",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        // [END_EXCLUDE]
+
                     }
                 });
 
