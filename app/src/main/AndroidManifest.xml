@@ -45,13 +45,14 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />
-        <activity android:name=".ProfileActivity" />
         <activity
             android:name=".post_new"
             android:label="Post new moments" />
         <activity android:name=".AddToDatabase" />
         <activity android:name=".UserProfile" />
         <activity android:name=".Registration"></activity>
+        <activity android:name=".login_test"></activity>
+        <activity android:name=".Personal_page"></activity>
 
     </application>
 

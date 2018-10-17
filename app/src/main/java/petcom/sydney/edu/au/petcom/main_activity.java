@@ -19,7 +19,6 @@ import android.widget.ListView;
 //import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,7 +72,7 @@ public class main_activity extends AppCompatActivity
                     Log.i("yaoxy",pList.size()+"");
                 }
                 Collections.reverse(pList);
-                postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout,pList);
+                postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
                 listView.setAdapter(postAdapter);
             }
             @Override
@@ -144,7 +143,7 @@ public class main_activity extends AppCompatActivity
         }else if (id== R.id.nav_editinfo){
 
 
-            Intent infoIntent = new Intent(this, Personal_page.class);
+            Intent infoIntent = new Intent(main_activity.this, Personal_page.class);
 
 
             startActivity(infoIntent);
