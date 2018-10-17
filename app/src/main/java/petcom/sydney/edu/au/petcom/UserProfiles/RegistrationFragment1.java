@@ -75,6 +75,7 @@ public class RegistrationFragment1 extends Fragment {
                             FirebaseUser user = mAuth.getCurrentUser();
                             ((Registration)getActivity()).setViewPager(1);
 
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());

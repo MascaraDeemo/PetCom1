@@ -14,11 +14,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 //import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,9 +39,11 @@ public class main_activity extends AppCompatActivity
     DatabaseReference dbRef;
     FirebaseAuth dbAuth;
     FirebaseAuth.AuthStateListener dbListener;
+    TextView textViewUserHead;
 
     ListView listView;
     PostAdapter postAdapter;
+    private String userName;
 
     ArrayList<Post> pList;
     @Override
@@ -57,10 +62,15 @@ public class main_activity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        dbAuth = FirebaseAuth.getInstance();
         listView = (ListView)findViewById(R.id.list_view_main);
         pList=new ArrayList<Post>();
         db=FirebaseDatabase.getInstance();
         dbRef = db.getReference();
+
+
+
+
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -99,6 +109,25 @@ public class main_activity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        final String uid = dbAuth.getCurrentUser().getUid();
+        dbRef.child("User").child(uid).child("UserName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userName = dataSnapshot.getValue(String.class);
+                textViewUserHead = (TextView) findViewById(R.id.username_head);
+                textViewUserHead.setText(userName);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
     }
 
     @Override

@@ -35,8 +35,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:16.0.3'
     implementation 'com.google.firebase:firebase-auth:16.0.4'
 
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.3.1'
+
 }
 
 // ADD THIS AT THE BOTTOM
 apply plugin: 'com.google.gms.google-services'
-

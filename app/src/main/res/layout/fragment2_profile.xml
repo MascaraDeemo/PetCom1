@@ -1,36 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
 
-    <EditText
-        android:id="@+id/editUserName"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/userLayerOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/userProfileImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/picture" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="81dp"
-        android:ems="10"
-        android:hint="Username"
-        android:inputType="text"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="54dp" />
+        android:layout_weight="0.15"
+        >
+
+        <EditText
+            android:id="@+id/editUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="Your New User Name"
+            android:inputType="textPersonName"
+            android:textAlignment="center" />
 
 
-
-
-    <Button
-        android:id="@+id/btnFinishReg"
-        android:layout_width="wrap_content"
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/saveProfile"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="133dp"
-        android:layout_marginTop="342dp"
-        android:text="Submit"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="519dp" />
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:padding="7dp">
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You're All Set"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+</LinearLayout>
