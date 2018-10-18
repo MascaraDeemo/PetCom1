@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.shape.RoundedCornerTreatment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -16,9 +17,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.squareup.picasso.Transformation;
 
 //import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StreamDownloadTask;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,11 +55,16 @@ public class main_activity extends AppCompatActivity
     private FirebaseAuth dbAuth;
 
     private StorageReference mStorageRef;
+
     private Post p;
     private ListView listView;
     private PostAdapter postAdapter;
     private TextView textViewUserHead;
     private ValueEventListener postListener;
+
+    private String userProfileUrl;
+    private ImageView imageViewforUserPic;
+
     private String userName;
 
     private ArrayList<Post> pList;
@@ -111,6 +120,20 @@ public class main_activity extends AppCompatActivity
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        dbRef.child("User").child(uid).child("ProfileUrl").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userProfileUrl = dataSnapshot.getValue(String.class);
+                imageViewforUserPic = (ImageView) findViewById(R.id.imageViewForUserProfilePic);
+                Picasso.with(getApplicationContext()).load(userProfileUrl).resize(250,250).transform(new CircleTransform()).into(imageViewforUserPic);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
