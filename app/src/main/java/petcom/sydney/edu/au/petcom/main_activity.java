@@ -47,6 +47,7 @@ import java.util.Collections;
 
 import petcom.sydney.edu.au.petcom.UserProfiles.LoginActivity;
 import petcom.sydney.edu.au.petcom.UserProfiles.MainActivity;
+import petcom.sydney.edu.au.petcom.UserProfiles.User;
 
 public class main_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -219,6 +220,7 @@ public class main_activity extends AppCompatActivity
                     p = new Post();
                     String postID = shot.getKey();
 //                    p.setUserName(shot.getValue(Post.class).getUserName());
+                    p.setUser(shot.getValue(Post.class).getUser());
                     p.setTitle(shot.getValue(Post.class).getTitle());
                     p.setInput(shot.getValue(Post.class).getInput());
                     p.setPicture(shot.getValue(Post.class).getPicture());
