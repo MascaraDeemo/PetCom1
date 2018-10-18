@@ -1,6 +1,7 @@
 package petcom.sydney.edu.au.petcom;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,11 @@ import android.widget.TextView;
 
 //import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +33,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StreamDownloadTask;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,11 +48,17 @@ public class main_activity extends AppCompatActivity
     DatabaseReference dbRef;
     FirebaseAuth dbAuth;
     FirebaseAuth.AuthStateListener dbListener;
-    TextView textViewUserHead;
 
+    final long PICTURE_SIZE = 400*400;
+    private StorageReference mStorageRef;
+    Post p;
     ListView listView;
     PostAdapter postAdapter;
+    byte[] result;
+    TextView textViewUserHead;
+
     private String userName;
+
 
     ArrayList<Post> pList;
     @Override
@@ -61,6 +76,7 @@ public class main_activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         dbAuth = FirebaseAuth.getInstance();
         listView = (ListView)findViewById(R.id.list_view_main);
@@ -69,21 +85,33 @@ public class main_activity extends AppCompatActivity
         dbRef = db.getReference();
 
 
-
-
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 pList.clear();
                 for(DataSnapshot shot : dataSnapshot.child("Post").getChildren()){
-                    Post p = new Post();
+                    p = new Post();
+                    String postID = shot.getKey();
                     p.setUserName(shot.getValue(Post.class).getUserName());
                     p.setTitle(shot.getValue(Post.class).getTitle());
                     p.setInput(shot.getValue(Post.class).getInput());
-                    pList.add(p);
-                    Log.i("yaoxy",pList.size()+"");
+                    p.setPicture(shot.getValue(Post.class).getPicture());
+                    p.setHasPicture(shot.getValue(Post.class).getHasPicture());
+//                    if(shot.getValue(Post.class).getHasPicture()==true) {
+//                        StorageReference sr = mStorageRef.child("image/"+postID+".jpg");
+//                        sr.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                            @Override
+//                            public void onSuccess(Uri uri) {
+//                                p.setPicture(uri.toString());
+//                                p.setHasPicture(true);
+//                                Log.i("asdfg",p.getTitle()+"   "+p.getHasPicture()+"   "+p.getPicture());
+//                            }
+//                        });
+//                    }
+                    pList.add(0,p);
+                    Log.i("qwerty",p.getTitle()+"  "+p.getPicture()+"   "+p.getHasPicture());
                 }
-                Collections.reverse(pList);
+//                Collections.reverse(pList);
                 postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
                 listView.setAdapter(postAdapter);
             }
