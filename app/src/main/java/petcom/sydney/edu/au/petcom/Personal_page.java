@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import petcom.sydney.edu.au.petcom.UserProfiles.AddToDatabase;
 
 public class Personal_page extends AppCompatActivity {
@@ -28,6 +30,7 @@ public class Personal_page extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     private String userName;
     TextView usernameInProfile;
+    TextView textViewUserEmail;
     private String userProfileUrl;
 
     @Override
@@ -41,6 +44,7 @@ public class Personal_page extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference();
 
         usernameInProfile = (TextView) findViewById(R.id.usernameInProfile);
+        textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
 
         edit_button =(Button)findViewById(R.id.edit_person_btn);
         edit_button.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +62,8 @@ public class Personal_page extends AppCompatActivity {
         super.onStart();
 
         final String uid = firebaseAuth.getCurrentUser().getUid();
+        textViewUserEmail.setText("Email Address: " + firebaseAuth.getCurrentUser().getEmail());
+
         databaseReference.child("User").child(uid).child("UserName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
