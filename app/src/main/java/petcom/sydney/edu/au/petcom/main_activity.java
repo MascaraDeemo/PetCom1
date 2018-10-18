@@ -219,14 +219,14 @@ public class main_activity extends AppCompatActivity
                 for(DataSnapshot shot : dataSnapshot.child("Post").getChildren()){
                     p = new Post();
                     String postID = shot.getKey();
-//                    p.setUserName(shot.getValue(Post.class).getUserName());
+                    p.setPostID(postID);
                     p.setUser(shot.getValue(Post.class).getUser());
                     p.setTitle(shot.getValue(Post.class).getTitle());
                     p.setInput(shot.getValue(Post.class).getInput());
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
                     pList.add(0,p);
-                    Log.i("qwerty",p.getTitle()+"  "+p.getPicture()+"   "+p.getHasPicture());
+
                 }
                 postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
                 listView.setAdapter(postAdapter);

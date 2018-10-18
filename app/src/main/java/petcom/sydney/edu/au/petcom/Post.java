@@ -6,14 +6,13 @@ import android.net.Uri;
 
 import com.google.firebase.database.Exclude;
 
-import org.w3c.dom.Comment;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import petcom.sydney.edu.au.petcom.UserProfiles.User;
 
 public class Post {
+    private String postID;
     private String input;
     private String title;
     private String picture;
@@ -34,6 +33,14 @@ public class Post {
     public Post(String title,String input, User user){
         this.input=input;
         this.title=title;
+        this.user = user;
+    }
+    public String getPostID() {
+        return postID;
+    }
+
+    public void setPostID(String postID) {
+        this.postID = postID;
     }
 
     public void setHasPicture(boolean hasPicture) {
@@ -85,6 +92,7 @@ public class Post {
     public Map<String, Object> toMap(){
         HashMap<String,Object> result = new HashMap<>();
         result.put("user",user);
+        result.put("postID",postID);
         result.put("title",title);
         result.put("input",input);
         result.put("hasPicture",hasPicture);
