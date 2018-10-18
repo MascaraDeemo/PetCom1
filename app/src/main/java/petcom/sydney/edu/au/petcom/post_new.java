@@ -190,6 +190,8 @@ public class post_new extends AppCompatActivity {
     private void writeNewPost(){
         key = dbRef.child("Post").push().getKey();
 
+        String user_post_id_key = dbRef.child("User").child(u.getUid()).push().getKey();
+
         if(file_uri!=null) {
 
             picRef = mStorageRef.child("image/"+key +".jpg");
@@ -209,6 +211,7 @@ public class post_new extends AppCompatActivity {
                         Uri pUri = task.getResult();
                         Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(),pUri.toString(),user);
                         p.setHasPicture(true);
+                        p.setPostID(key);
                         Map<String,Object> postValue = p.toMap();
                         Map<String,Object> childUpdate = new HashMap<>();
                         childUpdate.put("/Post/"+key,postValue);
@@ -216,8 +219,10 @@ public class post_new extends AppCompatActivity {
                         Map<String,Object> userValue = user.toMap();
                         Map<String,Object> userUpdate = new HashMap<>();
                         userUpdate.put("/Post/"+key+"/"+u.getUid()+"/",userValue);
+
                         dbRef.updateChildren(userUpdate);
 
+                        dbRef.child("User").child(u.getUid()).child("postID").child(key).setValue(true);
                         dbRef.updateChildren(childUpdate);
                         Intent intent = new Intent(post_new.this, main_activity.class);
                         startActivity(intent);
@@ -228,6 +233,7 @@ public class post_new extends AppCompatActivity {
         }else{
             Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), user);
             p.setHasPicture(false);
+            p.setPostID(key);
             Map<String,Object> postValue = p.toMap();
             Map<String,Object> userValue = user.toMap();
 
@@ -235,18 +241,11 @@ public class post_new extends AppCompatActivity {
             Map<String,Object> userUpdate = new HashMap<>();
             Map<String,Object> childUpdate = new HashMap<>();
 
-
-           HashMap<String,Object> tempID = new HashMap<>();
-           tempID.put("postID",key);
-           Map<String,Object> IDupdate = new HashMap<>();
-           IDupdate.put("/User/"+u.getUid()+"/postID/",tempID);
-           dbRef.updateChildren(IDupdate);
-
-
             childUpdate.put("/Post/"+key,postValue);
             userUpdate.put("/Post/"+key+"/user/",userValue);
             dbRef.updateChildren(childUpdate);
             dbRef.updateChildren(userUpdate);
+            dbRef.child("User").child(u.getUid()).child("postID").child(key).setValue(true);
             Intent intent = new Intent(post_new.this, main_activity.class);
             startActivity(intent);
         }

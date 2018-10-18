@@ -1,3 +1,5 @@
+package petcom.sydney.edu.au.petcom;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
@@ -7,8 +9,8 @@ import petcom.sydney.edu.au.petcom.Post;
 import petcom.sydney.edu.au.petcom.UserProfiles.User;
 
 public class Comment {
-    String reply;
-    User user;
+    private String reply;
+    private User user;
 
 
     public Comment(){

@@ -23,7 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class PostAdapter extends ArrayAdapter<Post> {
-
+    private Post p;
     public PostAdapter(@NonNull Context context, int resource, ArrayList<Post> objects){
         super(context,resource,objects);
     }
@@ -32,13 +32,14 @@ public class PostAdapter extends ArrayAdapter<Post> {
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.post_layout,null);
         }
-        Post p = getItem(position);
+        p = getItem(position);
         if(p!=null){
             Log.i("poiuy",p.getTitle()+" "+p.getHasPicture()+" "+p.getPicture());
             TextView userName = (TextView)convertView.findViewById(R.id.username_post);
             TextView title = (TextView)convertView.findViewById(R.id.title_post);
             TextView body = (TextView)convertView.findViewById(R.id.postbody);
             TextView uName = (TextView)convertView.findViewById(R.id.username_post);
+
             uName.setText(p.getUser().getUserName());
             if(p.getUser().getProfileUrl() != null){
                 ImageView userTouXiang = (ImageView)convertView.findViewById(R.id.user_pic_post);
@@ -63,8 +64,14 @@ public class PostAdapter extends ArrayAdapter<Post> {
             singlePost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+<<<<<<< HEAD
 //                    Intent intent = new Intent(getContext(), replyPage.class);
 //                    getContext().startActivity(intent);
+=======
+                    Intent intent = new Intent(getContext(), replyPage.class);
+                    intent.putExtra("postID", p.getPostID());
+                    getContext().startActivity(intent);
+>>>>>>> 2107c3347fb6e76a523b48f1d32d4315a9864228
                 }
             });
         }

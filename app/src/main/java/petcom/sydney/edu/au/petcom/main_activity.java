@@ -219,13 +219,17 @@ public class main_activity extends AppCompatActivity
                 for(DataSnapshot shot : dataSnapshot.child("Post").getChildren()){
                     p = new Post();
                     String postID = shot.getKey();
-//                    p.setUserName(shot.getValue(Post.class).getUserName());
+                    p.setPostID(postID);
                     p.setUser(shot.getValue(Post.class).getUser());
                     p.setTitle(shot.getValue(Post.class).getTitle());
                     p.setInput(shot.getValue(Post.class).getInput());
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
                     pList.add(0,p);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2107c3347fb6e76a523b48f1d32d4315a9864228
                 }
                 postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
                 listView.setAdapter(postAdapter);
