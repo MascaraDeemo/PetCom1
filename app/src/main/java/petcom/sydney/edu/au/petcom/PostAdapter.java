@@ -63,8 +63,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
             singlePost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), replyPage.class);
-                    getContext().startActivity(intent);
+//                    Intent intent = new Intent(getContext(), replyPage.class);
+//                    getContext().startActivity(intent);
                 }
             });
         }

@@ -226,7 +226,6 @@ public class main_activity extends AppCompatActivity
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
                     pList.add(0,p);
-                    Log.i("qwerty",p.getTitle()+"  "+p.getPicture()+"   "+p.getHasPicture());
                 }
                 postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
                 listView.setAdapter(postAdapter);
