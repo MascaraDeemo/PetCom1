@@ -6,6 +6,8 @@ import android.net.Uri;
 
 import com.google.firebase.database.Exclude;
 
+import org.w3c.dom.Comment;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ public class Post {
     private String picture;
     private boolean hasPicture;
     private User user;
+    private Comment comment;
 
     public Post(){
 
@@ -71,6 +74,12 @@ public class Post {
     public User getUser(){
         return user;
     }
+    public Comment getComment(){
+        return comment;
+    }
+    public void setComment(Comment comment){
+        this.comment = comment;
+    }
 
     @Exclude
     public Map<String, Object> toMap(){
@@ -79,8 +88,12 @@ public class Post {
         result.put("title",title);
         result.put("input",input);
         result.put("hasPicture",hasPicture);
-        result.put("picture",picture);
-
+        if(hasPicture == true) {
+            result.put("picture", picture);
+        }else if(hasPicture == false){
+            result.put("picture",null);
+        }
+        result.put("comment",null);
         return result;
     }
 }

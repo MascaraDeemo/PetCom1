@@ -235,6 +235,14 @@ public class post_new extends AppCompatActivity {
             Map<String,Object> userUpdate = new HashMap<>();
             Map<String,Object> childUpdate = new HashMap<>();
 
+
+           HashMap<String,Object> tempID = new HashMap<>();
+           tempID.put("postID",key);
+           Map<String,Object> IDupdate = new HashMap<>();
+           IDupdate.put("/User/"+u.getUid()+"/postID/",tempID);
+           dbRef.updateChildren(IDupdate);
+
+
             childUpdate.put("/Post/"+key,postValue);
             userUpdate.put("/Post/"+key+"/user/",userValue);
             dbRef.updateChildren(childUpdate);

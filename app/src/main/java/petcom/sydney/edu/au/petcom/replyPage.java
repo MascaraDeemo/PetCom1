@@ -6,11 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class replyPage extends AppCompatActivity {
     EditText replyMsg;
     Button cancelBtn;
     Button replyBtn;
-
+    private FirebaseAuth uAuth;
+    private 
     @Override
     protected void onCreate(Bundle savedInstanceBundle){
         super.onCreate(savedInstanceBundle);
@@ -24,6 +27,13 @@ public class replyPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        replyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
