@@ -214,14 +214,14 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/edit_btn"
+            android:id="@+id/edit_person_btn"
             android:layout_width="76dp"
             android:layout_height="34dp"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="74dp"
             android:layout_marginEnd="23dp"
+            android:layout_marginBottom="74dp"
             android:background="@drawable/buttonstyle"
             android:text="Edit"
             android:textColor="#fff"
