@@ -101,7 +101,8 @@ public class post_new extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                user=new User();
                user.setUserName(dataSnapshot.child("UserName").getValue(String.class));
-               user.setUserProfilePic(dataSnapshot.child("ProfileUrl").getValue(String.class));
+               user.setProfileUrl(dataSnapshot.child("ProfileUrl").getValue(String.class));
+               user.setUid(u.getUid());
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -229,11 +230,13 @@ public class post_new extends AppCompatActivity {
             p.setHasPicture(false);
             Map<String,Object> postValue = p.toMap();
             Map<String,Object> userValue = user.toMap();
-            Log.i("yaoxy007",user.getUserName()+"  "+user.getUserProfilePic());
+
+            Log.i("yaoxy007",user.getUserName()+"  "+user.getProfileUrl());
             Map<String,Object> userUpdate = new HashMap<>();
             Map<String,Object> childUpdate = new HashMap<>();
+
             childUpdate.put("/Post/"+key,postValue);
-            userUpdate.put("/Post/"+key+"/"+u.getUid()+"/",userValue);
+            userUpdate.put("/Post/"+key+"/user/",userValue);
             dbRef.updateChildren(childUpdate);
             dbRef.updateChildren(userUpdate);
             Intent intent = new Intent(post_new.this, main_activity.class);

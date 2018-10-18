@@ -75,10 +75,12 @@ public class Post {
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String,Object> result = new HashMap<>();
-        result.put("input",input);
+        result.put("user",user);
         result.put("title",title);
+        result.put("input",input);
         result.put("hasPicture",hasPicture);
         result.put("picture",picture);
+
         return result;
     }
 }

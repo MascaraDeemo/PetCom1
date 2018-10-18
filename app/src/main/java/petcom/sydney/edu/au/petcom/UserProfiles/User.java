@@ -11,24 +11,35 @@ import java.util.Map;
 public class User {
 
     private String userName;
-    private String userProfilePic;
+    private String ProfileUrl;
+    private String Uid;
+
     public User(){}
 
-    public User(String userName, String userProfilePic){
+    public User(String userName, String userProfilePic, String Uid){
         this.userName = userName;
-        this.userProfilePic=userProfilePic;
+        this.ProfileUrl=userProfilePic;
+        this.Uid = Uid;
+    }
+
+    public String getUid(){
+        return Uid;
+    }
+
+    public void setUid(String Uid){
+        this.Uid = Uid;
     }
 
     public String getUserName() {
         return userName;
     }
 
-    public String getUserProfilePic(){
-        return userProfilePic;
+    public String getProfileUrl(){
+        return ProfileUrl;
     }
 
-    public void setUserProfilePic(String userProfilePic){
-        this.userProfilePic=userProfilePic;
+    public void setProfileUrl(String userProfilePic){
+        this.ProfileUrl=userProfilePic;
     }
 
     public void setUserName(String userName){
@@ -40,7 +51,8 @@ public class User {
     public Map<String, Object> toMap(){
         HashMap<String,Object> result = new HashMap<>();
         result.put("userName",userName);
-        result.put("userProfilePic",userProfilePic);
+        result.put("ProfileUrl",ProfileUrl);
+        result.put("Uid",Uid);
         return result;
     }
 
