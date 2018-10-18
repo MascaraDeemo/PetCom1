@@ -55,6 +55,7 @@
         <activity android:name=".UserProfiles.Registration"></activity>
         <activity android:name=".login_test"></activity>
         <activity android:name=".Personal_page"></activity>
+        <activity android:name=".replyPage"/>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
 
 

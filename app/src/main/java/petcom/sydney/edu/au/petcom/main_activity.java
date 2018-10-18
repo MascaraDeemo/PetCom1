@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -41,26 +42,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import petcom.sydney.edu.au.petcom.UserProfiles.LoginActivity;
+import petcom.sydney.edu.au.petcom.UserProfiles.MainActivity;
 
 public class main_activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    FirebaseDatabase db;
-    DatabaseReference dbRef;
-    FirebaseAuth dbAuth;
-    FirebaseAuth.AuthStateListener dbListener;
+    private FirebaseDatabase db;
+    private DatabaseReference dbRef;
+    private FirebaseAuth dbAuth;
 
-    final long PICTURE_SIZE = 400*400;
     private StorageReference mStorageRef;
-    Post p;
-    ListView listView;
-    PostAdapter postAdapter;
-    byte[] result;
-    TextView textViewUserHead;
-
+    private Post p;
+    private ListView listView;
+    private PostAdapter postAdapter;
+    private TextView textViewUserHead;
+    private ValueEventListener postListener;
     private String userName;
 
-
-    ArrayList<Post> pList;
+    private ArrayList<Post> pList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,48 +82,8 @@ public class main_activity extends AppCompatActivity
         db=FirebaseDatabase.getInstance();
         dbRef = db.getReference();
 
-
-        ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                pList.clear();
-                for(DataSnapshot shot : dataSnapshot.child("Post").getChildren()){
-                    p = new Post();
-                    String postID = shot.getKey();
-                    p.setUserName(shot.getValue(Post.class).getUserName());
-                    p.setTitle(shot.getValue(Post.class).getTitle());
-                    p.setInput(shot.getValue(Post.class).getInput());
-                    p.setPicture(shot.getValue(Post.class).getPicture());
-                    p.setHasPicture(shot.getValue(Post.class).getHasPicture());
-//                    if(shot.getValue(Post.class).getHasPicture()==true) {
-//                        StorageReference sr = mStorageRef.child("image/"+postID+".jpg");
-//                        sr.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                            @Override
-//                            public void onSuccess(Uri uri) {
-//                                p.setPicture(uri.toString());
-//                                p.setHasPicture(true);
-//                                Log.i("asdfg",p.getTitle()+"   "+p.getHasPicture()+"   "+p.getPicture());
-//                            }
-//                        });
-//                    }
-                    pList.add(0,p);
-                    Log.i("qwerty",p.getTitle()+"  "+p.getPicture()+"   "+p.getHasPicture());
-                }
-//                Collections.reverse(pList);
-                postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
-                listView.setAdapter(postAdapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.i("yao","didnotwork"+databaseError.toException());
-            }
-        };
+        updateListView();
         dbRef.orderByKey().addListenerForSingleValueEvent(postListener);
-
-//        Post testObj1 = new Post("a","b","c");
-//        Post testObj2 = new Post("a","b","c");
-//        pList.add(testObj1);
-//        pList.add(testObj2);
         post_new();
     }
 
@@ -155,7 +113,6 @@ public class main_activity extends AppCompatActivity
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
     }
 
     @Override
@@ -228,6 +185,32 @@ public class main_activity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+    }
+
+    private void updateListView(){
+        postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                pList.clear();
+                for(DataSnapshot shot : dataSnapshot.child("Post").getChildren()){
+                    p = new Post();
+                    String postID = shot.getKey();
+//                    p.setUserName(shot.getValue(Post.class).getUserName());
+                    p.setTitle(shot.getValue(Post.class).getTitle());
+                    p.setInput(shot.getValue(Post.class).getInput());
+                    p.setPicture(shot.getValue(Post.class).getPicture());
+                    p.setHasPicture(shot.getValue(Post.class).getHasPicture());
+                    pList.add(0,p);
+                    Log.i("qwerty",p.getTitle()+"  "+p.getPicture()+"   "+p.getHasPicture());
+                }
+                postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
+                listView.setAdapter(postAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.i("yao","didnotwork"+databaseError.toException());
+            }
+        };
     }
 
 }

@@ -9,27 +9,28 @@ import com.google.firebase.database.Exclude;
 import java.util.HashMap;
 import java.util.Map;
 
+import petcom.sydney.edu.au.petcom.UserProfiles.User;
+
 public class Post {
     private String input;
     private String title;
-    private String userName;
     private String picture;
     private boolean hasPicture;
+    private User user;
 
     public Post(){
 
     }
-    public Post(String title,String input, String userName,String picture){
+    public Post(String title,String input, String picture,User user){
         this.input=input;
         this.title=title;
-        this.userName=userName;
         this.picture = picture;
+        this.user = user;
     }
 
-    public Post(String title,String input, String userName){
+    public Post(String title,String input, User user){
         this.input=input;
         this.title=title;
-        this.userName=userName;
     }
 
     public void setHasPicture(boolean hasPicture) {
@@ -64,12 +65,11 @@ public class Post {
         this.title = title;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setUser(User user){
+        this.user=user;
     }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public User getUser(){
+        return user;
     }
 
     @Exclude
@@ -77,7 +77,6 @@ public class Post {
         HashMap<String,Object> result = new HashMap<>();
         result.put("input",input);
         result.put("title",title);
-        result.put("userName",userName);
         result.put("hasPicture",hasPicture);
         result.put("picture",picture);
         return result;

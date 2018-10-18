@@ -1,6 +1,7 @@
 package petcom.sydney.edu.au.petcom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -43,9 +45,17 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 ImageView picView = (ImageView)convertView.findViewById(R.id.moments_pic);
                 picView.setVisibility(View.GONE);
             }
-            userName.setText(p.getUserName());
+//            userName.setText(p.getUserName());
             title.setText(p.getTitle());
             body.setText(p.getInput());
+            LinearLayout singlePost = (LinearLayout)convertView.findViewById(R.id.single_post);
+            singlePost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), replyPage.class);
+                    getContext().startActivity(intent);
+                }
+            });
         }
         return convertView;
     }

@@ -55,6 +55,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import petcom.sydney.edu.au.petcom.UserProfiles.User;
+
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 
@@ -78,6 +80,8 @@ public class post_new extends AppCompatActivity {
     Bitmap selectedPic;
     String photoFileName;
     String key;
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,12 +96,13 @@ public class post_new extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         Button publishBtn = (Button) findViewById(R.id.publish_btn);
-        dbRef.child("User").child(u.getUid()).child("UserName").addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.child("User").child(u.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userName = dataSnapshot.getValue(String.class);
+               user=new User();
+               user.setUserName(dataSnapshot.child("UserName").getValue(String.class));
+               user.setUserProfilePic(dataSnapshot.child("ProfileUrl").getValue(String.class));
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
@@ -201,11 +206,17 @@ public class post_new extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri pUri = task.getResult();
-                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), userName, pUri.toString());
+                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(),pUri.toString(),user);
                         p.setHasPicture(true);
                         Map<String,Object> postValue = p.toMap();
                         Map<String,Object> childUpdate = new HashMap<>();
                         childUpdate.put("/Post/"+key,postValue);
+
+                        Map<String,Object> userValue = user.toMap();
+                        Map<String,Object> userUpdate = new HashMap<>();
+                        userUpdate.put("/Post/"+key+"/"+u.getUid()+"/",userValue);
+                        dbRef.updateChildren(userUpdate);
+
                         dbRef.updateChildren(childUpdate);
                         Intent intent = new Intent(post_new.this, main_activity.class);
                         startActivity(intent);
@@ -214,12 +225,17 @@ public class post_new extends AppCompatActivity {
                 }
             });
         }else{
-            Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), userName);
+            Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), user);
             p.setHasPicture(false);
             Map<String,Object> postValue = p.toMap();
+            Map<String,Object> userValue = user.toMap();
+            Log.i("yaoxy007",user.getUserName()+"  "+user.getUserProfilePic());
+            Map<String,Object> userUpdate = new HashMap<>();
             Map<String,Object> childUpdate = new HashMap<>();
             childUpdate.put("/Post/"+key,postValue);
+            userUpdate.put("/Post/"+key+"/"+u.getUid()+"/",userValue);
             dbRef.updateChildren(childUpdate);
+            dbRef.updateChildren(userUpdate);
             Intent intent = new Intent(post_new.this, main_activity.class);
             startActivity(intent);
         }
