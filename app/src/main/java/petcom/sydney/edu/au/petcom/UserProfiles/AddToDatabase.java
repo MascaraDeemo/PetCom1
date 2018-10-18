@@ -56,7 +56,7 @@ public class AddToDatabase extends AppCompatActivity {
                         finish();
 
                 }else {
-                    // User is signed out
+
 
                 }
             }
