@@ -1,8 +1,10 @@
 package petcom.sydney.edu.au.petcom;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,10 +12,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -29,6 +36,14 @@ import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.internal.Constants;
+import com.google.android.gms.location.FusedLocationProviderClient;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -63,7 +78,12 @@ import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 public class post_new extends AppCompatActivity {
     protected  static final int MY_PERMISSIONS_REQUEST_READ_PHOTOS=202;
     protected  static final int MY_PERMISSIONS_REQUEST_TAKE_PHOTOS=203;
+    private static final String KEY_LOCATION = "location";
     private MarshmallowPermission permission;
+    LocationCallback mLocationCallback;
+    Location mLocation;
+    LocationManager locationManager;
+
 
     EditText editTitle;
     MultiAutoCompleteTextView editItem;
@@ -75,12 +95,21 @@ public class post_new extends AppCompatActivity {
     private StorageReference picRef;
     private File file;
     Uri file_uri;
-    String userName;
     ImageView img1;
     Bitmap selectedPic;
     String photoFileName;
     String key;
     User user;
+    LocationRequest mLocationRequest;
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(mLocation != null){
+            outState.putParcelable(KEY_LOCATION, mLocation);
+            super.onSaveInstanceState(outState);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +123,36 @@ public class post_new extends AppCompatActivity {
         u = auth.getCurrentUser();
         permission = new MarshmallowPermission(this);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria,true);
+
+
+        if (savedInstanceState != null) {
+            mLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+        }
+
+
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+                //Location Permission already granted
+
+               mLocation =  locationManager.getLastKnownLocation(provider);
+            } else {
+                //Request Location Permission
+                checkLocationPermission();
+            }
+        } else {
+            mLocation = locationManager.getLastKnownLocation(provider);
+        }
+
+
+
+
+
 
         Button publishBtn = (Button) findViewById(R.id.publish_btn);
         dbRef.child("User").child(u.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -160,6 +219,10 @@ public class post_new extends AppCompatActivity {
 
     }
 
+
+
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         img1=(ImageView)findViewById(R.id.post_new_add_img);
@@ -209,7 +272,7 @@ public class post_new extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri pUri = task.getResult();
-                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(),pUri.toString(),user);
+                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(),pUri.toString(),user, mLocation);
                         p.setHasPicture(true);
                         p.setPostID(key);
                         Map<String,Object> postValue = p.toMap();
@@ -231,7 +294,8 @@ public class post_new extends AppCompatActivity {
                 }
             });
         }else{
-            Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), user);
+            Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), user, mLocation);
+            Log.d("Sam", mLocation.getLatitude()+"");
             p.setHasPicture(false);
             p.setPostID(key);
             Map<String,Object> postValue = p.toMap();
@@ -251,6 +315,8 @@ public class post_new extends AppCompatActivity {
         }
 
     }
+
+
 
     public Uri getFileUri(String fileName, int type) {
         Uri fileUri = null;
@@ -288,4 +354,47 @@ public class post_new extends AppCompatActivity {
         }
         return fileUri;
     }
+
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new android.support.v7.app.AlertDialog.Builder(this)
+                        .setTitle("Location Permission Needed")
+                        .setMessage("This app needs the Location permission, please accept to use location functionality")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(post_new.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION );
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION );
+            }
+        }
+    }
+
+
+
+
+
 }
+

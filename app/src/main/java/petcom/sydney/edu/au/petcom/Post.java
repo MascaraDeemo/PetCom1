@@ -2,6 +2,7 @@ package petcom.sydney.edu.au.petcom;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 
 import com.google.firebase.database.Exclude;
@@ -19,21 +20,24 @@ public class Post {
     private boolean hasPicture;
     private User user;
     private Comment comment;
+    private Location location;
 
     public Post(){
 
     }
-    public Post(String title,String input, String picture,User user){
+    public Post(String title,String input, String picture,User user, Location location){
         this.input=input;
         this.title=title;
         this.picture = picture;
         this.user = user;
+        this.location = location;
     }
 
-    public Post(String title,String input, User user){
+    public Post(String title,String input, User user, Location location){
         this.input=input;
         this.title=title;
         this.user = user;
+        this.location = location;
     }
     public String getPostID() {
         return postID;
@@ -88,6 +92,17 @@ public class Post {
         this.comment = comment;
     }
 
+    public Location getLocation(){
+        return location;
+    }
+    public void setLocation(Location location){
+        this.location = location;
+    }
+
+
+    public String getLocationString(){
+        return location.getLatitude() + "," + location.getLongitude();
+    }
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String,Object> result = new HashMap<>();
@@ -96,6 +111,7 @@ public class Post {
         result.put("title",title);
         result.put("input",input);
         result.put("hasPicture",hasPicture);
+        result.put("location", location.getLatitude() +","+ location.getLongitude());
         if(hasPicture == true) {
             result.put("picture", picture);
         }else if(hasPicture == false){

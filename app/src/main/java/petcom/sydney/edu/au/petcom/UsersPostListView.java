@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +27,7 @@ public class UsersPostListView extends AppCompatActivity {
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
     FirebaseAuth firebaseAuth;
+    ArrayList<String> arrayList;
 
 
     @Override
@@ -34,15 +37,50 @@ public class UsersPostListView extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
-
         listViewUserPosts = (ListView) findViewById(R.id.listViewUserPosts);
+        arrayList = new ArrayList<>();
 
+        readData(new MyCallback() {
+            @Override
+            public void onCallback(List<String> list) {
+                Log.d("cnm", list.toString());
+                ArrayAdapter<String> adapter= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,list);
+                listViewUserPosts.setAdapter(adapter);
+            }
+        });
+
+
+
+
+    }
+
+    private void readData(MyCallback myCallback){
         final String uid = firebaseAuth.getCurrentUser().getUid();
-        final ArrayList<String> postID = new ArrayList<String>();
         databaseReference.child("User").child(uid).child("postID").addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                postID.add(dataSnapshot.getKey());
+
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    databaseReference.child("Post").child(snapshot.getKey()).child("title").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String string = dataSnapshot.getValue(String.class);
+                            arrayList.add(string);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+
+
+
+
             }
 
             @Override
@@ -50,13 +88,13 @@ public class UsersPostListView extends AppCompatActivity {
 
             }
         });
-        for(String i: postID){
-            Log.d("qwer", "qwer"+ i);
-        }
 
     }
 
-
-
+    private interface MyCallback{
+        void onCallback(List<String> list);
+    }
 
 }
+
+
