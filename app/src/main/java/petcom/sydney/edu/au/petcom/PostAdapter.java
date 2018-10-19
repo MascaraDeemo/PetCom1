@@ -104,7 +104,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
                     //Location Permission already granted
 
                     location =  locationManager.getLastKnownLocation(provider);
-                    Log.d("Sam", location.getLatitude()+"");
+//                    Log.d("Sam", location.getLatitude()+"");
                     myLocation = new LatLng(location.getLatitude(),location.getLongitude());
                 } else {
 
