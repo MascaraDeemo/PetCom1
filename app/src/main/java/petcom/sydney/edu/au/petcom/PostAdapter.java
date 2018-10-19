@@ -86,10 +86,10 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 @Override
                 public void onClick(View v) {
 
-<<<<<<< HEAD
+
 //                    Intent intent = new Intent(getContext(), replyPage.class);
 //                    getContext().startActivity(intent);
-=======
+
 
                 }
             });
@@ -97,7 +97,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
             commentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
 
                     Intent intent = new Intent(getContext(), replyPage.class);
                     getContext().startActivity(intent);

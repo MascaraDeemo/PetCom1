@@ -1,6 +1,5 @@
 
-<<<<<<< HEAD
-=======
+
 //package petcom.sydney.edu.au.petcom;
 //
 //import android.os.Bundle;
@@ -43,7 +42,6 @@
 //
 //}
 
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
 package petcom.sydney.edu.au.petcom;
 
 import android.content.Intent;
@@ -135,7 +133,3 @@ public class replyPage extends AppCompatActivity {
         });
     }
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64

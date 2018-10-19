@@ -82,7 +82,6 @@ public class post_new extends AppCompatActivity {
     protected  static final int MY_PERMISSIONS_REQUEST_TAKE_PHOTOS=203;
     private static final String KEY_LOCATION = "location";
     private MarshmallowPermission permission;
-    LocationCallback mLocationCallback;
     Location mLocation;
     LocationManager locationManager;
 
@@ -102,8 +101,7 @@ public class post_new extends AppCompatActivity {
     String photoFileName;
     String key;
     User user;
-<<<<<<< HEAD
-    LocationRequest mLocationRequest;
+
 
 
     @Override
@@ -114,10 +112,9 @@ public class post_new extends AppCompatActivity {
         }
     }
 
-=======
     Post p;
     StopWatch stopWatch;
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +127,7 @@ public class post_new extends AppCompatActivity {
         u = auth.getCurrentUser();
         permission = new MarshmallowPermission(this);
         mStorageRef = FirebaseStorage.getInstance().getReference();
-<<<<<<< HEAD
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria,true);
@@ -161,9 +158,9 @@ public class post_new extends AppCompatActivity {
 
 
 
-=======
+
         p = new Post();
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
 
         Button publishBtn = (Button) findViewById(R.id.publish_btn);
         dbRef.child("User").child(u.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -310,14 +307,13 @@ public class post_new extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri pUri = task.getResult();
-<<<<<<< HEAD
+
                         Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(),pUri.toString(),user, mLocation);
-=======
+
                         p.setTitle(editTitle.getText().toString());
                         p.setInput(editItem.getText().toString());
                         p.setPicture(pUri.toString());
                         p.setUser(user);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
                         p.setHasPicture(true);
                         p.setPostID(key);
                         Map<String,Object> postValue = p.toMap();
@@ -339,14 +335,14 @@ public class post_new extends AppCompatActivity {
                 }
             });
         }else{
-<<<<<<< HEAD
+
             Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), user, mLocation);
             Log.d("Sam", mLocation.getLatitude()+"");
-=======
+
             p.setTitle(editTitle.getText().toString());
             p.setInput(editItem.getText().toString());
             p.setUser(user);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
             p.setHasPicture(false);
             p.setPostID(key);
             Map<String,Object> postValue = p.toMap();

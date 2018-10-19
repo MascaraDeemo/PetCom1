@@ -24,12 +24,11 @@ public class Post {
     private boolean hasPicture;
     private User user;
     private Comment comment;
-<<<<<<< HEAD
     private Location location;
-=======
+
     private String startdate;
     private String enddate;
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
 
     public Post(){
         Date d = new Date();
@@ -41,26 +40,26 @@ public class Post {
         this.title=title;
         this.picture = picture;
         this.user = user;
-<<<<<<< HEAD
+
         this.location = location;
-=======
+
         Date d = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
         this.startdate = ft.format(d);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
     }
 
     public Post(String title,String input, User user, Location location){
         this.input=input;
         this.title=title;
         this.user = user;
-<<<<<<< HEAD
+
         this.location = location;
-=======
+
         Date d = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
         this.startdate = ft.format(d);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
     }
     public String getPostID() {
         return postID;

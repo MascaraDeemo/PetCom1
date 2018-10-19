@@ -228,10 +228,10 @@ public class main_activity extends AppCompatActivity
                     p.setInput(shot.getValue(Post.class).getInput());
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
-<<<<<<< HEAD
+
                     pList.add(0,p);
 
-=======
+
 
                     p.setStartdate(shot.getValue(Post.class).getStartdate());
 
@@ -248,7 +248,6 @@ public class main_activity extends AppCompatActivity
                         e.printStackTrace();
                     }
                     postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
                 }
                 listView.setAdapter(postAdapter);
             }
