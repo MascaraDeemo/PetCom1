@@ -219,34 +219,22 @@ public class main_activity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 pList.clear();
-                for(DataSnapshot shot : dataSnapshot.child("Post").getChildren()) {
+                for (DataSnapshot shot : dataSnapshot.child("Post").getChildren()) {
                     p = new Post();
                     String postID = shot.getKey();
+                    p.setPostID(postID);
+                    p.setUser(shot.getValue(Post.class).getUser());
+                    p.setTitle(shot.getValue(Post.class).getTitle());
+                    p.setInput(shot.getValue(Post.class).getInput());
+                    p.setPicture(shot.getValue(Post.class).getPicture());
+                    p.setHasPicture(shot.getValue(Post.class).getHasPicture());
+                    p.setStartdate(shot.getValue(Post.class).getStartdate());
+                    p.setEnddateInMain(shot.child("end_date").getValue(String.class));
 
-                    SimpleDateFormat ft = new SimpleDateFormat();
-                    try {
-                        Date future = ft.parse(shot.child("end_date").getValue(String.class));
-                        Date now = new Date();
-                        if (future.before(now)) {
-                            continue;
-                        }else{
-                            p.setPostID(postID);
-                            p.setUser(shot.getValue(Post.class).getUser());
-                            p.setTitle(shot.getValue(Post.class).getTitle());
-                            p.setInput(shot.getValue(Post.class).getInput());
-                            p.setPicture(shot.getValue(Post.class).getPicture());
-                            p.setHasPicture(shot.getValue(Post.class).getHasPicture());
-                            p.setStartdate(shot.getValue(Post.class).getStartdate());
-                            p.setEnddateInMain(shot.child("end_date").getValue(String.class));
-                            pList.add(0, p);
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
+                    pList.add(p);
+                    postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
+                    listView.setAdapter(postAdapter);
                 }
-                postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
-                listView.setAdapter(postAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

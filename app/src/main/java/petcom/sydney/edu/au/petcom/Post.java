@@ -24,44 +24,18 @@ public class Post {
     private boolean hasPicture;
     private User user;
     private Comment comment;
-<<<<<<< HEAD
-    private Location location;
-=======
+    private String locationString;
+
     private String startdate;
     private String enddate;
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
 
     public Post(){
         Date d = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
         this.startdate = ft.format(d);
     }
-    public Post(String title,String input, String picture,User user, Location location){
-        this.input=input;
-        this.title=title;
-        this.picture = picture;
-        this.user = user;
-<<<<<<< HEAD
-        this.location = location;
-=======
-        Date d = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
-        this.startdate = ft.format(d);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
-    }
 
-    public Post(String title,String input, User user, Location location){
-        this.input=input;
-        this.title=title;
-        this.user = user;
-<<<<<<< HEAD
-        this.location = location;
-=======
-        Date d = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
-        this.startdate = ft.format(d);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
-    }
     public String getPostID() {
         return postID;
     }
@@ -135,16 +109,20 @@ public class Post {
         return enddate;
     }
 
-    public Location getLocation(){
-        return location;
-    }
-    public void setLocation(Location location){
-        this.location = location;
-    }
+//    public Location getLocation(){
+//        return location;
+//    }
+//    public void setLocation(Location location){
+//        this.location = location;
+//    }
 
 
     public String getLocationString(){
-        return location.getLatitude() + "," + location.getLongitude();
+        return locationString;
+    }
+
+    public void setLocationString(Location location){
+        this.locationString = location.getLatitude()+","+location.getLongitude();
     }
     @Exclude
     public Map<String, Object> toMap(){
@@ -156,7 +134,7 @@ public class Post {
         result.put("start_date",startdate);
         result.put("end_date",enddate);
         result.put("hasPicture",hasPicture);
-        result.put("location", location.getLatitude() +","+ location.getLongitude());
+        result.put("location", locationString);
         if(hasPicture == true) {
             result.put("picture", picture);
         }else if(hasPicture == false){
