@@ -1,6 +1,52 @@
 
+<<<<<<< HEAD
+=======
+//package petcom.sydney.edu.au.petcom;
+//
+//import android.os.Bundle;
+//import android.support.v7.app.AppCompatActivity;
+//import android.view.View;
+//import android.widget.Button;
+//import android.widget.EditText;
+//
+//import com.google.firebase.auth.FirebaseAuth;
+//
+//public class replyPage extends AppCompatActivity {
+//    EditText replyMsg;
+//    Button cancelBtn;
+//    Button replyBtn;
+//    private FirebaseAuth uAuth;
+//    private
+//    @Override
+//    protected void onCreate(Bundle savedInstanceBundle){
+//        super.onCreate(savedInstanceBundle);
+//        setContentView(R.layout.replay_page);
+//
+//        replyMsg= (EditText)findViewById(R.id.edit_msg);
+//        cancelBtn = (Button)findViewById(R.id.reply_cancel_btn);
+//        replyBtn = (Button)findViewById(R.id.reply_btn);
+//
+//        cancelBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
+//
+//        replyBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//    }
+//
+//}
+
+>>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
 package petcom.sydney.edu.au.petcom;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -83,9 +129,13 @@ public class replyPage extends AppCompatActivity {
                 Map<String,Object> commentUpdate = new HashMap<>();
                 commentUpdate.put("/Post/"+postKey+"/comment/"+commentkey,commentValue);
                 dbRef.updateChildren(commentUpdate);
-
+                Intent intent = new Intent(replyPage.this, main_activity.class);
+                startActivity(intent);
             }
         });
     }
-
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64

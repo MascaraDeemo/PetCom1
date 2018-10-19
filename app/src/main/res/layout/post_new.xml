@@ -14,7 +14,42 @@
         android:ems="10"
         android:hint="type your content here"
         android:textColorHint="#18c8f0" />
+    <RadioGroup
+        android:id="@+id/select_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <RadioButton
+            android:id="@+id/five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5 min" />
+
+        <RadioButton
+            android:id="@+id/ten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 10 min" />
+
+        <RadioButton
+            android:id="@+id/thirty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30 min" />
+
+        <RadioButton
+            android:id="@+id/one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 hour" />
+
+        <RadioButton
+            android:id="@+id/two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 hours" />
+    </RadioGroup>
     <EditText
         android:id="@+id/post_set_title"
         android:layout_width="151dp"
@@ -53,7 +88,8 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/post_set_title"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="134dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="0dp"
         android:text="Add Pic" />
 
 

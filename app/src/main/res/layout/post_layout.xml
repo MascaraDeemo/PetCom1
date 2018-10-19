@@ -80,12 +80,12 @@
                 android:layout_width="93dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Comments"
+                android:text="Time"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/comment_list"
+                android:id="@+id/time_text"
                 android:layout_width="111dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

@@ -7,6 +7,10 @@ import android.net.Uri;
 
 import com.google.firebase.database.Exclude;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,24 +24,43 @@ public class Post {
     private boolean hasPicture;
     private User user;
     private Comment comment;
+<<<<<<< HEAD
     private Location location;
+=======
+    private String startdate;
+    private String enddate;
+>>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
 
     public Post(){
-
+        Date d = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
+        this.startdate = ft.format(d);
     }
     public Post(String title,String input, String picture,User user, Location location){
         this.input=input;
         this.title=title;
         this.picture = picture;
         this.user = user;
+<<<<<<< HEAD
         this.location = location;
+=======
+        Date d = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
+        this.startdate = ft.format(d);
+>>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
     }
 
     public Post(String title,String input, User user, Location location){
         this.input=input;
         this.title=title;
         this.user = user;
+<<<<<<< HEAD
         this.location = location;
+=======
+        Date d = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
+        this.startdate = ft.format(d);
+>>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
     }
     public String getPostID() {
         return postID;
@@ -91,6 +114,26 @@ public class Post {
     public void setComment(Comment comment){
         this.comment = comment;
     }
+    public void setStartdate(String date){
+        this.startdate = date;
+    }
+    public String getStartdate(){
+        return startdate;
+    }
+    public void setEnddate(long time) throws ParseException {
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
+        Date tempD = ft.parse(startdate);
+        long endTime = tempD.getTime()+time;
+        Date end = new Date(endTime);
+        this.enddate = ft.format(end);
+    }
+
+    public void setEnddateInMain(String enddate){
+        this.enddate = enddate;
+    }
+    public String getEnddate(){
+        return enddate;
+    }
 
     public Location getLocation(){
         return location;
@@ -110,6 +153,8 @@ public class Post {
         result.put("postID",postID);
         result.put("title",title);
         result.put("input",input);
+        result.put("start_date",startdate);
+        result.put("end_date",enddate);
         result.put("hasPicture",hasPicture);
         result.put("location", location.getLatitude() +","+ location.getLongitude());
         if(hasPicture == true) {
