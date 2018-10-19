@@ -130,7 +130,24 @@
                 android:textColor="#fff"
                 android:textSize="8sp" />
 
+<<<<<<< HEAD
         </LinearLayout>
+=======
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+
+        <Button
+            android:id="@+id/map_btn"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/buttonstyle_post"
+            android:text="Comment"
+            android:textColor="#fff"
+            android:textSize="10sp" />
+>>>>>>> 38a9e48d688d238a1b3f8d972d7fd2f9ad776a35
 
 
     </LinearLayout>

@@ -14,8 +14,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,10 +30,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDoXg3jhs56TH8MAws5wUIbrUtZ46RwuWw" />
-
+            android:value="AIzaSyCSN4g2qIa8QIe0wNkd4vR-uyRA7d0KDnU" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
@@ -72,6 +70,7 @@
         <activity android:name=".replyPage" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
         <activity android:name=".UsersPostListView"></activity>
+        <activity android:name=".showMap"/>
 
         <service android:name=".notifications.MyFirebaseMessagingService">
             <intent-filter>
