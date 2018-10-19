@@ -99,7 +99,6 @@ public class main_activity extends AppCompatActivity
 
         updateListView();
         dbRef.orderByKey().addListenerForSingleValueEvent(postListener);
-        post_new();
     }
 
     @Override
@@ -159,8 +158,9 @@ public class main_activity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.calendar) {
+            Intent intent = new Intent(main_activity.this, post_new.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -205,17 +205,7 @@ public class main_activity extends AppCompatActivity
         return true;
     }
 
-    private void post_new(){
 
-        FloatingActionButton postNew = (FloatingActionButton)findViewById(R.id.fab);
-        postNew.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(main_activity.this, post_new.class);
-                startActivity(intent);
-            }
-        });
-    }
 
     private void updateListView(){
         postListener = new ValueEventListener() {

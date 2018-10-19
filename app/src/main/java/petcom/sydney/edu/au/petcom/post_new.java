@@ -74,7 +74,7 @@ public class post_new extends AppCompatActivity {
     private StorageReference picRef;
     private File file;
     Uri file_uri;
-    ImageView img1;
+    ImageView post_new_add_img;
     Bitmap selectedPic;
     String photoFileName;
     String key;
@@ -89,6 +89,7 @@ public class post_new extends AppCompatActivity {
         setContentView(R.layout.post_new);
         editTitle = (EditText) findViewById(R.id.post_set_title);
         editItem = (MultiAutoCompleteTextView) findViewById(R.id.post_set_item);
+        post_new_add_img=(ImageView)findViewById(R.id.post_new_add_img) ;
         db = FirebaseDatabase.getInstance();
         dbRef = db.getReference();
         auth = FirebaseAuth.getInstance();
@@ -168,8 +169,7 @@ public class post_new extends AppCompatActivity {
             }
         });
 
-        Button addPic = (Button) findViewById(R.id.add_pic);
-        addPic.setOnClickListener(new View.OnClickListener() {
+        post_new_add_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(post_new.this);
@@ -218,7 +218,7 @@ public class post_new extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        img1=(ImageView)findViewById(R.id.post_new_add_img);
+        post_new_add_img=(ImageView)findViewById(R.id.post_new_add_img);
 
         if(requestCode == MY_PERMISSIONS_REQUEST_READ_PHOTOS){
             if(resultCode == RESULT_OK){
@@ -237,10 +237,10 @@ public class post_new extends AppCompatActivity {
                 selectedPic = BitmapFactory.decodeFile(file.getAbsolutePath());
             }
         }
-        img1.setDrawingCacheEnabled(true);
-        img1.buildDrawingCache();
-        img1.setImageBitmap(selectedPic);
-        img1.setVisibility(View.VISIBLE);
+        post_new_add_img.setDrawingCacheEnabled(true);
+        post_new_add_img.buildDrawingCache();
+        post_new_add_img.setImageBitmap(selectedPic);
+        post_new_add_img.setVisibility(View.VISIBLE);
     }
 
     private void writeNewPost(){
