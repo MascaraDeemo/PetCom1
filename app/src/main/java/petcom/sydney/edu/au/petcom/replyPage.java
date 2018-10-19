@@ -1,5 +1,6 @@
 package petcom.sydney.edu.au.petcom;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -81,9 +82,9 @@ public class replyPage extends AppCompatActivity {
                 Map<String,Object> commentUpdate = new HashMap<>();
                 commentUpdate.put("/Post/"+postKey+"/comment/"+commentkey,commentValue);
                 dbRef.updateChildren(commentUpdate);
-
+                Intent intent = new Intent(replyPage.this, main_activity.class);
+                startActivity(intent);
             }
         });
     }
-
 }

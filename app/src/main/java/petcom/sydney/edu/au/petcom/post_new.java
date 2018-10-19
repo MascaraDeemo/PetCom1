@@ -27,6 +27,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -49,6 +51,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,7 +61,6 @@ import java.util.Map;
 import petcom.sydney.edu.au.petcom.UserProfiles.User;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
-
 
 public class post_new extends AppCompatActivity {
     protected  static final int MY_PERMISSIONS_REQUEST_READ_PHOTOS=202;
@@ -81,7 +83,8 @@ public class post_new extends AppCompatActivity {
     String photoFileName;
     String key;
     User user;
-
+    Post p;
+    StopWatch stopWatch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +97,7 @@ public class post_new extends AppCompatActivity {
         u = auth.getCurrentUser();
         permission = new MarshmallowPermission(this);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        p = new Post();
 
         Button publishBtn = (Button) findViewById(R.id.publish_btn);
         dbRef.child("User").child(u.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -106,6 +110,35 @@ public class post_new extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        RadioGroup btngroup = (RadioGroup)findViewById(R.id.select_time);
+        btngroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            RadioButton btn5 = (RadioButton)findViewById(R.id.five);
+            RadioButton btn10 = (RadioButton)findViewById(R.id.ten);
+            RadioButton btn30 = (RadioButton)findViewById(R.id.thirty);
+            RadioButton btn1 = (RadioButton)findViewById(R.id.one);
+            RadioButton btn2 = (RadioButton)findViewById(R.id.two);
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                long addedTime = 0;
+                if(btn5.getId() == checkedId){
+                    addedTime = 5;
+                }else if(btn10.getId() == checkedId){
+                    addedTime = 10;
+                }else if(btn30.getId() == checkedId){
+                    addedTime = 30;
+                }else if (btn1.getId() == checkedId){
+                    addedTime = 60;
+                }else if(btn2.getId() == checkedId){
+                    addedTime = 120;
+                }
+                try {
+                    p.setEnddate(addedTime*1000*60);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -190,8 +223,6 @@ public class post_new extends AppCompatActivity {
     private void writeNewPost(){
         key = dbRef.child("Post").push().getKey();
 
-        String user_post_id_key = dbRef.child("User").child(u.getUid()).push().getKey();
-
         if(file_uri!=null) {
 
             picRef = mStorageRef.child("image/"+key +".jpg");
@@ -209,7 +240,10 @@ public class post_new extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri pUri = task.getResult();
-                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(),pUri.toString(),user);
+                        p.setTitle(editTitle.getText().toString());
+                        p.setInput(editItem.getText().toString());
+                        p.setPicture(pUri.toString());
+                        p.setUser(user);
                         p.setHasPicture(true);
                         p.setPostID(key);
                         Map<String,Object> postValue = p.toMap();
@@ -231,7 +265,9 @@ public class post_new extends AppCompatActivity {
                 }
             });
         }else{
-            Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), user);
+            p.setTitle(editTitle.getText().toString());
+            p.setInput(editItem.getText().toString());
+            p.setUser(user);
             p.setHasPicture(false);
             p.setPostID(key);
             Map<String,Object> postValue = p.toMap();

@@ -42,8 +42,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StreamDownloadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import petcom.sydney.edu.au.petcom.UserProfiles.LoginActivity;
 import petcom.sydney.edu.au.petcom.UserProfiles.MainActivity;
@@ -225,10 +228,21 @@ public class main_activity extends AppCompatActivity
                     p.setInput(shot.getValue(Post.class).getInput());
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
-                    pList.add(0,p);
+                    p.setStartdate(shot.getValue(Post.class).getStartdate());
 
-                }
-                postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
+                    p.setEnddateInMain(shot.child("end_date").getValue(String.class));
+                    SimpleDateFormat ft = new SimpleDateFormat();
+                    try {
+                        Date future = ft.parse(shot.child("end_date").getValue(String.class));
+                        Date now = new Date();
+                        if(future.before(now)){
+
+                        }
+                    pList.add(0,p);
+                } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout,pList);
                 listView.setAdapter(postAdapter);
             }
             @Override
