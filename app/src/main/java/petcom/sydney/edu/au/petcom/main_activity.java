@@ -96,18 +96,6 @@ public class main_activity extends AppCompatActivity
         pList=new ArrayList<Post>();
         db=FirebaseDatabase.getInstance();
         dbRef = db.getReference();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(main_activity.this);
-                builder.setTitle("Attend Event").setMessage("Will You Attend This Event?").setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-            }
-        });
 
         updateListView();
         dbRef.orderByKey().addListenerForSingleValueEvent(postListener);
