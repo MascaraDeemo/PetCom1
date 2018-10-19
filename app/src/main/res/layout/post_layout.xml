@@ -122,7 +122,7 @@
 
             <Button
                 android:id="@+id/map_btn"
-                android:layout_width="77dp"
+                android:layout_width="63dp"
                 android:layout_height="25dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/buttonstyle_post"
@@ -132,13 +132,14 @@
 
         </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right">
 
-
     </LinearLayout>
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
