@@ -54,7 +54,7 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".post_new"
-            android:label="Post new moments" />
+            android:label="Post new events" />
         <activity android:name=".UserProfiles.AddToDatabase" />
         <activity android:name=".UserProfiles.userProfile" />
         <activity android:name=".UserProfiles.Registration"
