@@ -1,5 +1,6 @@
 package petcom.sydney.edu.au.petcom;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.shape.RoundedCornerTreatment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -94,6 +97,18 @@ public class main_activity extends AppCompatActivity
         pList=new ArrayList<Post>();
         db=FirebaseDatabase.getInstance();
         dbRef = db.getReference();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(main_activity.this);
+                builder.setTitle("Attend Event").setMessage("Will You Attend This Event?").setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+            }
+        });
 
         updateListView();
         dbRef.orderByKey().addListenerForSingleValueEvent(postListener);
@@ -232,7 +247,7 @@ public class main_activity extends AppCompatActivity
                     p.setStartdate(shot.getValue(Post.class).getStartdate());
                     p.setEnddateInMain(shot.child("end_date").getValue(String.class));
 
-                    pList.add(p);
+                    pList.add(0,p);
                     postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
                     listView.setAdapter(postAdapter);
                 }
@@ -243,5 +258,7 @@ public class main_activity extends AppCompatActivity
             }
         };
     }
+
+
 
 }

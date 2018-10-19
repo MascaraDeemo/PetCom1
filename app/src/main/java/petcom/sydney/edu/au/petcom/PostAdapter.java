@@ -129,7 +129,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
             title.setText(p.getTitle());
             body.setText(p.getInput());
             LinearLayout singlePost = (LinearLayout)convertView.findViewById(R.id.single_post);
-            distance.setText(calculateDistance(posterLocation,myLocation) + "m");
+            distance.setText(calculateDistance(posterLocation,myLocation)*1000 + "m");
             singlePost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
