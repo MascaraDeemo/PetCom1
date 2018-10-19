@@ -1,5 +1,6 @@
 package petcom.sydney.edu.au.petcom;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -20,15 +21,16 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import petcom.sydney.edu.au.petcom.UserProfiles.userInfoPage;
+
 public class UsersPostListView extends AppCompatActivity {
 
     ListView listViewUserPosts;
-
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
     FirebaseAuth firebaseAuth;
-    ArrayList<String> arrayList;
-
+    ArrayList<userInfoPage> userList;
+    userInfoPage userPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,63 +40,56 @@ public class UsersPostListView extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         listViewUserPosts = (ListView) findViewById(R.id.listViewUserPosts);
-        arrayList = new ArrayList<>();
-
-        readData(new MyCallback() {
-            @Override
-            public void onCallback(List<String> list) {
-                Log.d("cnm", list.toString());
-                ArrayAdapter<String> adapter= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,list);
-                listViewUserPosts.setAdapter(adapter);
-            }
-        });
-
-
-
-
     }
 
-    private void readData(MyCallback myCallback){
+    @Override
+    protected void onStart() {
+        super.onStart();
+        final ArrayList<String> postID = new ArrayList<String>();
         final String uid = firebaseAuth.getCurrentUser().getUid();
-        databaseReference.child("User").child(uid).child("postID").addListenerForSingleValueEvent(new ValueEventListener() {
+        userList = new ArrayList<userInfoPage>();
 
+        databaseReference.child("User").child(uid).child("postID").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    databaseReference.child("Post").child(snapshot.getKey()).child("title").addListenerForSingleValueEvent(new ValueEventListener() {
+                for(DataSnapshot shot : dataSnapshot.getChildren()){
+//                    Log.i("Edward",shot.getKey());
+//                    userPost.setIdKey(shot.getKey().toString());
+                    databaseReference.child("Post").child(shot.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String string = dataSnapshot.getValue(String.class);
-                            arrayList.add(string);
+                        public void onDataChange(@NonNull DataSnapshot s) {
+
+                            userPost = new userInfoPage();
+                            userPost.setTitle(s.child("title").getValue(String.class));
+                            Log.i("Edward",s.child("title").getValue(String.class));
+                            userList.add(0, userPost);
+
+                            ArrayList<String> myList = new ArrayList<>();
+                            for(userInfoPage i: userList){
+                                myList.add(0,i.getTitle());
+                                Log.i("Edward",i.getTitle()+"");
+                            }
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,myList);
+                            listViewUserPosts.setAdapter(adapter);
 
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
                         }
                     });
                 }
-
-
-
-
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
 
     }
-
-    private interface MyCallback{
-        void onCallback(List<String> list);
-    }
-
 }
-
-
+//
+//    ArrayAdapter<String> adapter =
+//            new ArrayAdapter<String>(getApplicationContext(),
+//                    android.R.layout.simple_list_item_1,arrayList);
+//    Log.i("Edward",arrayList.size()+"");
+//    listViewUserPosts.setAdapter(adapter);
+//

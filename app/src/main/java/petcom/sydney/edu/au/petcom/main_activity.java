@@ -235,11 +235,10 @@ public class main_activity extends AppCompatActivity
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
                     p.setDuration(shot.getValue(Post.class).getDuration());
-
                     pList.add(0,p);
-                    postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
-                    listView.setAdapter(postAdapter);
                 }
+                postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
+                listView.setAdapter(postAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
