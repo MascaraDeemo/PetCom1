@@ -24,11 +24,12 @@ public class Post {
     private boolean hasPicture;
     private User user;
     private Comment comment;
+
     private Location location;
 
     private String startdate;
     private String enddate;
-
+    private String locationString;
 
     public Post(){
         Date d = new Date();
@@ -53,7 +54,6 @@ public class Post {
         this.input=input;
         this.title=title;
         this.user = user;
-
         this.location = location;
 
         Date d = new Date();
@@ -144,6 +144,9 @@ public class Post {
 
     public String getLocationString(){
         return location.getLatitude() + "," + location.getLongitude();
+    }
+    public void setLocationString(Location location){
+        locationString = location.getLatitude() +"," + location.getLongitude();
     }
     @Exclude
     public Map<String, Object> toMap(){

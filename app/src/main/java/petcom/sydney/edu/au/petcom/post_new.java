@@ -123,9 +123,6 @@ public class post_new extends AppCompatActivity {
         String provider = locationManager.getBestProvider(criteria,true);
 
 
-        if (savedInstanceState != null) {
-            mLocation = savedInstanceState.getParcelable(KEY_LOCATION);
-        }
 
 
 
