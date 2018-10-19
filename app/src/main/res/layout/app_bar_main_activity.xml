@@ -13,10 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+        android:layout_alignEnd="@+id/list_view_main"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginBottom="69dp"
         app:srcCompat="@drawable/ic_post" />
 
     <android.support.v7.widget.Toolbar
@@ -24,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:titleTextColor="@color/common_google_signin_btn_text_dark_pressed" />
 
     <ListView
         android:id="@+id/list_view_main"

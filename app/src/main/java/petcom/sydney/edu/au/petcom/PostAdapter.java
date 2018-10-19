@@ -86,12 +86,14 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 @Override
                 public void onClick(View v) {
 
+
                 }
             });
             Button commentBtn = (Button)convertView.findViewById(R.id.comment_btn);
             commentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Intent intent = new Intent(getContext(), replyPage.class);
                     getContext().startActivity(intent);
                 }
