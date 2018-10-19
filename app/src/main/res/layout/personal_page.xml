@@ -21,13 +21,13 @@
             <ImageView
                 android:id="@+id/user_pic"
                 android:layout_width="110dp"
-                android:layout_height="101dp"
+                android:layout_height="110dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="45dp"
                 android:src="@drawable/logo_400" />
 
             <TextView
-                android:id="@+id/username"
+                android:id="@+id/usernameInProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -46,6 +46,7 @@
             android:layout_marginBottom="35dp">
 
             <LinearLayout
+                android:id="@+id/postLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="85dp"
                 android:orientation="horizontal"
@@ -61,14 +62,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Photos"
+                        android:text="Posts"
                         android:textSize="20sp" />
 
                     <TextView
+                        android:id="@+id/textViewPostCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
-                        android:text="125"
+                        android:text="0"
                         android:textColor="@color/startblue"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -92,7 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
-                        android:text="1205"
+                        android:text="0"
                         android:textColor="@color/startblue"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -116,7 +118,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
-                        android:text="360"
+                        android:text="0"
                         android:textColor="@color/startblue"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -147,11 +149,12 @@
                 android:src="@drawable/ic_email" />
 
             <TextView
+                android:id="@+id/textViewUserEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="Email Address: 123@gmail.com"
+                android:text=""
                 android:textStyle="bold" />
         </LinearLayout>
 
