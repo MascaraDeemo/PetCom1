@@ -53,7 +53,7 @@
             android:label="MainActivity" />
         <activity
             android:name=".main_activity"
-            android:label="Pet Com"
+            android:label="Nearby Event"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingsActivity"

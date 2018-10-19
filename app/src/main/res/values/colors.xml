@@ -12,4 +12,5 @@
     <color name="startblue">#09c6df</color>
     <color name="endblue">#0bcce6</color>
     <color name="login_green">#25f299</color>
+    <color name="back_ground">#ffffff</color>
 </resources>

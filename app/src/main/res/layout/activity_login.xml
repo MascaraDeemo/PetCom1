@@ -53,12 +53,11 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/emailSignInButton"
-            android:layout_width="319dp"
+            android:layout_width="match_parent"
             android:layout_height="31dp"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/buttonstyle"
-            android:padding="5dp"
             android:text="Login"
             android:textColor="@android:color/white" />
 
