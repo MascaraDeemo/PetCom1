@@ -310,14 +310,12 @@ public class post_new extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri pUri = task.getResult();
-<<<<<<< HEAD
-                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(),pUri.toString(),user, mLocation);
-=======
+
                         p.setTitle(editTitle.getText().toString());
                         p.setInput(editItem.getText().toString());
                         p.setPicture(pUri.toString());
                         p.setUser(user);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
                         p.setHasPicture(true);
                         p.setPostID(key);
                         Map<String,Object> postValue = p.toMap();
@@ -339,14 +337,9 @@ public class post_new extends AppCompatActivity {
                 }
             });
         }else{
-<<<<<<< HEAD
-            Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), user, mLocation);
-            Log.d("Sam", mLocation.getLatitude()+"");
-=======
             p.setTitle(editTitle.getText().toString());
             p.setInput(editItem.getText().toString());
             p.setUser(user);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
             p.setHasPicture(false);
             p.setPostID(key);
             Map<String,Object> postValue = p.toMap();

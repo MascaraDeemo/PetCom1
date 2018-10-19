@@ -51,7 +51,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
             TextView body = (TextView) convertView.findViewById(R.id.postbody);
             TextView uName = (TextView) convertView.findViewById(R.id.username_post);
             timeText = (TextView) convertView.findViewById(R.id.time_text);
-            Log.i("yaoxy", p.getEnddate() + "");
 
             SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
             try {
@@ -86,21 +85,13 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 @Override
                 public void onClick(View v) {
 
-<<<<<<< HEAD
-//                    Intent intent = new Intent(getContext(), replyPage.class);
-//                    getContext().startActivity(intent);
-=======
-
                 }
             });
             Button commentBtn = (Button)convertView.findViewById(R.id.comment_btn);
             commentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
 
-                    Intent intent = new Intent(getContext(), replyPage.class);
-                    getContext().startActivity(intent);
                 }
             });
         }

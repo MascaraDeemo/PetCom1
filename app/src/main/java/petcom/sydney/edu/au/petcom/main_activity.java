@@ -222,34 +222,30 @@ public class main_activity extends AppCompatActivity
                 for(DataSnapshot shot : dataSnapshot.child("Post").getChildren()) {
                     p = new Post();
                     String postID = shot.getKey();
-                    p.setPostID(postID);
-                    p.setUser(shot.getValue(Post.class).getUser());
-                    p.setTitle(shot.getValue(Post.class).getTitle());
-                    p.setInput(shot.getValue(Post.class).getInput());
-                    p.setPicture(shot.getValue(Post.class).getPicture());
-                    p.setHasPicture(shot.getValue(Post.class).getHasPicture());
-<<<<<<< HEAD
-                    pList.add(0,p);
 
-=======
-
-                    p.setStartdate(shot.getValue(Post.class).getStartdate());
-
-                    p.setEnddateInMain(shot.child("end_date").getValue(String.class));
                     SimpleDateFormat ft = new SimpleDateFormat();
                     try {
                         Date future = ft.parse(shot.child("end_date").getValue(String.class));
                         Date now = new Date();
                         if (future.before(now)) {
-
+                            continue;
+                        }else{
+                            p.setPostID(postID);
+                            p.setUser(shot.getValue(Post.class).getUser());
+                            p.setTitle(shot.getValue(Post.class).getTitle());
+                            p.setInput(shot.getValue(Post.class).getInput());
+                            p.setPicture(shot.getValue(Post.class).getPicture());
+                            p.setHasPicture(shot.getValue(Post.class).getHasPicture());
+                            p.setStartdate(shot.getValue(Post.class).getStartdate());
+                            p.setEnddateInMain(shot.child("end_date").getValue(String.class));
+                            pList.add(0, p);
                         }
-                        pList.add(0, p);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
->>>>>>> c2fd9566301fc3646c7b8a1ba47f8e11c68e3c64
+
                 }
+                postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
                 listView.setAdapter(postAdapter);
             }
             @Override
