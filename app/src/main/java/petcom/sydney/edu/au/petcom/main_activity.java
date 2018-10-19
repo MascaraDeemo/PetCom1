@@ -219,7 +219,7 @@ public class main_activity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 pList.clear();
-                for(DataSnapshot shot : dataSnapshot.child("Post").getChildren()) {
+                for (DataSnapshot shot : dataSnapshot.child("Post").getChildren()) {
                     p = new Post();
                     String postID = shot.getKey();
                     p.setPostID(postID);
@@ -228,28 +228,13 @@ public class main_activity extends AppCompatActivity
                     p.setInput(shot.getValue(Post.class).getInput());
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
-
-                    pList.add(0,p);
-
-
-
                     p.setStartdate(shot.getValue(Post.class).getStartdate());
-
                     p.setEnddateInMain(shot.child("end_date").getValue(String.class));
-                    SimpleDateFormat ft = new SimpleDateFormat();
-                    try {
-                        Date future = ft.parse(shot.child("end_date").getValue(String.class));
-                        Date now = new Date();
-                        if (future.before(now)) {
 
-                        }
-                        pList.add(0, p);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    pList.add(p);
                     postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
+                    listView.setAdapter(postAdapter);
                 }
-                listView.setAdapter(postAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

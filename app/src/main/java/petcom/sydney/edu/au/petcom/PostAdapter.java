@@ -89,9 +89,12 @@ public class PostAdapter extends ArrayAdapter<Post> {
             TextView body = (TextView) convertView.findViewById(R.id.postbody);
             TextView uName = (TextView) convertView.findViewById(R.id.username_post);
             timeText = (TextView) convertView.findViewById(R.id.time_text);
+<<<<<<< HEAD
             TextView distance = (TextView) convertView.findViewById(R.id.distance_text);
 
             Log.i("yaoxy", p.getEnddate() + "");
+=======
+>>>>>>> c7bc5fb5dd1d8f0fcdd3cd2696daf97bb803977d
 
             SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
             try {
@@ -128,11 +131,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 @Override
                 public void onClick(View v) {
 
-
-//                    Intent intent = new Intent(getContext(), replyPage.class);
-//                    getContext().startActivity(intent);
-
-
                 }
             });
             Button commentBtn = (Button)convertView.findViewById(R.id.comment_btn);
@@ -140,14 +138,12 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 @Override
                 public void onClick(View v) {
 
-
-                    Intent intent = new Intent(getContext(), replyPage.class);
-                    getContext().startActivity(intent);
                 }
             });
         }
         return convertView;
     }
+<<<<<<< HEAD
 
     private double calculateDistance(LatLng x1, LatLng x2){
         double x1_Lat = x1.latitude*Math.PI / 180;
@@ -169,3 +165,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
 
 
+=======
+}
+>>>>>>> c7bc5fb5dd1d8f0fcdd3cd2696daf97bb803977d

@@ -1,27 +1,20 @@
 package petcom.sydney.edu.au.petcom;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Looper;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -36,20 +29,9 @@ import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import com.google.android.gms.common.internal.Constants;
-import com.google.android.gms.location.FusedLocationProviderClient;
-
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,7 +44,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -74,8 +55,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import petcom.sydney.edu.au.petcom.UserProfiles.User;
-
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 public class post_new extends AppCompatActivity {
     protected  static final int MY_PERMISSIONS_REQUEST_READ_PHOTOS=202;
@@ -122,9 +101,13 @@ public class post_new extends AppCompatActivity {
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria,true);
 
+<<<<<<< HEAD
 
-
-
+=======
+        if (savedInstanceState != null) {
+            mLocation = savedInstanceState.getParcelable(KEY_LOCATION);
+        }
+>>>>>>> c7bc5fb5dd1d8f0fcdd3cd2696daf97bb803977d
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
@@ -141,13 +124,7 @@ public class post_new extends AppCompatActivity {
             mLocation = locationManager.getLastKnownLocation(provider);
         }
 
-
-
-
-
-
         p = new Post();
-
 
         Button publishBtn = (Button) findViewById(R.id.publish_btn);
         dbRef.child("User").child(u.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -276,9 +253,7 @@ public class post_new extends AppCompatActivity {
 
     private void writeNewPost(){
         key = dbRef.child("Post").push().getKey();
-
         if(file_uri!=null) {
-
             picRef = mStorageRef.child("image/"+key +".jpg");
             UploadTask uploadTask = picRef.putFile(file_uri);
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -295,14 +270,13 @@ public class post_new extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Uri pUri = task.getResult();
 
-                        Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(),pUri.toString(),user, mLocation);
-
                         p.setTitle(editTitle.getText().toString());
                         p.setInput(editItem.getText().toString());
                         p.setPicture(pUri.toString());
                         p.setUser(user);
                         p.setHasPicture(true);
                         p.setPostID(key);
+                        p.setLocationString(mLocation);
                         Map<String,Object> postValue = p.toMap();
                         Map<String,Object> childUpdate = new HashMap<>();
                         childUpdate.put("/Post/"+key,postValue);
@@ -322,20 +296,16 @@ public class post_new extends AppCompatActivity {
                 }
             });
         }else{
-
-            Post p = new Post(editTitle.getText().toString(), editItem.getText().toString(), user, mLocation);
-            Log.d("Sam", mLocation.getLatitude()+"");
-
             p.setTitle(editTitle.getText().toString());
             p.setInput(editItem.getText().toString());
             p.setUser(user);
-
             p.setHasPicture(false);
             p.setPostID(key);
+            p.setLocationString(mLocation);
+
             Map<String,Object> postValue = p.toMap();
             Map<String,Object> userValue = user.toMap();
 
-            Log.i("yaoxy007",user.getUserName()+"  "+user.getProfileUrl());
             Map<String,Object> userUpdate = new HashMap<>();
             Map<String,Object> childUpdate = new HashMap<>();
 
@@ -425,10 +395,5 @@ public class post_new extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
 }
 

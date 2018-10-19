@@ -24,8 +24,12 @@ public class Post {
     private boolean hasPicture;
     private User user;
     private Comment comment;
+<<<<<<< HEAD
 
     private Location location;
+=======
+    private String locationString;
+>>>>>>> c7bc5fb5dd1d8f0fcdd3cd2696daf97bb803977d
 
     private String startdate;
     private String enddate;
@@ -36,6 +40,7 @@ public class Post {
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
         this.startdate = ft.format(d);
     }
+<<<<<<< HEAD
     public Post(String title,String input, String picture,User user, Location location){
         this.input=input;
         this.title=title;
@@ -55,12 +60,9 @@ public class Post {
         this.title=title;
         this.user = user;
         this.location = location;
+=======
+>>>>>>> c7bc5fb5dd1d8f0fcdd3cd2696daf97bb803977d
 
-        Date d = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
-        this.startdate = ft.format(d);
-
-    }
     public String getPostID() {
         return postID;
     }
@@ -134,16 +136,20 @@ public class Post {
         return enddate;
     }
 
-    public Location getLocation(){
-        return location;
-    }
-    public void setLocation(Location location){
-        this.location = location;
-    }
+//    public Location getLocation(){
+//        return location;
+//    }
+//    public void setLocation(Location location){
+//        this.location = location;
+//    }
 
 
     public String getLocationString(){
-        return location.getLatitude() + "," + location.getLongitude();
+        return locationString;
+    }
+
+    public void setLocationString(Location location){
+        this.locationString = location.getLatitude()+","+location.getLongitude();
     }
     public void setLocationString(Location location){
         locationString = location.getLatitude() +"," + location.getLongitude();
@@ -158,7 +164,7 @@ public class Post {
         result.put("start_date",startdate);
         result.put("end_date",enddate);
         result.put("hasPicture",hasPicture);
-        result.put("location", location.getLatitude() +","+ location.getLongitude());
+        result.put("location", locationString);
         if(hasPicture == true) {
             result.put("picture", picture);
         }else if(hasPicture == false){
