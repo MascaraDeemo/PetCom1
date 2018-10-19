@@ -244,8 +244,7 @@ public class main_activity extends AppCompatActivity
                     p.setInput(shot.getValue(Post.class).getInput());
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
-                    p.setStartdate(shot.getValue(Post.class).getStartdate());
-                    p.setEnddateInMain(shot.child("end_date").getValue(String.class));
+                    p.setDuration(shot.getValue(Post.class).getDuration());
 
                     pList.add(0,p);
                     postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);

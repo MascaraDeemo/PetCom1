@@ -23,41 +23,10 @@ public class Post {
     private String picture;
     private boolean hasPicture;
     private User user;
-    private Comment comment;
-
-    private Location location;
-
     private String locationString;
-
-
-    private String startdate;
-    private String enddate;
+    private long duration;
 
     public Post(){
-        Date d = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
-        this.startdate = ft.format(d);
-    }
-
-    public Post(String title,String input, String picture,User user, Location location){
-        this.input=input;
-        this.title=title;
-        this.picture = picture;
-        this.user = user;
-
-        this.location = location;
-
-        Date d = new Date();
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
-        this.startdate = ft.format(d);
-
-    }
-
-    public Post(String title,String input, User user, Location location) {
-        this.input = input;
-        this.title = title;
-        this.user = user;
-        this.location = location;
     }
 
     public String getPostID() {
@@ -106,40 +75,13 @@ public class Post {
     public User getUser(){
         return user;
     }
-    public Comment getComment(){
-        return comment;
-    }
-    public void setComment(Comment comment){
-        this.comment = comment;
-    }
-    public void setStartdate(String date){
-        this.startdate = date;
-    }
-    public String getStartdate(){
-        return startdate;
-    }
-    public void setEnddate(long time) throws ParseException {
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
-        Date tempD = ft.parse(startdate);
-        long endTime = tempD.getTime()+time;
-        Date end = new Date(endTime);
-        this.enddate = ft.format(end);
-    }
 
-    public void setEnddateInMain(String enddate){
-        this.enddate = enddate;
+    public void setDuration(long duration){
+        this.duration=duration;
     }
-    public String getEnddate(){
-        return enddate;
+    public long getDuration(){
+        return duration;
     }
-
-//    public Location getLocation(){
-//        return location;
-//    }
-//    public void setLocation(Location location){
-//        this.location = location;
-//    }
-
 
     public String getLocationString(){
         return locationString;
@@ -160,16 +102,10 @@ public class Post {
         result.put("postID",postID);
         result.put("title",title);
         result.put("input",input);
-        result.put("start_date",startdate);
-        result.put("end_date",enddate);
+       result.put("duration",duration);
         result.put("hasPicture",hasPicture);
         result.put("location", locationString);
-        if(hasPicture == true) {
-            result.put("picture", picture);
-        }else if(hasPicture == false){
-            result.put("picture",null);
-        }
-        result.put("comment",null);
+        result.put("picture",picture);
         return result;
     }
 }

@@ -64,7 +64,6 @@ public class post_new extends AppCompatActivity {
     Location mLocation;
     LocationManager locationManager;
 
-
     EditText editTitle;
     MultiAutoCompleteTextView editItem;
     FirebaseAuth auth;
@@ -100,7 +99,6 @@ public class post_new extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria,true);
-
 
         if (savedInstanceState != null) {
             mLocation = savedInstanceState.getParcelable(KEY_LOCATION);
@@ -159,11 +157,7 @@ public class post_new extends AppCompatActivity {
                 }else if(btn2.getId() == checkedId){
                     addedTime = 120;
                 }
-                try {
-                    p.setEnddate(addedTime*1000*60);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                p.setDuration(System.currentTimeMillis()+addedTime*60*1000);
             }
         });
 
@@ -267,7 +261,6 @@ public class post_new extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri pUri = task.getResult();
-
                         p.setTitle(editTitle.getText().toString());
                         p.setInput(editItem.getText().toString());
                         p.setPicture(pUri.toString());
@@ -278,7 +271,6 @@ public class post_new extends AppCompatActivity {
                         Map<String,Object> postValue = p.toMap();
                         Map<String,Object> childUpdate = new HashMap<>();
                         childUpdate.put("/Post/"+key,postValue);
-
                         Map<String,Object> userValue = user.toMap();
                         Map<String,Object> userUpdate = new HashMap<>();
                         userUpdate.put("/Post/"+key+"/"+u.getUid()+"/",userValue);
@@ -317,8 +309,6 @@ public class post_new extends AppCompatActivity {
         }
 
     }
-
-
 
     public Uri getFileUri(String fileName, int type) {
         Uri fileUri = null;
