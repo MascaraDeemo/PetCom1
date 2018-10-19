@@ -24,23 +24,21 @@ public class Post {
     private boolean hasPicture;
     private User user;
     private Comment comment;
-<<<<<<< HEAD
 
     private Location location;
-=======
+
     private String locationString;
->>>>>>> c7bc5fb5dd1d8f0fcdd3cd2696daf97bb803977d
+
 
     private String startdate;
     private String enddate;
-    private String locationString;
 
     public Post(){
         Date d = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
         this.startdate = ft.format(d);
     }
-<<<<<<< HEAD
+
     public Post(String title,String input, String picture,User user, Location location){
         this.input=input;
         this.title=title;
@@ -55,13 +53,12 @@ public class Post {
 
     }
 
-    public Post(String title,String input, User user, Location location){
-        this.input=input;
-        this.title=title;
+    public Post(String title,String input, User user, Location location) {
+        this.input = input;
+        this.title = title;
         this.user = user;
         this.location = location;
-=======
->>>>>>> c7bc5fb5dd1d8f0fcdd3cd2696daf97bb803977d
+    }
 
     public String getPostID() {
         return postID;
@@ -151,9 +148,7 @@ public class Post {
     public void setLocationString(Location location){
         this.locationString = location.getLatitude()+","+location.getLongitude();
     }
-    public void setLocationString(Location location){
-        locationString = location.getLatitude() +"," + location.getLongitude();
-    }
+
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String,Object> result = new HashMap<>();
