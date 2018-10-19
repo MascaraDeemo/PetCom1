@@ -29,8 +29,10 @@ public class UsersPostListView extends AppCompatActivity {
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
     FirebaseAuth firebaseAuth;
+
     ArrayList<userInfoPage> userList;
     userInfoPage userPost;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class UsersPostListView extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         listViewUserPosts = (ListView) findViewById(R.id.listViewUserPosts);
+
     }
 
     @Override
@@ -52,10 +55,11 @@ public class UsersPostListView extends AppCompatActivity {
         databaseReference.child("User").child(uid).child("postID").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 for(DataSnapshot shot : dataSnapshot.getChildren()){
-//                    Log.i("Edward",shot.getKey());
-//                    userPost.setIdKey(shot.getKey().toString());
+
                     databaseReference.child("Post").child(shot.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+
                         @Override
                         public void onDataChange(@NonNull DataSnapshot s) {
 
@@ -83,13 +87,6 @@ public class UsersPostListView extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
     }
 }
-//
-//    ArrayAdapter<String> adapter =
-//            new ArrayAdapter<String>(getApplicationContext(),
-//                    android.R.layout.simple_list_item_1,arrayList);
-//    Log.i("Edward",arrayList.size()+"");
-//    listViewUserPosts.setAdapter(adapter);
-//
+
