@@ -102,16 +102,6 @@ public class post_new extends AppCompatActivity {
     String key;
     User user;
 
-
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if(mLocation != null){
-            outState.putParcelable(KEY_LOCATION, mLocation);
-            super.onSaveInstanceState(outState);
-        }
-    }
-
     Post p;
     StopWatch stopWatch;
 

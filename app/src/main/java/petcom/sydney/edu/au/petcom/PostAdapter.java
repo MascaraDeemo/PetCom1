@@ -3,6 +3,9 @@ package petcom.sydney.edu.au.petcom;
 import android.content.Context;
 import android.content.Intent;
 
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Message;
@@ -30,6 +33,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PostAdapter extends ArrayAdapter<Post> {
+    Location location;
+    LocationManager locationManager;
     private Post p;
     private StopWatch stopWatch;
     Handler handler;
@@ -44,6 +49,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         }
         p = getItem(position);
         stopWatch = new StopWatch();
+        
         if(p!=null) {
             Log.i("poiuy", p.getTitle() + " " + p.getHasPicture() + " " + p.getPicture());
             TextView userName = (TextView) convertView.findViewById(R.id.username_post);
