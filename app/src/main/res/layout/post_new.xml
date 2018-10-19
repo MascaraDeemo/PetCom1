@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView5_nouse"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/post_set_title"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="70dp"
+        android:text="Title"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/post_set_title"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:hint="Enter your title here"
+        android:inputType="textPersonName"
+        android:maxLength="40"
+        android:textColorHint="#18c8f0" />
 
     <MultiAutoCompleteTextView
         android:id="@+id/post_set_item"
@@ -11,86 +37,10 @@
         android:layout_height="90dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/post_set_title"
-        android:ems="10"
-        android:hint="type your content here"
-        android:textColorHint="#18c8f0" />
-    <RadioGroup
-        android:id="@+id/select_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/five"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5 min" />
-
-        <RadioButton
-            android:id="@+id/ten"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" 10 min" />
-
-        <RadioButton
-            android:id="@+id/thirty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="30 min" />
-
-        <RadioButton
-            android:id="@+id/one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1 hour" />
-
-        <RadioButton
-            android:id="@+id/two"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2 hours" />
-    </RadioGroup>
-    <EditText
-        android:id="@+id/post_set_title"
-        android:layout_width="151dp"
-        android:layout_height="100dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="75dp"
-        android:ems="10"
-        android:hint="Please enter title"
-        android:inputType="textPersonName"
-        android:maxLength="40"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:gravity="left|bottom"
+        android:hint="Enter your content here"
         android:textColorHint="#18c8f0" />
 
-    <Button
-        android:id="@+id/publish_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/add_pic"
-        android:layout_marginEnd="84dp"
-        android:text="publish" />
-
-    <ImageView
-        android:id="@+id/post_new_add_img"
-        android:layout_width="88dp"
-        android:layout_height="99dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="65dp"
-        android:layout_marginBottom="193dp"
-        />
-
-    <Button
-        android:id="@+id/add_pic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/post_set_title"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="0dp"
-        android:text="Add Pic" />
-
-
-</RelativeLayout>
+</LinearLayout>
