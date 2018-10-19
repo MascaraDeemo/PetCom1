@@ -64,14 +64,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
             singlePost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-<<<<<<< HEAD
-//                    Intent intent = new Intent(getContext(), replyPage.class);
-//                    getContext().startActivity(intent);
-=======
+
+
                     Intent intent = new Intent(getContext(), replyPage.class);
                     intent.putExtra("postID", p.getPostID());
                     getContext().startActivity(intent);
->>>>>>> 2107c3347fb6e76a523b48f1d32d4315a9864228
                 }
             });
         }

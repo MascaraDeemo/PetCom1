@@ -226,10 +226,6 @@ public class main_activity extends AppCompatActivity
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
                     pList.add(0,p);
-<<<<<<< HEAD
-=======
-
->>>>>>> 2107c3347fb6e76a523b48f1d32d4315a9864228
                 }
                 postAdapter=new PostAdapter(main_activity.this,R.layout.post_layout_old,pList);
                 listView.setAdapter(postAdapter);

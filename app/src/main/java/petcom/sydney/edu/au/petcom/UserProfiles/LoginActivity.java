@@ -1,13 +1,14 @@
 package petcom.sydney.edu.au.petcom.UserProfiles;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,17 +17,21 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import petcom.sydney.edu.au.petcom.UserProfiles.MainActivity;
 import petcom.sydney.edu.au.petcom.R;
+import petcom.sydney.edu.au.petcom.UserProfiles.Registration;
+import petcom.sydney.edu.au.petcom.UserProfiles.userProfile;
 import petcom.sydney.edu.au.petcom.main_activity;
 
 
-public class LoginActivity extends MainActivity implements View.OnClickListener {
+public class LoginActivity extends MainActivity implements OnClickListener {
 
 
     private static final String TAG = "EmailPassword";
 
     private EditText mEmailField;
     private EditText mPasswordField;
+    private TextView register;
 
     private FirebaseAuth mAuth;
 
@@ -40,11 +45,11 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
         mEmailField = findViewById(R.id.fieldEmail);
         mPasswordField = findViewById(R.id.fieldPassword);
 
+
         //Buttons
         findViewById(R.id.emailSignInButton).setOnClickListener(this);
-        findViewById(R.id.emailCreateAccountButton).setOnClickListener(this);
-        findViewById(R.id.signOutButton).setOnClickListener(this);
-        findViewById(R.id.verifyEmailButton).setOnClickListener(this);
+        findViewById(R.id.link_signup).setOnClickListener(this);
+
 
 
         //Start Initialize Firebase
@@ -136,56 +141,19 @@ public class LoginActivity extends MainActivity implements View.OnClickListener 
             startActivity(intent);
 
         }else {
-            findViewById(R.id.emailPasswordButtons).setVisibility(View.VISIBLE);
-            findViewById(R.id.emailPasswordFields).setVisibility(View.VISIBLE);
-            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
+
         }
     }
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.emailCreateAccountButton) {
-            Intent regestrationIntent = new Intent(LoginActivity.this, Registration.class);
+        if (i==R.id.link_signup) {
+            Intent regestrationIntent = new Intent(LoginActivity.this, petcom.sydney.edu.au.petcom.UserProfiles.Registration.class);
             startActivity(regestrationIntent);
         } else if (i == R.id.emailSignInButton) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.signOutButton) {
-            signOut();
-        } else if (i == R.id.verifyEmailButton) {
-            sendEmailVerification();
         }
-    }
-
-    private void sendEmailVerification() {
-        // Disable button
-        findViewById(R.id.verifyEmailButton).setEnabled(false);
-
-        // Send verification email
-        // [START send_email_verification]
-        final FirebaseUser user = mAuth.getCurrentUser();
-        user.sendEmailVerification()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // [START_EXCLUDE]
-                        // Re-enable button
-                        findViewById(R.id.verifyEmailButton).setEnabled(true);
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this,
-                                    "Verification email sent to " + user.getEmail(),
-                                    Toast.LENGTH_SHORT).show();
-                        } else {
-                            Log.e(TAG, "sendEmailVerification", task.getException());
-                            Toast.makeText(LoginActivity.this,
-                                    "Failed to send verification email.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
-
     }
 }
 

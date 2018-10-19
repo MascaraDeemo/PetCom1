@@ -57,6 +57,7 @@
         <activity android:name=".replyPage" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
         <activity android:name=".UsersPostListView"></activity>
+        <activity android:name=".Registration"></activity>
     </application>
 
 </manifest>
