@@ -128,13 +128,13 @@
         android:layout_gravity="right">
 
         <Button
-            android:id="@+id/comment_btn"
+            android:id="@+id/map_btn"
             android:layout_width="70dp"
             android:layout_height="25dp"
+            android:layout_margin="10dp"
             android:background="@drawable/buttonstyle_post"
             android:text="Comment"
             android:textColor="#fff"
-            android:layout_margin="10dp"
             android:textSize="10sp" />
 
 

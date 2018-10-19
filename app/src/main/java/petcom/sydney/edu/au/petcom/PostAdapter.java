@@ -1,26 +1,17 @@
 package petcom.sydney.edu.au.petcom;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Build;
-import android.os.CountDownTimer;
-import android.os.Message;
 import android.os.Handler;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,14 +19,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +39,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
     TextView timeText;
     LatLng posterLocation;
     LatLng myLocation;
+    String tempString;
     String[] latlngTemp;
     private List<ViewHolder> lstHolder;
     private LayoutInflater lf;
@@ -66,7 +55,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
             }
         }
     };
-
 
     public PostAdapter(@NonNull Context context, int resource, ArrayList<Post> objects) {
         super(context, resource, objects);
@@ -122,7 +110,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 location = locationManager.getLastKnownLocation(provider);
                 myLocation = new LatLng(location.getLatitude(),location.getLongitude());
             }
-            String tempString = p.getLocationString();
+            tempString = p.getLocationString();
             latlngTemp = tempString.split(",");
             posterLocation = new LatLng(Double.parseDouble(latlngTemp[0]),Double.parseDouble(latlngTemp[1]));
             distance.setText(calculateDistance(posterLocation,myLocation) + "m");
@@ -172,6 +160,16 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.setPostView(getItem(position));
+
+        Button mapBtn = (Button)convertView.findViewById(R.id.map_btn);
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), showMap.class);
+                intent.putExtra("location",tempString);
+                getContext().startActivity(intent);
+            }
+        });
 
             return convertView;
         }
