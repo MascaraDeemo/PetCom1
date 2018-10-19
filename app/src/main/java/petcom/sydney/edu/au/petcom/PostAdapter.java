@@ -49,6 +49,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
     TextView timeText;
     LatLng posterLocation;
     LatLng myLocation;
+    String[] latlngTemp;
     public PostAdapter(@NonNull Context context, int resource, ArrayList<Post> objects){
         super(context,resource,objects);
     }
@@ -71,6 +72,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 //Location Permission already granted
 
                 location =  locationManager.getLastKnownLocation(provider);
+                Log.d("Sam", location.getLatitude()+"");
                 myLocation = new LatLng(location.getLatitude(),location.getLongitude());
             } else {
 
@@ -92,7 +94,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
             TextView distance = (TextView) convertView.findViewById(R.id.distance_text);
 
             Log.i("yaoxy", p.getEnddate() + "");
-
+            String tempString = p.getLocationString();
+            latlngTemp = tempString.split(",");
+            posterLocation = new LatLng(Double.parseDouble(latlngTemp[0]),Double.parseDouble(latlngTemp[1]));
 
             SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
             try {
@@ -101,6 +105,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
 
             uName.setText(p.getUser().getUserName());
             if(p.getUser().getProfileUrl() != null){

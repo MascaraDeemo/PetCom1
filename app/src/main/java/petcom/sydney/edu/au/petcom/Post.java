@@ -149,6 +149,10 @@ public class Post {
         this.locationString = location.getLatitude()+","+location.getLongitude();
     }
 
+    public void setLocationByString(String location){
+        this.locationString = location;
+    }
+
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String,Object> result = new HashMap<>();
