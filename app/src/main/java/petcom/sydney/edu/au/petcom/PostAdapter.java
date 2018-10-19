@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,109 +46,135 @@ public class PostAdapter extends ArrayAdapter<Post> {
     Location location;
     LocationManager locationManager;
     private Post p;
-    private StopWatch stopWatch;
+
     Handler handler;
     TextView timeText;
     LatLng posterLocation;
     LatLng myLocation;
     String[] latlngTemp;
-    public PostAdapter(@NonNull Context context, int resource, ArrayList<Post> objects){
-        super(context,resource,objects);
-    }
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.post_layout,null);
-        }
-        p = getItem(position);
-        stopWatch = new StopWatch();
-        locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String provider = locationManager.getBestProvider(criteria,true);
-
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(getContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                //Location Permission already granted
-
-                location =  locationManager.getLastKnownLocation(provider);
-                Log.d("Sam", location.getLatitude()+"");
-                myLocation = new LatLng(location.getLatitude(),location.getLongitude());
-            } else {
-
+    private List<ViewHolder> lstHolder;
+    private LayoutInflater lf;
+    private Handler mHandler = new Handler();
+    private Runnable updateTime = new Runnable() {
+        @Override
+        public void run() {
+            synchronized (lstHolder) {
+                long nowTime = System.currentTimeMillis();
+                for (ViewHolder holder : lstHolder) {
+                    holder.updateTimeRemaining(nowTime);
+                }
             }
-        } else {
-            location = locationManager.getLastKnownLocation(provider);
-            myLocation = new LatLng(location.getLatitude(),location.getLongitude());
         }
+    };
 
 
+    public PostAdapter(@NonNull Context context, int resource, ArrayList<Post> objects) {
+        super(context, resource, objects);
+        lf = LayoutInflater.from(context);
+        lstHolder = new ArrayList<>();
+        startUpdateTimer();
+    }
 
-        if(p!=null) {
-            Log.i("poiuy", p.getTitle() + " " + p.getHasPicture() + " " + p.getPicture());
-            TextView userName = (TextView) convertView.findViewById(R.id.username_post);
-            TextView title = (TextView) convertView.findViewById(R.id.title_post);
-            TextView body = (TextView) convertView.findViewById(R.id.postbody);
-            TextView uName = (TextView) convertView.findViewById(R.id.username_post);
-            timeText = (TextView) convertView.findViewById(R.id.time_text);
-            TextView distance = (TextView) convertView.findViewById(R.id.distance_text);
+    private void startUpdateTimer() {
+        Timer tmr = new Timer();
+        tmr.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mHandler.post(updateTime);
+            }
+        }, 1000, 1000);
+    }
 
-            Log.i("yaoxy", p.getEnddate() + "");
+    private class ViewHolder {
+        TextView timeText;
+        TextView title;
+        TextView body;
+        TextView uName;
+        TextView distance;
+        ImageView picView;
+        ImageView userAvatar;
+        Post p;
+
+        public void setPostView(Post post) {
+            p = post;
+            title.setText(p.getTitle());
+            body.setText(p.getInput());
+            uName.setText(p.getUser().getUserName());
+            updateTimeRemaining(System.currentTimeMillis());
+
+            locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            String provider = locationManager.getBestProvider(criteria,true);
+
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    //Location Permission already granted
+
+                    location =  locationManager.getLastKnownLocation(provider);
+                    Log.d("Sam", location.getLatitude()+"");
+                    myLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                } else {
+
+                }
+            } else {
+                location = locationManager.getLastKnownLocation(provider);
+                myLocation = new LatLng(location.getLatitude(),location.getLongitude());
+            }
             String tempString = p.getLocationString();
             latlngTemp = tempString.split(",");
             posterLocation = new LatLng(Double.parseDouble(latlngTemp[0]),Double.parseDouble(latlngTemp[1]));
-
-            SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
-            try {
-                Date tempD = ft.parse(p.getEnddate());
-                timeText.setText("This event is valid until: "+ft.format(tempD));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-
-            uName.setText(p.getUser().getUserName());
-            if(p.getUser().getProfileUrl() != null){
-                ImageView userTouXiang = (ImageView)convertView.findViewById(R.id.user_pic_post);
-                Picasso.with(getContext()).load(p.getUser().getProfileUrl()).into(userTouXiang);
-            }else if(p.getUser().getProfileUrl() == null){
-                ImageView userTouXiang = (ImageView)convertView.findViewById(R.id.user_pic_post);
-                userTouXiang.setVisibility(View.GONE);
-            }
-
+            distance.setText(calculateDistance(posterLocation,myLocation) + "m");
+            Picasso.with(getContext()).load(p.getUser().getProfileUrl()).into(userAvatar);
 
             if(p.getHasPicture() == true) {
-                ImageView picView = (ImageView)convertView.findViewById(R.id.moments_pic);
                 Picasso.with(getContext()).load(p.getPicture()).into(picView);
                 picView.setVisibility(View.VISIBLE);
             }else if(p.getHasPicture() == false){
-                ImageView picView = (ImageView)convertView.findViewById(R.id.moments_pic);
                 picView.setVisibility(View.GONE);
             }
-//            userName.setText(p.getUserName());
-            title.setText(p.getTitle());
-            body.setText(p.getInput());
-            LinearLayout singlePost = (LinearLayout)convertView.findViewById(R.id.single_post);
-            distance.setText(calculateDistance(posterLocation,myLocation) + "m");
-            singlePost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-            Button commentBtn = (Button)convertView.findViewById(R.id.comment_btn);
-            commentBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
         }
-        return convertView;
+
+        public void updateTimeRemaining(long currentTime) {
+            long timeDiff = p.getDuration() - currentTime;
+            Log.i("sophie",timeDiff+" "+p.getDuration()+"  "+currentTime+" "+new Date(currentTime).toString()+"  "+ new Date(p.getDuration()).toString());
+            if (timeDiff > 0) {
+                int seconds = (int) (timeDiff / 1000) % 60;
+                int minutes = (int) ((timeDiff / (1000 * 60)) % 60);
+                int hours = (int) ((timeDiff / (1000 * 60 * 60)) % 24);
+                timeText.setText(hours + " : " + minutes + " : " + seconds);
+            } else {
+                timeText.setText("this event has expired!");
+            }
+        }
     }
 
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        ViewHolder holder = null;
+        if (convertView == null) {
+            holder = new ViewHolder();
+            convertView = lf.inflate(R.layout.post_layout, parent, false);
+//            convertView = LayoutInflater.from(getContext()).inflate(R.layout.post_layout,null);
+            holder.title = (TextView) convertView.findViewById(R.id.title_post);
+            holder.body = (TextView) convertView.findViewById(R.id.postbody);
+            holder.uName = (TextView) convertView.findViewById(R.id.username_post);
+            holder.timeText = (TextView) convertView.findViewById(R.id.time_text);
+            holder.distance = (TextView) convertView.findViewById(R.id.distance_text);
+            holder.picView = (ImageView)convertView.findViewById(R.id.moments_pic);
+            holder.userAvatar = (ImageView)convertView.findViewById(R.id.user_pic_post);
+            convertView.setTag(holder);
+            synchronized (lstHolder) {
+                lstHolder.add(holder);
+            }
+        }else{
+                holder = (ViewHolder) convertView.getTag();
+            }
+            holder.setPostView(getItem(position));
+
+            return convertView;
+        }
 
     private double calculateDistance(LatLng x1, LatLng x2){
         double x1_Lat = x1.latitude*Math.PI / 180;
@@ -162,9 +190,81 @@ public class PostAdapter extends ArrayAdapter<Post> {
         double result = Math.round(cal * 10000d)/10000d;
         return result;
     }
-
-
     }
+
+//}
+//        p = getItem(position);
+//
+//
+//        if(p!=null) {
+//            Log.i("poiuy", p.getTitle() + " " + p.getHasPicture() + " " + p.getPicture());
+//            TextView title = (TextView) convertView.findViewById(R.id.title_post);
+//            TextView body = (TextView) convertView.findViewById(R.id.postbody);
+//            TextView uName = (TextView) convertView.findViewById(R.id.username_post);
+//            timeText = (TextView) convertView.findViewById(R.id.time_text);
+//            TextView distance = (TextView) convertView.findViewById(R.id.distance_text);
+
+//            String tempString = p.getLocationString();
+//            latlngTemp = tempString.split(",");
+//            posterLocation = new LatLng(Double.parseDouble(latlngTemp[0]),Double.parseDouble(latlngTemp[1]));
+//
+//            SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
+//            try {
+//                Date tempD = ft.parse(p.getEnddate());
+//                timeText.setText("This event is valid until: "+ft.format(tempD));
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//
+//
+//            uName.setText(p.getUser().getUserName());
+//            if(p.getUser().getProfileUrl() != null){
+//                ImageView userTouXiang = (ImageView)convertView.findViewById(R.id.user_pic_post);
+//                Picasso.with(getContext()).load(p.getUser().getProfileUrl()).into(userTouXiang);
+//            }else if(p.getUser().getProfileUrl() == null){
+//                ImageView userTouXiang = (ImageView)convertView.findViewById(R.id.user_pic_post);
+//                userTouXiang.setVisibility(View.GONE);
+//            }
+//
+//
+//            if(p.getHasPicture() == true) {
+//                ImageView picView = (ImageView)convertView.findViewById(R.id.moments_pic);
+//                Picasso.with(getContext()).load(p.getPicture()).into(picView);
+//                picView.setVisibility(View.VISIBLE);
+//            }else if(p.getHasPicture() == false){
+//                ImageView picView = (ImageView)convertView.findViewById(R.id.moments_pic);
+//                picView.setVisibility(View.GONE);
+//            }
+////            userName.setText(p.getUserName());
+//            title.setText(p.getTitle());
+//            body.setText(p.getInput());
+//            LinearLayout singlePost = (LinearLayout)convertView.findViewById(R.id.single_post);
+//
+//
+//
+//                      distance.setText(calculateDistance(posterLocation,myLocation) + "m");
+//            singlePost.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
+//            Button commentBtn = (Button)convertView.findViewById(R.id.comment_btn);
+//            commentBtn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
+//        }
+//        return convertView;
+//    }
+//
+
+
+//
+//
+//    }
 
 
 
