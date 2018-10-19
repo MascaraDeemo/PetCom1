@@ -24,16 +24,40 @@ public class Post {
     private boolean hasPicture;
     private User user;
     private Comment comment;
+
+    private Location location;
+
     private String locationString;
+
 
     private String startdate;
     private String enddate;
-
 
     public Post(){
         Date d = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
         this.startdate = ft.format(d);
+    }
+
+    public Post(String title,String input, String picture,User user, Location location){
+        this.input=input;
+        this.title=title;
+        this.picture = picture;
+        this.user = user;
+
+        this.location = location;
+
+        Date d = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd : hh:mm:ss");
+        this.startdate = ft.format(d);
+
+    }
+
+    public Post(String title,String input, User user, Location location) {
+        this.input = input;
+        this.title = title;
+        this.user = user;
+        this.location = location;
     }
 
     public String getPostID() {
@@ -124,6 +148,11 @@ public class Post {
     public void setLocationString(Location location){
         this.locationString = location.getLatitude()+","+location.getLongitude();
     }
+
+    public void setLocationByString(String location){
+        this.locationString = location;
+    }
+
     @Exclude
     public Map<String, Object> toMap(){
         HashMap<String,Object> result = new HashMap<>();

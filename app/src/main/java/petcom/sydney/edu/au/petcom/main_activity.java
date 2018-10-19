@@ -223,6 +223,7 @@ public class main_activity extends AppCompatActivity
                     p = new Post();
                     String postID = shot.getKey();
                     p.setPostID(postID);
+                    p.setLocationByString(shot.child("location").getValue(String.class));
                     p.setUser(shot.getValue(Post.class).getUser());
                     p.setTitle(shot.getValue(Post.class).getTitle());
                     p.setInput(shot.getValue(Post.class).getInput());

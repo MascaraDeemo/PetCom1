@@ -101,9 +101,11 @@ public class post_new extends AppCompatActivity {
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria,true);
 
+
         if (savedInstanceState != null) {
             mLocation = savedInstanceState.getParcelable(KEY_LOCATION);
         }
+
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
