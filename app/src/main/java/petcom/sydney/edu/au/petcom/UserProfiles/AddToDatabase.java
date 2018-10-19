@@ -93,7 +93,6 @@ public class AddToDatabase extends AppCompatActivity {
 
             }
 
-
         });
 
         saveUserProfile();
@@ -105,6 +104,7 @@ public class AddToDatabase extends AppCompatActivity {
         btnToFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 final String username;
 
