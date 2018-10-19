@@ -52,6 +52,7 @@
         android:layout_marginTop="0dp"
         android:gravity="left|bottom"
         android:hint="Enter your content here"
+        android:maxLength="100"
         android:textColorHint="#18c8f0" />
 
 
