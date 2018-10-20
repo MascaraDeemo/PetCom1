@@ -13,37 +13,60 @@
 
     <LinearLayout
         android:id="@+id/single_post"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/back_ground"
         android:orientation="vertical">
-
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left">
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                >
 
-            <ImageView
-                android:id="@+id/user_pic_post"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                <ImageView
+                    android:id="@+id/user_pic_post"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="10dp"
+                    app:srcCompat="@mipmap/ic_launcher_round" />
 
-            <TextView
-                android:id="@+id/username_post"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="123"
-                android:textColor="#fb0f1ef6"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/username_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="123"
+                    android:textColor="@android:color/background_dark" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right">
 
+                    <Button
+                        android:id="@+id/map_btn"
+                        android:layout_width="63dp"
+                        android:layout_height="25dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/buttonstyle_post"
+                        android:text="Join Now"
+                        android:textColor="#fff"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
 
         </LinearLayout>
+
 
         <TextView
             android:id="@+id/title_post"
@@ -71,7 +94,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="112dp"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/post_linenar_layout_comments"
             android:orientation="vertical">
@@ -89,7 +112,7 @@
                     android:layout_width="93dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:text="Time"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -100,7 +123,7 @@
                     android:layout_width="93dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="60dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:text="Distance"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -110,7 +133,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="43dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
@@ -124,26 +147,20 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="0dp"
-                    android:layout_marginVertical="0dp" />
+                    android:layout_marginVertical="0dp"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/distance_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="0dp" />
+                    android:layout_marginTop="0dp"
+                    android:textSize="18sp" />
 
-                <Button
-                    android:id="@+id/map_btn"
-                    android:layout_width="63dp"
-                    android:layout_height="25dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/buttonstyle_post"
-                    android:text="Join Now"
-                    android:textColor="#fff"
-                    android:textSize="8sp" />
 
             </LinearLayout>
+
         </LinearLayout>
 
 
