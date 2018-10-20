@@ -118,14 +118,18 @@ public class PostAdapter extends ArrayAdapter<Post> {
                         == PackageManager.PERMISSION_GRANTED) {
                     //Location Permission already granted
 
-                    location =  locationManager.getLastKnownLocation(provider);
+                    location =  locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 //                    Log.d("Sam", location.getLatitude()+"");
+
                     myLocation = new LatLng(location.getLatitude(),location.getLongitude());
+//                    location =  locationManager.getLastKnownLocation(provider);
+////                    Log.d("Sam", location.getLatitude()+"");
+//                    myLocation = new LatLng(location.getLatitude(),location.getLongitude());
                 } else {
 
                 }
             } else {
-                location = locationManager.getLastKnownLocation(provider);
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 myLocation = new LatLng(location.getLatitude(),location.getLongitude());
             }
             tempString = p.getLocationString();

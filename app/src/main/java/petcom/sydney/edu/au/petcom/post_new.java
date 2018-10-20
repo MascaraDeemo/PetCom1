@@ -113,13 +113,13 @@ public class post_new extends AppCompatActivity {
                     == PackageManager.PERMISSION_GRANTED) {
                 //Location Permission already granted
 
-               mLocation =  locationManager.getLastKnownLocation(provider);
+               mLocation =  locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             } else {
                 //Request Location Permission
                 checkLocationPermission();
             }
         } else {
-            mLocation = locationManager.getLastKnownLocation(provider);
+            mLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
 
         p = new Post();
