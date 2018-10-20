@@ -17,13 +17,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class showMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    FusedLocationProviderClient fusedLocationProviderClient;
-    Location location;
-    LocationCallback locationCallback;
+    private FirebaseDatabase db;
+    private DatabaseReference dbRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,11 @@ public class showMap extends FragmentActivity implements OnMapReadyCallback {
                     .findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
         }
+        String id = getIntent().getStringExtra("postID");
+        db = FirebaseDatabase.getInstance();
+        dbRef=db.getReference();
+
+        dbRef.child("Post").child(id).child("responder").child(getIntent().getStringExtra("userId")).setValue(true);
     }
 
     @Override
