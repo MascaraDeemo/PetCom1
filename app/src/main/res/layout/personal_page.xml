@@ -14,7 +14,6 @@
         android:layout_height="325dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
         app:srcCompat="@drawable/icon" />
 
     <LinearLayout
@@ -23,6 +22,8 @@
         android:layout_height="69dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/imageView"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="0dp"
         android:background="@color/back_ground"
         android:orientation="horizontal"
         android:paddingLeft="25dp">
@@ -62,6 +63,7 @@
             android:layout_height="66dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="0dp"
             android:orientation="horizontal"
             android:paddingLeft="25dp">
 
@@ -123,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="253dp"
+        android:layout_marginBottom="250dp"
         android:layout_marginStart="40dp"
         android:gravity="right"
         android:text="12312312313123"
