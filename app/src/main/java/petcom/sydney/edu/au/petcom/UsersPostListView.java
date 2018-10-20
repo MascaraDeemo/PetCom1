@@ -27,7 +27,6 @@ public class UsersPostListView extends AppCompatActivity {
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
     FirebaseAuth firebaseAuth;
-    ArrayList<String> arrayList;
 
 
     @Override
@@ -38,29 +37,16 @@ public class UsersPostListView extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         listViewUserPosts = (ListView) findViewById(R.id.listViewUserPosts);
-        arrayList = new ArrayList<>();
-
-        readData(new MyCallback() {
-            @Override
-            public void onCallback(List<String> list) {
-                Log.d("cnm", list.toString());
-                ArrayAdapter<String> adapter= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,list);
-                listViewUserPosts.setAdapter(adapter);
-            }
-        });
 
 
 
-
-    }
-
-    private void readData(MyCallback myCallback){
         final String uid = firebaseAuth.getCurrentUser().getUid();
+
         databaseReference.child("User").child(uid).child("postID").addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                final ArrayList<String> arrayList = new ArrayList<>();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     databaseReference.child("Post").child(snapshot.getKey()).child("title").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -78,7 +64,8 @@ public class UsersPostListView extends AppCompatActivity {
                 }
 
 
-
+                ArrayAdapter<String> adapter= new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,arrayList);
+                listViewUserPosts.setAdapter(adapter);
 
 
             }
@@ -89,11 +76,14 @@ public class UsersPostListView extends AppCompatActivity {
             }
         });
 
+
+
+
     }
 
-    private interface MyCallback{
-        void onCallback(List<String> list);
-    }
+
+
+
 
 }
 

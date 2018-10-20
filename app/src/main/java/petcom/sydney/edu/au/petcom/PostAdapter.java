@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.view.View.GONE;
+
 public class PostAdapter extends ArrayAdapter<Post> {
     Location location;
     LocationManager locationManager;
@@ -61,6 +63,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         lf = LayoutInflater.from(context);
         lstHolder = new ArrayList<>();
         startUpdateTimer();
+
     }
 
     private void startUpdateTimer() {
@@ -120,7 +123,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 Picasso.with(getContext()).load(p.getPicture()).into(picView);
                 picView.setVisibility(View.VISIBLE);
             }else if(p.getHasPicture() == false){
-                picView.setVisibility(View.GONE);
+                picView.setVisibility(GONE);
             }
         }
 
@@ -141,9 +144,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder = null;
+
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = lf.inflate(R.layout.post_layout, parent, false);
+
 //            convertView = LayoutInflater.from(getContext()).inflate(R.layout.post_layout,null);
             holder.title = (TextView) convertView.findViewById(R.id.title_post);
             holder.body = (TextView) convertView.findViewById(R.id.postbody);
@@ -152,7 +157,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
             holder.distance = (TextView) convertView.findViewById(R.id.distance_text);
             holder.picView = (ImageView)convertView.findViewById(R.id.moments_pic);
             holder.userAvatar = (ImageView)convertView.findViewById(R.id.user_pic_post);
+
             convertView.setTag(holder);
+
             synchronized (lstHolder) {
                 lstHolder.add(holder);
             }
@@ -161,7 +168,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
             }
             holder.setPostView(getItem(position));
 
+
         Button mapBtn = (Button)convertView.findViewById(R.id.map_btn);
+        if(holder.timeText.getText().equals("this event has expired!")){
+            mapBtn.setVisibility(GONE);
+        }
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

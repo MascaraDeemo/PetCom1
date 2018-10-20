@@ -145,16 +145,15 @@
             </LinearLayout>
         </LinearLayout>
 
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@drawable/post_linenar_layout_line" />
+
+
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@drawable/post_linenar_layout_line" />
-
-
-
 </LinearLayout>
-
-
