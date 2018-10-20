@@ -65,13 +65,17 @@ public class UsersPostListView extends AppCompatActivity {
 
                             userPost = new userInfoPage();
                             userPost.setTitle(s.child("title").getValue(String.class));
-                            Log.i("Edward",s.child("title").getValue(String.class));
+                            if(s.hasChild("responder")){
+                                userPost.setResponder(s.child("responder").getChildrenCount());
+                            }else{
+                                userPost.setResponder(0);
+                            }
                             userList.add(0, userPost);
 
                             ArrayList<String> myList = new ArrayList<>();
                             for(userInfoPage i: userList){
-                                myList.add(0,i.getTitle());
-                                Log.i("Edward",i.getTitle()+"");
+                                myList.add(0,"Post title: "+i.getTitle()+"\n"+"Expecting: "+i.getResponder()+" people.");
+
                             }
                             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,myList);
                             listViewUserPosts.setAdapter(adapter);

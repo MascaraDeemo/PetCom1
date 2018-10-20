@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class userInfoPage {
     String title;
     String idKey;
-
+    long responder;
     public userInfoPage(){
 
     }
@@ -27,5 +27,11 @@ public class userInfoPage {
         this.idKey = idKey;
     }
 
+    public long getResponder(){
+        return this.responder;
+    }
 
+    public void setResponder(long responder){
+        this.responder=responder;
+    }
 }

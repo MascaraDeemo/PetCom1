@@ -36,14 +36,13 @@ import static android.view.View.GONE;
 public class PostAdapter extends ArrayAdapter<Post> {
     Location location;
     LocationManager locationManager;
-    private Post p;
-
     Handler handler;
-    TextView timeText;
     LatLng posterLocation;
     LatLng myLocation;
     String tempString;
     String[] latlngTemp;
+    ViewHolder holder;
+
     private List<ViewHolder> lstHolder;
     private LayoutInflater lf;
     private Handler mHandler = new Handler();
@@ -85,7 +84,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
         TextView distance;
         ImageView picView;
         ImageView userAvatar;
-        Button mapBtn;
         Post p;
 
         public void setPostView(Post post) {
@@ -94,19 +92,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
             body.setText(p.getInput());
             uName.setText(p.getUser().getUserName());
             updateTimeRemaining(System.currentTimeMillis());
-
-            if(timeText.getText().toString() == "this event has expired!"){
-                mapBtn.setVisibility(GONE);
-            }else{
-                mapBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), showMap.class);
-                        intent.putExtra("location",tempString);
-                        getContext().startActivity(intent);
-                    }
-                });
-            }
 
             locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
@@ -118,14 +103,14 @@ public class PostAdapter extends ArrayAdapter<Post> {
                         == PackageManager.PERMISSION_GRANTED) {
                     //Location Permission already granted
 
-                    location =  locationManager.getLastKnownLocation(provider);
+                    location =  locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 //                    Log.d("Sam", location.getLatitude()+"");
                     myLocation = new LatLng(location.getLatitude(),location.getLongitude());
                 } else {
 
                 }
             } else {
-                location = locationManager.getLastKnownLocation(provider);
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 myLocation = new LatLng(location.getLatitude(),location.getLongitude());
             }
             tempString = p.getLocationString();
@@ -157,7 +142,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
     }
 
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder holder = null;
 
         if (convertView == null) {
@@ -172,7 +157,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
             holder.distance = (TextView) convertView.findViewById(R.id.distance_text);
             holder.picView = (ImageView)convertView.findViewById(R.id.moments_pic);
             holder.userAvatar = (ImageView)convertView.findViewById(R.id.user_pic_post);
-            holder.mapBtn = (Button)convertView.findViewById(R.id.map_btn);
             convertView.setTag(holder);
 
             synchronized (lstHolder) {
@@ -184,18 +168,23 @@ public class PostAdapter extends ArrayAdapter<Post> {
             holder.setPostView(getItem(position));
 
 
-//        Button mapBtn = (Button)convertView.findViewById(R.id.map_btn);
-//        if(holder.timeText.getText().equals("this event has expired!")){
-//            mapBtn.setVisibility(GONE);
-//        }
-//        mapBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), showMap.class);
-//                intent.putExtra("location",tempString);
-//                getContext().startActivity(intent);
-//            }
-//        });
+        Button mapBtn = (Button)convertView.findViewById(R.id.map_btn);
+        if(holder.timeText.getText().equals("this event has expired!")){
+            mapBtn.setVisibility(GONE);
+        }else{
+            mapBtn.setVisibility(View.VISIBLE);
+        }
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), showMap.class);
+                intent.putExtra("location",tempString);
+                intent.putExtra("postID",getItem(position).getPostID());
+                intent.putExtra("userId",getItem(position).getUser().getUserName());
+
+                getContext().startActivity(intent);
+            }
+        });
 
             return convertView;
         }
