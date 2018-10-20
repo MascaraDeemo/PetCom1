@@ -100,6 +100,7 @@ public class main_activity extends AppCompatActivity
 
         updateListView();
         dbRef.orderByKey().addListenerForSingleValueEvent(postListener);
+
     }
 
     @Override
@@ -142,6 +143,7 @@ public class main_activity extends AppCompatActivity
 
             }
         });
+
     }
 
     @Override
@@ -201,8 +203,6 @@ public class main_activity extends AppCompatActivity
         return true;
     }
 
-
-
     private void updateListView(){
         postListener = new ValueEventListener() {
             @Override
@@ -219,10 +219,17 @@ public class main_activity extends AppCompatActivity
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
                     p.setDuration(shot.getValue(Post.class).getDuration());
-                    pList.add(0,p);
+                    Date f = new Date(p.getDuration());
+                    Date n = new Date();
+                    if(f.before(n)){
+
+                    }else {
+                        pList.add(0, p);
+                    }
                 }
                 postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
                 listView.setAdapter(postAdapter);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -230,7 +237,4 @@ public class main_activity extends AppCompatActivity
             }
         };
     }
-
-
-
 }

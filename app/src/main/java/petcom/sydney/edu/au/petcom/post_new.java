@@ -150,7 +150,7 @@ public class post_new extends AppCompatActivity {
             RadioButton btn2 = (RadioButton)findViewById(R.id.two);
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                long addedTime = 0;
+                long addedTime = 5;
                 if(btn5.getId() == checkedId){
                     addedTime = 5;
                 }else if(btn10.getId() == checkedId){

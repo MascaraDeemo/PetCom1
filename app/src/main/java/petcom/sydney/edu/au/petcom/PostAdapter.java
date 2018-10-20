@@ -2,6 +2,7 @@ package petcom.sydney.edu.au.petcom;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -13,10 +14,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -177,13 +180,27 @@ public class PostAdapter extends ArrayAdapter<Post> {
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), showMap.class);
-                intent.putExtra("location",tempString);
-                intent.putExtra("postID",getItem(position).getPostID());
-
-                getContext().startActivity(intent);
-            }
-        });
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Join")
+                        .setMessage("Do you want to join?")
+                        .setPositiveButton("Yes!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getContext(), showMap.class);
+                                intent.putExtra("location",tempString);
+                                intent.putExtra("postID",getItem(position).getPostID());
+                                getContext().startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder.show();
+                    }
+                });
 
             return convertView;
         }
@@ -202,6 +219,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         double result = Math.round(cal * 10000d)/10000d;
         return result;
     }
+
 }
 
 
