@@ -2,10 +2,12 @@ package petcom.sydney.edu.au.petcom;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.drm.ProcessedData;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Criteria;
@@ -64,7 +66,7 @@ public class post_new extends AppCompatActivity {
     private MarshmallowPermission permission;
     Location mLocation;
     LocationManager locationManager;
-
+    ProgressDialog progressDialog;
     EditText editTitle;
     MultiAutoCompleteTextView editItem;
     FirebaseAuth auth;
@@ -97,6 +99,7 @@ public class post_new extends AppCompatActivity {
         u = auth.getCurrentUser();
         permission = new MarshmallowPermission(this);
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        progressDialog = new ProgressDialog(this);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -250,6 +253,9 @@ public class post_new extends AppCompatActivity {
             return;
         }
         if(file_uri!=null) {
+            progressDialog.setTitle("Publishing Your Post");
+            progressDialog.setMessage("Please wait....");
+            progressDialog.show();
             picRef = mStorageRef.child("image/"+key +".jpg");
             UploadTask uploadTask = picRef.putFile(file_uri);
             Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
