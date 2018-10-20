@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -84,6 +85,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         TextView distance;
         ImageView picView;
         ImageView userAvatar;
+        Button mapBtn;
         Post p;
 
         public void setPostView(Post post) {
@@ -92,6 +94,19 @@ public class PostAdapter extends ArrayAdapter<Post> {
             body.setText(p.getInput());
             uName.setText(p.getUser().getUserName());
             updateTimeRemaining(System.currentTimeMillis());
+
+            if(timeText.getText().toString() == "this event has expired!"){
+                mapBtn.setVisibility(GONE);
+            }else{
+                mapBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), showMap.class);
+                        intent.putExtra("location",tempString);
+                        getContext().startActivity(intent);
+                    }
+                });
+            }
 
             locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
@@ -157,7 +172,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
             holder.distance = (TextView) convertView.findViewById(R.id.distance_text);
             holder.picView = (ImageView)convertView.findViewById(R.id.moments_pic);
             holder.userAvatar = (ImageView)convertView.findViewById(R.id.user_pic_post);
-
+            holder.mapBtn = (Button)convertView.findViewById(R.id.map_btn);
             convertView.setTag(holder);
 
             synchronized (lstHolder) {
@@ -169,18 +184,18 @@ public class PostAdapter extends ArrayAdapter<Post> {
             holder.setPostView(getItem(position));
 
 
-        Button mapBtn = (Button)convertView.findViewById(R.id.map_btn);
-        if(holder.timeText.getText().equals("this event has expired!")){
-            mapBtn.setVisibility(GONE);
-        }
-        mapBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), showMap.class);
-                intent.putExtra("location",tempString);
-                getContext().startActivity(intent);
-            }
-        });
+//        Button mapBtn = (Button)convertView.findViewById(R.id.map_btn);
+//        if(holder.timeText.getText().equals("this event has expired!")){
+//            mapBtn.setVisibility(GONE);
+//        }
+//        mapBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getContext(), showMap.class);
+//                intent.putExtra("location",tempString);
+//                getContext().startActivity(intent);
+//            }
+//        });
 
             return convertView;
         }
