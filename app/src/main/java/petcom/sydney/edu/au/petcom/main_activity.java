@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.shape.RoundedCornerTreatment;
 import android.support.design.widget.FloatingActionButton;
@@ -63,7 +64,7 @@ public class main_activity extends AppCompatActivity
     private FirebaseAuth dbAuth;
 
     private StorageReference mStorageRef;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private Post p;
     private ListView listView;
     private PostAdapter postAdapter;
@@ -93,14 +94,38 @@ public class main_activity extends AppCompatActivity
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         dbAuth = FirebaseAuth.getInstance();
-        listView = (ListView)findViewById(R.id.list_view_main);
+        listView = (ListView)findViewById(R.id.list);
         pList=new ArrayList<Post>();
         db=FirebaseDatabase.getInstance();
         dbRef = db.getReference();
+        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                        updateListView();
+                        postAdapter.notifyDataSetChanged();
+                        dbRef.orderByKey().addListenerForSingleValueEvent(postListener);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 3000);
+            }
+        });
+        swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
         updateListView();
         dbRef.orderByKey().addListenerForSingleValueEvent(postListener);
+
     }
+
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -142,6 +167,7 @@ public class main_activity extends AppCompatActivity
 
             }
         });
+
     }
 
     @Override
@@ -205,8 +231,6 @@ public class main_activity extends AppCompatActivity
         return true;
     }
 
-
-
     private void updateListView(){
         postListener = new ValueEventListener() {
             @Override
@@ -223,10 +247,17 @@ public class main_activity extends AppCompatActivity
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
                     p.setDuration(shot.getValue(Post.class).getDuration());
-                    pList.add(0,p);
+                    Date f = new Date(p.getDuration());
+                    Date n = new Date();
+                    if(f.before(n)){
+
+                    }else {
+                        pList.add(0, p);
+                    }
                 }
                 postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
                 listView.setAdapter(postAdapter);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -234,7 +265,4 @@ public class main_activity extends AppCompatActivity
             }
         };
     }
-
-
-
 }

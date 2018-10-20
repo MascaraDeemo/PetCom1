@@ -105,7 +105,6 @@
                 android:id="@+id/five"
                 android:layout_width="100dp"
                 android:layout_height="30dp"
-                android:checked="true"
                 android:text="5 min" />
 
             <RadioButton

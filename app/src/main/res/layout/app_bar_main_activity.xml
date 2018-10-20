@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".main_activity">
 
     <include
@@ -19,11 +20,20 @@
         app:popupTheme="@style/AppTheme.PopupOverlay"
         app:titleTextColor="@color/common_google_signin_btn_text_dark_pressed" />
 
-    <ListView
-        android:id="@+id/list_view_main"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
         android:layout_width="match_parent"
-        android:layout_height="530dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="510dp"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

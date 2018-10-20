@@ -103,13 +103,25 @@ public class Personal_page extends AppCompatActivity {
         userBackground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Personal_page.this, backGroundChange.class );
-                startActivity(intent);
-                Log.d("SAM", "Hello");
+                AlertDialog.Builder builder = new AlertDialog.Builder(Personal_page.this);
+                builder.setTitle("Change Background").setMessage("Do you wish to change you background picture?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Personal_page.this, backGroundChange.class );
+                        startActivity(intent);
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
             }
         });
 
     }
+
 
 
     @Override
