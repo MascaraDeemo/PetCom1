@@ -31,10 +31,16 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static android.view.View.GONE;
+import static java.lang.Math.acos;
+import static java.lang.Math.cos;
+import static java.lang.Math.round;
+import static java.lang.Math.sin;
+
 
 public class PostAdapter extends ArrayAdapter<Post> {
     Location location;
@@ -98,7 +104,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
             locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
-            String provider = locationManager.getBestProvider(criteria,true);
+            String provider = locationManager.getBestProvider(criteria, true);
 
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ContextCompat.checkSelfPermission(getContext(),
@@ -106,33 +112,35 @@ public class PostAdapter extends ArrayAdapter<Post> {
                         == PackageManager.PERMISSION_GRANTED) {
                     //Location Permission already granted
 
-                    location =  locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 //                    Log.d("Sam", location.getLatitude()+"");
-                    myLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                    myLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 } else {
 
                 }
             } else {
                 location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                myLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                myLocation = new LatLng(location.getLatitude(), location.getLongitude());
             }
             tempString = p.getLocationString();
             latlngTemp = tempString.split(",");
-            posterLocation = new LatLng(Double.parseDouble(latlngTemp[0]),Double.parseDouble(latlngTemp[1]));
-            distance.setText(calculateDistance(posterLocation,myLocation) + "m");
+            posterLocation = new LatLng(Double.parseDouble(latlngTemp[0]), Double.parseDouble(latlngTemp[1]));
+            double dis = greatCircleInMeters(posterLocation, myLocation);
+            String disS = String.format("%.3f", dis);
+            distance.setText( disS+ " Km");
             Picasso.with(getContext()).load(p.getUser().getProfileUrl()).into(userAvatar);
 
-            if(p.getHasPicture() == true) {
+            if (p.getHasPicture() == true) {
                 Picasso.with(getContext()).load(p.getPicture()).into(picView);
                 picView.setVisibility(View.VISIBLE);
-            }else if(p.getHasPicture() == false){
+            } else if (p.getHasPicture() == false) {
                 picView.setVisibility(GONE);
             }
         }
 
         public void updateTimeRemaining(long currentTime) {
             long timeDiff = p.getDuration() - currentTime;
-            Log.i("sophie",timeDiff+" "+p.getDuration()+"  "+currentTime+" "+new Date(currentTime).toString()+"  "+ new Date(p.getDuration()).toString());
+            Log.i("sophie", timeDiff + " " + p.getDuration() + "  " + currentTime + " " + new Date(currentTime).toString() + "  " + new Date(p.getDuration()).toString());
             if (timeDiff > 0) {
                 int seconds = (int) (timeDiff / 1000) % 60;
                 int minutes = (int) ((timeDiff / (1000 * 60)) % 60);
@@ -158,23 +166,23 @@ public class PostAdapter extends ArrayAdapter<Post> {
             holder.uName = (TextView) convertView.findViewById(R.id.username_post);
             holder.timeText = (TextView) convertView.findViewById(R.id.time_text);
             holder.distance = (TextView) convertView.findViewById(R.id.distance_text);
-            holder.picView = (ImageView)convertView.findViewById(R.id.moments_pic);
-            holder.userAvatar = (ImageView)convertView.findViewById(R.id.user_pic_post);
+            holder.picView = (ImageView) convertView.findViewById(R.id.moments_pic);
+            holder.userAvatar = (ImageView) convertView.findViewById(R.id.user_pic_post);
             convertView.setTag(holder);
 
             synchronized (lstHolder) {
                 lstHolder.add(holder);
             }
-        }else{
-                holder = (ViewHolder) convertView.getTag();
-            }
-            holder.setPostView(getItem(position));
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        holder.setPostView(getItem(position));
 
 
-        Button mapBtn = (Button)convertView.findViewById(R.id.map_btn);
-        if(holder.timeText.getText().equals("this event has expired!")){
+        Button mapBtn = (Button) convertView.findViewById(R.id.map_btn);
+        if (holder.timeText.getText().equals("this event has expired!")) {
             mapBtn.setVisibility(GONE);
-        }else{
+        } else {
             mapBtn.setVisibility(View.VISIBLE);
         }
         mapBtn.setOnClickListener(new View.OnClickListener() {
@@ -187,8 +195,8 @@ public class PostAdapter extends ArrayAdapter<Post> {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(getContext(), showMap.class);
-                                intent.putExtra("location",tempString);
-                                intent.putExtra("postID",getItem(position).getPostID());
+                                intent.putExtra("location", tempString);
+                                intent.putExtra("postID", getItem(position).getPostID());
                                 getContext().startActivity(intent);
                             }
                         })
@@ -199,26 +207,30 @@ public class PostAdapter extends ArrayAdapter<Post> {
                             }
                         });
                 builder.show();
-                    }
-                });
+            }
+        });
 
-            return convertView;
-        }
-
-    private double calculateDistance(LatLng x1, LatLng x2){
-        double x1_Lat = x1.latitude*Math.PI / 180;
-        double x1_Lng = x1.longitude*Math.PI / 180;
-        double x2_Lat = x2.latitude*Math.PI / 180;
-        double x2_Lng = x2.longitude*Math.PI / 180;
-
-        double a = x1_Lat - x2_Lat;
-        double b = x1_Lng - x2_Lng;
-
-        double cal = 2*Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2)+Math.cos(x1_Lat)
-                *Math.cos(x2_Lat)*Math.pow(Math.sin(b/2),2)))*6378.137;
-        double result = Math.round(cal * 10000d)/10000d;
-        return result;
+        return convertView;
     }
+
+    public double greatCircleInMeters(LatLng latLng1, LatLng latLng2) {
+        return greatCircleInKilometers(latLng1.latitude, latLng1.longitude, latLng2.latitude,
+                latLng2.longitude);
+    }
+
+
+    public double greatCircleInKilometers(double lat1, double long1, double lat2, double long2) {
+        double phi1 = lat1 * PI_RAD;
+        double phi2 = lat2 * PI_RAD;
+        double lam1 = long1 * PI_RAD;
+        double lam2 = long2 * PI_RAD;
+
+        return 6371.01 * acos(sin(phi1) * sin(phi2) + cos(phi1) * cos(phi2) * cos(lam2 - lam1));
+    }
+
+
+        static double PI_RAD = Math.PI / 180.0;
+
 
 }
 
