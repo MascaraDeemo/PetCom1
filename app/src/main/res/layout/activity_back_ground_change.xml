@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".backGroundChange">
+
+    <TextView
+        android:id="@+id/textViewChangeByTakingPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:text="Take A Photo"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="48dp" />
+
+    <TextView
+        android:id="@+id/textViewFromGallery"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="65dp"
+        android:text="Choose From Gallery" />
+
+    <Button
+        android:id="@+id/btnSaveBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:text="Save Background" />
+
+    <ImageView
+        android:id="@+id/userBackgroundView"
+        android:layout_width="320dp"
+        android:layout_height="242dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="124dp"
+        tools:srcCompat="@tools:sample/avatars" />
+</RelativeLayout>
