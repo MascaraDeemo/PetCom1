@@ -73,6 +73,7 @@ public class post_new extends AppCompatActivity {
     FirebaseDatabase db;
     DatabaseReference dbRef;
     FirebaseUser u;
+    RadioGroup select_time;
     private StorageReference mStorageRef;
     private StorageReference picRef;
     private File file;
@@ -100,6 +101,7 @@ public class post_new extends AppCompatActivity {
         permission = new MarshmallowPermission(this);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
+        select_time = (RadioGroup) findViewById(R.id.select_time);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -404,6 +406,9 @@ public class post_new extends AppCompatActivity {
             valid = false;
         } else {
             editTitle.setError(null);
+        }
+        if(select_time.getCheckedRadioButtonId() == -1){
+            select_time.check(findViewById(R.id.five).getId());
         }
 
 
