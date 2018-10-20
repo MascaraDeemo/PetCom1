@@ -201,6 +201,10 @@ public class main_activity extends AppCompatActivity
 
         if (id == R.id.nav_moment) {
             // Handle the camera action
+            Intent infoIntent = new Intent(main_activity.this, UsersPostListView.class);
+
+
+            startActivity(infoIntent);
         }  else if (id == R.id.nav_post) {
             Intent infoIntent = new Intent(main_activity.this, post_new.class);
 

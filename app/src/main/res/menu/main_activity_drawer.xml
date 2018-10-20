@@ -21,7 +21,24 @@
             android:id="@+id/nav_signout"
             android:icon="@drawable/ic_quit"
             android:title="Signout" />
+        <item
+            android:id="@+id/nav_feedback"
+            android:icon="@drawable/ic_feedback"
+            android:title="Feedback" />
+        <item
+            android:id="@+id/nav_update"
+            android:icon="@drawable/ic_update"
+            android:title="Update" />
     </group>
+    <item android:title="Current Version">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:title="Version 0.1.57" />
+        </menu>
+    </item>
+
+
 
   <!--  <item android:title="Communicate">
         <menu>

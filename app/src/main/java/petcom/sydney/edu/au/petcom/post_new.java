@@ -59,7 +59,8 @@ import java.util.Map;
 
 import petcom.sydney.edu.au.petcom.UserProfiles.User;
 
-public class post_new extends AppCompatActivity {
+public class
+post_new extends AppCompatActivity {
     protected  static final int MY_PERMISSIONS_REQUEST_READ_PHOTOS=202;
     protected  static final int MY_PERMISSIONS_REQUEST_TAKE_PHOTOS=203;
     private static final String KEY_LOCATION = "location";
