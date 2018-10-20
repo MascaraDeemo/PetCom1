@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.shape.RoundedCornerTreatment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -218,11 +219,10 @@ public class main_activity extends AppCompatActivity
                     p.setPicture(shot.getValue(Post.class).getPicture());
                     p.setHasPicture(shot.getValue(Post.class).getHasPicture());
                     p.setDuration(shot.getValue(Post.class).getDuration());
-
                     pList.add(0,p);
-                    postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
-                    listView.setAdapter(postAdapter);
                 }
+                postAdapter = new PostAdapter(main_activity.this, R.layout.post_layout, pList);
+                listView.setAdapter(postAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
