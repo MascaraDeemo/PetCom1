@@ -180,7 +180,6 @@ public class PostAdapter extends ArrayAdapter<Post> {
                 Intent intent = new Intent(getContext(), showMap.class);
                 intent.putExtra("location",tempString);
                 intent.putExtra("postID",getItem(position).getPostID());
-                intent.putExtra("userId",getItem(position).getUser().getUserName());
 
                 getContext().startActivity(intent);
             }
