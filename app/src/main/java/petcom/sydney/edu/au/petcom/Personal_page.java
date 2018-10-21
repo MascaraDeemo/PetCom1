@@ -171,8 +171,14 @@ public class Personal_page extends AppCompatActivity {
         databaseReference.child("User").child(uid).child("BackgroundUri").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 userBackgroundUrl = dataSnapshot.getValue(String.class);
+                if (userBackgroundUrl != null) {
                     Picasso.with(getApplicationContext()).load(userBackgroundUrl).resize(350, 325).into(userBackground);
+
+                } else {
+
+                }
             }
 
             @Override
