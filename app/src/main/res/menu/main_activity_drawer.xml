@@ -11,16 +11,12 @@
         <item
             android:id="@+id/nav_moment"
             android:icon="@drawable/ic_moments"
-            android:title="Events" />
+            android:title="History" />
         <item
             android:id="@+id/nav_editinfo"
             android:icon="@drawable/ic_personal"
             android:title="Personal Info" />
 
-        <item
-            android:id="@+id/nav_signout"
-            android:icon="@drawable/ic_quit"
-            android:title="Signout" />
         <item
             android:id="@+id/nav_feedback"
             android:icon="@drawable/ic_feedback"
@@ -29,6 +25,10 @@
             android:id="@+id/nav_update"
             android:icon="@drawable/ic_update"
             android:title="Update" />
+        <item
+            android:id="@+id/nav_signout"
+            android:icon="@drawable/ic_quit"
+            android:title="Signout" />
     </group>
     <item android:title="Current Version">
         <menu>
