@@ -184,11 +184,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
             holder.body.setVisibility(View.VISIBLE);
         }
         Button mapBtn = (Button) convertView.findViewById(R.id.map_btn);
-        if (holder.timeText.getText().equals("this event has expired!")) {
-            mapBtn.setVisibility(GONE);
-        } else {
-            mapBtn.setVisibility(View.VISIBLE);
-        }
+
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,7 +195,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(getContext(), showMap.class);
-                                intent.putExtra("location", tempString);
+                                intent.putExtra("location", getItem(position).getLocationString());
                                 intent.putExtra("postID", getItem(position).getPostID());
                                 getContext().startActivity(intent);
                             }
