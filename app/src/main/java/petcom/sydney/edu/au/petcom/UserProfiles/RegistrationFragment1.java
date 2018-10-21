@@ -76,10 +76,8 @@ public class RegistrationFragment1 extends Fragment {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             String uid = user.getUid();
-                            databaseReference.child("User").child(uid).setValue(null);
+                            databaseReference.child("User").child(uid).child("UserName").setValue(uid);
                             ((Registration)getActivity()).setViewPager(1);
-
-
 
                         } else {
                             // If sign in fails, display a message to the user.
