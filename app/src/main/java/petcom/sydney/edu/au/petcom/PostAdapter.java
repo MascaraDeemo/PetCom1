@@ -178,7 +178,11 @@ public class PostAdapter extends ArrayAdapter<Post> {
         }
         holder.setPostView(getItem(position));
 
-
+        if(holder.body.getText().equals("")){
+            holder.body.setVisibility(GONE);
+        }else{
+            holder.body.setVisibility(View.VISIBLE);
+        }
         Button mapBtn = (Button) convertView.findViewById(R.id.map_btn);
         if (holder.timeText.getText().equals("this event has expired!")) {
             mapBtn.setVisibility(GONE);

@@ -144,34 +144,23 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <Button
             android:id="@+id/publish_btn"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/add_pic"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="90dp"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_alignTop="@+id/add_pic"
+
+
             android:background="@drawable/buttonstyle"
             android:text="publish"
             android:textColor="@android:color/white" />
 
-
-        <Button
-            android:id="@+id/add_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_alignEnd="@+id/post_set_title"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/buttonstyle"
-            android:text="Add Pic"
-            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

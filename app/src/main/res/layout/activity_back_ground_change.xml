@@ -38,6 +38,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"
+        app:srcCompat="@drawable/picture"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
