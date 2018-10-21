@@ -172,8 +172,7 @@ public class Personal_page extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userBackgroundUrl = dataSnapshot.getValue(String.class);
-                Picasso.with(getApplicationContext()).load(userBackgroundUrl).resize(350, 325).into(userBackground);
-
+                    Picasso.with(getApplicationContext()).load(userBackgroundUrl).resize(350, 325).into(userBackground);
             }
 
             @Override

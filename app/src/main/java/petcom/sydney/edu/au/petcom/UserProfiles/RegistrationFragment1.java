@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import petcom.sydney.edu.au.petcom.R;
 
@@ -29,6 +31,7 @@ public class RegistrationFragment1 extends Fragment {
     private EditText editPassword;
 
     private Button btnToPage2;
+    DatabaseReference databaseReference;
 
     private FirebaseAuth mAuth;
 
@@ -38,7 +41,7 @@ public class RegistrationFragment1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment1_emailpassword, container, false);
 
         mAuth = FirebaseAuth.getInstance();
-
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         editEmail = (EditText) view.findViewById(R.id.editEmail);
         editPassword = (EditText) view.findViewById(R.id.editPassword);
         btnToPage2 = (Button) view.findViewById(R.id.btnSubmit);
@@ -46,7 +49,6 @@ public class RegistrationFragment1 extends Fragment {
         btnToPage2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Currently going to fragment 1", Toast.LENGTH_SHORT).show();
                 createAccount(editEmail.getText().toString(),editPassword.getText().toString());
 
             }
@@ -73,7 +75,10 @@ public class RegistrationFragment1 extends Fragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            String uid = user.getUid();
+                            databaseReference.child("User").child(uid).setValue(null);
                             ((Registration)getActivity()).setViewPager(1);
+
 
 
                         } else {

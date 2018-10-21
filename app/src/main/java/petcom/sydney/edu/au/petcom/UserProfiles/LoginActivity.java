@@ -23,6 +23,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import petcom.sydney.edu.au.petcom.UserProfiles.MainActivity;
 import petcom.sydney.edu.au.petcom.R;
@@ -36,7 +38,7 @@ public class LoginActivity extends MainActivity implements OnClickListener {
 
 
     private static final String TAG = "EmailPassword";
-
+    DatabaseReference databaseReference;
     private EditText mEmailField;
     private EditText mPasswordField;
     private TextView register;
@@ -51,6 +53,7 @@ public class LoginActivity extends MainActivity implements OnClickListener {
 
         // Views
         mEmailField = findViewById(R.id.fieldEmail);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         mPasswordField = findViewById(R.id.fieldPassword);
 
 
@@ -156,9 +159,14 @@ public class LoginActivity extends MainActivity implements OnClickListener {
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null && user.isEmailVerified()) {
+            if(databaseReference.child("User").child(user.getUid()).child("UserName") != null) {
 
-            Intent intent = new Intent(LoginActivity.this,main_activity.class);
-            startActivity(intent);
+                Intent intent = new Intent(LoginActivity.this, main_activity.class);
+                startActivity(intent);
+            }else{
+                Intent intent = new Intent(LoginActivity.this,AddToDatabase.class);
+                startActivity(intent);
+            }
 
         }else {
 
