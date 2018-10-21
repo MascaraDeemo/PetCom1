@@ -23,8 +23,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import petcom.sydney.edu.au.petcom.UserProfiles.MainActivity;
 import petcom.sydney.edu.au.petcom.R;
@@ -159,14 +162,24 @@ public class LoginActivity extends MainActivity implements OnClickListener {
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null && user.isEmailVerified()) {
-            if(databaseReference.child("User").child(user.getUid()).child("UserName") != null) {
+            databaseReference.child("User").child(user.getUid()).child("UserName").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String username = dataSnapshot.getValue(String.class);
+                    if(username != null){
+                        Intent intent = new Intent(LoginActivity.this, main_activity.class);
+                        startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(LoginActivity.this,AddToDatabase.class);
+                        startActivity(intent);
+                    }
+                }
 
-                Intent intent = new Intent(LoginActivity.this, main_activity.class);
-                startActivity(intent);
-            }else{
-                Intent intent = new Intent(LoginActivity.this,AddToDatabase.class);
-                startActivity(intent);
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
         }else {
 
